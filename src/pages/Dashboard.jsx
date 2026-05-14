@@ -225,6 +225,7 @@
 import "./Dashboard.css";
 
 const CHART_BARS = [
+  
   { day: "Mon", pct: 45, type: "normal" },
   { day: "Tue", pct: 60, type: "normal" },
   { day: "Wed", pct: 72, type: "high" },
