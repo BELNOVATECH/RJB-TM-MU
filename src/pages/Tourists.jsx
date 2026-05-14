@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const TOURISTS = [
   {
-    initials: "RM", name: "Ramesh Mishra", phone: "+91 98765 43210",
+    initials: "RM", name: "sheethal Mishra", phone: "+91 98765 43210",
     from: "Varanasi, UP", checkin: "14 May 2026", group: "Family · 4",
     services: ["Pooja", "Vehicle"], status: "Active", statusCls: "badge-green",
   },
