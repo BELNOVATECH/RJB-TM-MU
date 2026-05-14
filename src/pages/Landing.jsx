@@ -1,3 +1,0 @@
-<Empty>
-    page: Landing;
-</Empty>
