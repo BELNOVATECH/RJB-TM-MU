@@ -1,0 +1,27 @@
+/* Login.css — extra styles specific to the Login page.
+   All shared styles (layout, panels, form elements) are in AuthLayout.css.
+   Import both in Login.jsx:
+     import "./styles/AuthLayout.css";
+     import "./styles/Login.css";
+*/
+
+/* Eye toggle icon inside password field */
+.auth-eye {
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  cursor: pointer;
+  opacity: .45;
+  transition: opacity .2s;
+  user-select: none;
+  z-index: 1;
+}
+.auth-eye:hover { opacity: .85; }
+
+/* Make room for the eye icon */
+.auth-field-input[type="password"],
+.auth-field-input[type="text"] {
+  padding-right: 42px;
+}

@@ -1,0 +1,127 @@
+.cp-action-btns {
+  display: flex;
+  gap: 5px;
+}
+
+.cp-icon-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,0.09);
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+}
+
+.cp-delete-btn {
+  color: #c0392b;
+}
+
+.cp-edit-icon {
+  font-size: 12px;
+}
+
+.cp-fest-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cp-fest-up {
+  background: rgba(196,75,42,0.10);
+  color: #c0392b;
+  border: 1px solid rgba(196,75,42,0.25);
+}
+
+.cp-fest-down {
+  background: rgba(22,163,74,0.10);
+  color: #15803d;
+  border: 1px solid rgba(22,163,74,0.25);
+}
+
+.cp-fest-purple {
+  background: rgba(120,80,200,0.10);
+  color: #7c3aed;
+  border: 1px solid rgba(120,80,200,0.25);
+}
+
+.cp-toggle {
+  width: 38px;
+  height: 22px;
+  border-radius: 11px;
+  background: #e5e7eb;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.cp-toggle.active {
+  background: #f5c842;
+}
+
+.cp-toggle-ball {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: left 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.cp-toggle-ball.active {
+  left: 19px;
+}
+
+.cp-section-card {
+  margin-bottom: 16px;
+}
+
+.cp-card-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.cp-card-icon {
+  font-size: 15px;
+  color: #b5860d;
+}
+
+.cp-small-btn {
+  font-size: 11px;
+  padding: 5px 12px;
+}
+
+.cp-subfield-label {
+  font-size: 10.5px;
+  color: #888;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.cp-subfield-input {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 7px;
+  font-size: 12px;
+  font-family: inherit;
+  background: #fdf8f0;
+}
+
+.cp-save-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
