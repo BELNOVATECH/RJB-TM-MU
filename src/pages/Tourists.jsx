@@ -1,7 +1,9 @@
 // src/pages/Tourists.jsx
 import { useState } from "react";
+import { createPortal } from "react-dom";
+import "./styles/Tourists.css";
 
-const TOURISTS = [
+const INITIAL_TOURISTS = [
   {
     initials: "RM", name: "Ramesh Mishra", phone: "+91 98765 43210",
     from: "Varanasi, UP", checkin: "14 May 2026", group: "Family · 4",
@@ -38,9 +40,310 @@ const SERVICE_COLORS = {
 };
 
 const TABS = ["All Tourists", "Tour Guides", "Group Bookings"];
+const STATUS_OPTIONS = ["Active", "Checked In", "Upcoming"];
 
+const STATUS_CLS_MAP = {
+  Active: "badge-green",
+  "Checked In": "badge-blue",
+  Upcoming: "badge-amber",
+};
+
+const EMPTY_FORM = {
+  name: "",
+  phone: "",
+  from: "",
+  checkin: "",
+  group: "",
+  services: "",
+  status: "Active",
+};
+function AddTouristModal({ onClose, onSave }) {
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [, setErrors] = useState({});
+
+
+  const handleChange = (e) => {
+    setForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [e.target.name]: "",
+    }));
+  };
+
+  const validate = () => {
+    const errs = {};
+
+    if (!form.name.trim()) errs.name = "Tourist name is required";
+    if (!form.phone.trim()) errs.phone = "Phone number is required";
+    if (!form.from.trim()) errs.from = "Location is required";
+    if (!form.checkin.trim()) errs.checkin = "Check-in date is required";
+    if (!form.group.trim()) errs.group = "Group details required";
+
+    return errs;
+  };
+
+  const handleSave = () => {
+    const errs = validate();
+
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
+      return;
+    }
+
+    const initials = form.name
+      .split(" ")
+      .map((w) => w[0])
+      .join("")
+      .toUpperCase();
+
+    onSave({
+      initials,
+      name: form.name,
+      phone: form.phone,
+      from: form.from,
+      checkin: form.checkin,
+      group: form.group,
+      services: form.services
+        ? form.services.split(",").map((s) => s.trim())
+        : [],
+      status: form.status,
+      statusCls: STATUS_CLS_MAP[form.status],
+    });
+  };
+
+  // const inputStyle = {};
+//   width: "100%",
+//   border: "1.5px solid #e2e8f0",
+//   borderRadius: 8,
+//   padding: "11px 12px",
+//   fontSize: 13,
+//   color: "#1a1a1a",
+//   outline: "none",
+//   boxSizing: "border-box",
+//   background: "#f8fafc",
+//   fontFamily: "inherit",
+// };
+
+// const labelStyle = {};
+
+const modal = (
+  <div className="tourist-modal-overlay"
+    onMouseDown={onClose}
+  >
+    <div className="tourist-modal"
+      onMouseDown={(e) => e.stopPropagation()}
+    >
+      {/* Header */}
+     <div className="tourist-modal-header">
+      
+        <div>
+          <div
+            style={{
+              fontSize: 17,
+              fontWeight: 800,
+              color: "#0f172a",
+            }}
+          >
+            👤 Add New Tourist
+          </div>
+
+          <div
+            style={{
+              fontSize: 12,
+              color: "#94a3b8",
+              marginTop: 4,
+            }}
+          >
+            Fill in all details to register the tourist
+          </div>
+        </div>
+
+        <button
+  onClick={onClose}
+  className="tourist-close-btn"
+>
+          ×
+        </button>
+      </div>
+
+      {/* Divider */}
+     <div className="tourist-divider" />
+
+      {/* Form */}
+      <div className="tourist-form-grid">
+        {/* Tourist Name */}
+        <div style={{ gridColumn: "1 / -1" }}>
+          <label className="tourist-label">Tourist Name *</label>
+
+          <input
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            placeholder="e.g. Ramesh Mishra"
+            className="tourist-input"
+          />
+        </div>
+
+        {/* Phone */}
+        <div>
+          <label className="tourist-label">Phone *</label>
+
+          <input
+            name="phone"
+            value={form.phone}
+            onChange={handleChange}
+            placeholder="e.g. +91 98765 43210"
+            className="tourist-input"
+          />
+        </div>
+
+        {/* From */}
+        <div>
+          <label className="tourist-label">From *</label>
+
+          <input
+            name="from"
+            value={form.from}
+            onChange={handleChange}
+            placeholder="e.g. Varanasi, UP"
+           className="tourist-input"
+          />
+        </div>
+
+        {/* Checkin */}
+        <div>
+          <label className="tourist-label">Check-in *</label>
+
+          <input
+            name="checkin"
+            value={form.checkin}
+            onChange={handleChange}
+            placeholder="e.g. 14 May 2026"
+           className="tourist-input"
+          />
+        </div>
+
+        {/* Group */}
+        <div>
+          <label className="tourist-label">Group *</label>
+
+          <input
+            name="group"
+            value={form.group}
+            onChange={handleChange}
+            placeholder="e.g. Family · 4"
+           className="tourist-input"
+          />
+        </div>
+
+        {/* Services */}
+        <div style={{ gridColumn: "1 / -1" }}>
+          <label className="tourist-label">Services</label>
+
+          <input
+            name="services"
+            value={form.services}
+            onChange={handleChange}
+            placeholder="e.g. Pooja, Vehicle, Cottage"
+            className="tourist-input"
+          />
+        </div>
+
+        {/* Status */}
+        <div style={{ gridColumn: "1 / -1" }}>
+          <label className="tourist-label">Status *</label>
+
+          <select
+            name="status"
+            value={form.status}
+            onChange={handleChange}
+           className="tourist-input"
+          >
+            {STATUS_OPTIONS.map((s) => (
+              <option key={s}>{s}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div
+        style={{
+          height: 1,
+          background: "#f1f5f9",
+          margin: "24px 0 18px",
+        }}
+      />
+
+      {/* Footer */}
+      <div className="tourist-modal-footer">
+        <button
+          onClick={onClose}
+          style={{
+            padding: "10px 22px",
+            borderRadius: 8,
+            border: "1.5px solid #e2e8f0",
+            background: "#fff",
+            fontSize: 13,
+            color: "#475569",
+            cursor: "pointer",
+            fontWeight: 600,
+          }}
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={handleSave}
+          style={{
+            padding: "10px 24px",
+            borderRadius: 8,
+            border: "none",
+            background: "#f5c842",
+            fontSize: 13,
+            color: "#1a1a1a",
+            cursor: "pointer",
+            fontWeight: 800,
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            boxShadow: "0 2px 8px rgba(245,200,66,0.4)",
+          }}
+        >
+          💾 Save Tourist
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
+
+  return createPortal(modal, document.body);
+}
 export default function Tourists() {
   const [activeTab, setActiveTab] = useState(0);
+  const [tourists, setTourists] = useState(INITIAL_TOURISTS);
+  
+const [showModal, setShowModal] = useState(false);
+
+const handleSave = (newTourist) => {
+  setTourists((prev) => [newTourist, ...prev]);
+
+  setShowModal(false);
+};
+const handleDelete = (phone) => {
+  setTourists((prev) =>
+    prev.filter((t) => t.phone !== phone)
+  );
+};
+
+const handleEdit = (tourist) => {
+  alert(`Edit feature for ${tourist.name}`);
+};
 
   return (
     <div>
@@ -52,7 +355,7 @@ export default function Tourists() {
             <i className="ti ti-users" style={{ color: "#b5860d" }} />
           </div>
           <div className="kpi-label">Total Registered</div>
-          <div className="kpi-value">12,480</div>
+          <div className="kpi-value">{tourists.length}</div>
         </div>
         <div className="kpi-card">
           <div className="kpi-accent" style={{ background: "#3b82f6" }} />
@@ -60,7 +363,15 @@ export default function Tourists() {
             <i className="ti ti-map-pin" style={{ color: "#1d4ed8" }} />
           </div>
           <div className="kpi-label">Currently Visiting</div>
-          <div className="kpi-value">3,870</div>
+          <div className="kpi-value">
+  {
+    tourists.filter(
+      (t) =>
+        t.status === "Active" ||
+        t.status === "Checked In"
+    ).length
+  }
+</div>
         </div>
         <div className="kpi-card">
           <div className="kpi-accent" style={{ background: "#16a34a" }} />
@@ -68,7 +379,14 @@ export default function Tourists() {
             <i className="ti ti-license" style={{ color: "#15803d" }} />
           </div>
           <div className="kpi-label">Active Guides</div>
-          <div className="kpi-value">48</div>
+          <div className="kpi-value">
+  {
+    tourists.filter(
+      (t) =>
+        t.services.includes("Guide")
+    ).length
+  }
+</div>
         </div>
         <div className="kpi-card">
           <div className="kpi-accent" style={{ background: "#c0392b" }} />
@@ -76,7 +394,13 @@ export default function Tourists() {
             <i className="ti ti-clock" style={{ color: "#b91c1c" }} />
           </div>
           <div className="kpi-label">Pending Approvals</div>
-          <div className="kpi-value">14</div>
+          <div className="kpi-value">
+  {
+    tourists.filter(
+      (t) => t.status === "Upcoming"
+    ).length
+  }
+</div>
         </div>
       </div>
 
@@ -94,7 +418,12 @@ export default function Tourists() {
           <div style={{ display: "flex", gap: 8 }}>
             <button className="btn-outline">Export</button>
             <button className="btn-outline">Filter</button>
-            <button className="btn-primary"><i className="ti ti-plus" /> Add Tourist</button>
+            <button
+  className="btn-primary"
+  onClick={() => setShowModal(true)}
+>
+  <i className="ti ti-plus" /> Add Tourist
+</button>
           </div>
         </div>
 
@@ -107,11 +436,11 @@ export default function Tourists() {
               <th>Group</th>
               <th>Services</th>
               <th>Status</th>
-              <th></th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {TOURISTS.map((t) => (
+            {tourists.map((t) => (
               <tr key={t.phone}>
                 <td>
                   <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
@@ -139,10 +468,22 @@ export default function Tourists() {
                 </td>
                 <td><span className={`badge ${t.statusCls}`}>{t.status}</span></td>
                 <td>
-                  <button style={{ background: "none", border: "none", cursor: "pointer", color: "#999", fontSize: 14 }}>
-                    <i className="ti ti-dots-vertical" />
-                  </button>
-                </td>
+  <div className="table-action-btns">
+    <button
+      className="table-icon-btn"
+      onClick={() => handleEdit(t)}
+    >
+      <i className="ti ti-edit" />
+    </button>
+
+    <button
+      className="table-icon-btn delete"
+      onClick={() => handleDelete(t.phone)}
+    >
+      <i className="ti ti-trash" />
+    </button>
+  </div>
+</td>
               </tr>
             ))}
           </tbody>
@@ -164,6 +505,13 @@ export default function Tourists() {
           </div>
         </div>
       </div>
+
+      {showModal && (
+  <AddTouristModal
+    onClose={() => setShowModal(false)}
+    onSave={handleSave}
+  />
+)}
     </div>
   );
 }

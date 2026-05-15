@@ -1,5 +1,6 @@
 // src/pages/ChargesPricing.jsx
 import { useState } from "react";
+import "./styles/ChargesPricing.css";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -75,13 +76,12 @@ function festLabel(pct) {
 
 function ActionBtns({ onEdit, onDelete }) {
   return (
-    <div style={{ display: "flex", gap: 5 }}>
-      <button onClick={onEdit}
-        style={{ width: 28, height: 28, borderRadius: 6, border: "1px solid rgba(0,0,0,0.09)", background: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#888" }}>
-        <i className="ti ti-edit" style={{ fontSize: 12 }} />
+    <div className="cp-action-btns">
+      <button className="cp-icon-btn">
+        <i className="ti ti-edit cp-edit-icon" />
       </button>
-      <button onClick={onDelete}
-        style={{ width: 28, height: 28, borderRadius: 6, border: "1px solid rgba(255,80,60,0.2)", background: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#c0392b" }}>
+
+      <button className="cp-icon-btn cp-delete-btn">
         <i className="ti ti-trash" style={{ fontSize: 12 }} />
       </button>
     </div>
@@ -89,13 +89,11 @@ function ActionBtns({ onEdit, onDelete }) {
 }
 
 function FestBadge({ variant, children }) {
-  const map = {
-    up:     { background: "rgba(196,75,42,0.10)",  color: "#c0392b", border: "1px solid rgba(196,75,42,0.25)"  },
-    down:   { background: "rgba(22,163,74,0.10)",  color: "#15803d", border: "1px solid rgba(22,163,74,0.25)"  },
-    purple: { background: "rgba(120,80,200,0.10)", color: "#7c3aed", border: "1px solid rgba(120,80,200,0.25)" },
-  };
+  
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", padding: "3px 10px", borderRadius: 20, fontSize: 10.5, fontWeight: 600, whiteSpace: "nowrap", ...map[variant] }}>
+    <span
+      className={`cp-fest-badge cp-fest-${variant}`}
+    >
       {children}
     </span>
   );
@@ -103,54 +101,54 @@ function FestBadge({ variant, children }) {
 
 function Toggle({ on, onToggle }) {
   return (
-    <div onClick={onToggle}
-      style={{ width: 38, height: 22, borderRadius: 11, background: on ? "#f5c842" : "#e5e7eb", position: "relative", cursor: "pointer", flexShrink: 0, transition: "background 0.2s" }}>
-      <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#fff", position: "absolute", top: 3, left: on ? 19 : 3, transition: "left 0.2s", boxShadow: "0 1px 3px rgba(0,0,0,0.2)" }} />
+  <div
+    onClick={onToggle}
+    className={`cp-toggle ${on ? "active" : ""}`}
+  >
+    <div className={`cp-toggle-ball ${on ? "active" : ""}`} />
+  </div>
+);
+}
+
+function SectionCard({ icon, title, children, onAdd, addLabel = "Add" }) {
+  return (
+    <div className="card cp-section-card">
+      <div className="card-head">
+        <div className="card-title cp-card-title">
+         <i className={`ti ${icon} cp-card-icon`} />
+          {title}
+        </div>
+       <button className="btn-primary cp-small-btn"onClick={onAdd}>
+          <i className="ti ti-plus" /> {addLabel}
+        </button>
+      </div>
+      {children}
     </div>
   );
 }
 
 function SubField({ label, defaultValue, type = "number" }) {
-  return (
-    <div>
-      <label style={{ fontSize: 10.5, color: "#888", display: "block", marginBottom: 4 }}>{label}</label>
-      <input type={type} defaultValue={defaultValue}
-        style={{ width: "100%", padding: "6px 10px", border: "1px solid rgba(0,0,0,0.12)", borderRadius: 7, fontSize: 12, fontFamily: "inherit", background: "#fdf8f0" }} />
-    </div>
-  );
+ return (
+  <div>
+    <label className="cp-subfield-label">{label}</label>
+
+    <input
+      type={type}
+      defaultValue={defaultValue}
+      className="cp-subfield-input"
+    />
+  </div>
+);
 }
 
 function SaveBtn() {
-  return (
-    <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
-      <button className="btn-primary"><i className="ti ti-device-floppy" /> Save Changes</button>
-    </div>
-  );
-}
-
-// ── Reusable FormPanel ────────────────────────────────────────────────────────
-
-function FormPanel({ title, icon, onClose, onSave, saveLabel, children }) {
-  return (
-    <div style={{ marginBottom: 16, padding: 16, border: "1px solid rgba(245,200,66,0.3)", borderRadius: 10, background: "#fffdf5" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-        <div style={{ fontWeight: 600, fontSize: 13, color: "#1a0a00", display: "flex", alignItems: "center", gap: 7 }}>
-          <i className={`ti ${icon}`} style={{ fontSize: 14, color: "#b5860d" }} />
-          {title}
-        </div>
-        <button className="btn-outline" style={{ fontSize: 11, padding: "4px 10px" }} onClick={onClose}>
-          <i className="ti ti-x" /> Close
-        </button>
-      </div>
-      {children}
-      <div style={{ display: "flex", gap: 8, marginTop: 14, justifyContent: "flex-end" }}>
-        <button className="btn-outline" onClick={onClose}>Cancel</button>
-        <button className="btn-primary" onClick={onSave}>
-          <i className="ti ti-device-floppy" /> {saveLabel}
-        </button>
-      </div>
-    </div>
-  );
+ return (
+  <div className="cp-save-wrap">
+    <button className="btn-primary">
+      <i className="ti ti-device-floppy" /> Save Changes
+    </button>
+  </div>
+);
 }
 
 // ── Tab panels ────────────────────────────────────────────────────────────────
@@ -211,7 +209,7 @@ function AccommodationTab({ rows, setRows }) {
       </div>
 
       {showForm && (
-        <FormPanel title={editId !== null ? `Edit: ${form.type}` : "Add New Room Type"} icon="ti-building" onClose={closeForm} onSave={handleSave} saveLabel={editId !== null ? "Update Room Type" : "Save Room Type"}>
+        <SectionCard title={editId !== null ? `Edit: ${form.type}` : "Add New Room Type"} icon="ti-building" onClose={closeForm} onSave={handleSave} saveLabel={editId !== null ? "Update Room Type" : "Save Room Type"}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
             <div style={{ gridColumn: "1 / -1" }}>
               <label style={labelStyle}>Room Type *</label>
@@ -248,7 +246,7 @@ function AccommodationTab({ rows, setRows }) {
               <input type="text" value={form.amenities} onChange={e => setForm({ ...form, amenities: e.target.value })} placeholder="e.g. AC · TV · WiFi · Breakfast" style={inputStyle} />
             </div>
           </div>
-        </FormPanel>
+        </SectionCard>
       )}
 
       <table className="data-table">
@@ -328,7 +326,7 @@ function VehicleTab({ rows, setRows }) {
       </div>
 
       {showForm && (
-        <FormPanel
+        <SectionCard
           title={editId !== null ? `Edit: ${form.type}` : "Add New Vehicle Type"}
           icon="ti-car"
           onClose={closeForm}
@@ -370,7 +368,7 @@ function VehicleTab({ rows, setRows }) {
               />
             </div>
           </div>
-        </FormPanel>
+        </SectionCard>
       )}
 
       <table className="data-table">
@@ -452,7 +450,7 @@ function GuideTab({ rows, setRows }) {
       </div>
 
       {showForm && (
-        <FormPanel title={editId !== null ? `Edit: ${form.type}` : "Add New Guide Type"} icon="ti-license" onClose={closeForm} onSave={handleSave} saveLabel={editId !== null ? "Update Guide" : "Save Guide"}>
+        <SectionCard title={editId !== null ? `Edit: ${form.type}` : "Add New Guide Type"} icon="ti-license" onClose={closeForm} onSave={handleSave} saveLabel={editId !== null ? "Update Guide" : "Save Guide"}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
             <div style={{ gridColumn: "1 / -1" }}>
               <label style={labelStyle}>Guide Type *</label>
@@ -469,7 +467,7 @@ function GuideTab({ rows, setRows }) {
               <input type="number" value={form.fullDay} onChange={e => setForm({ ...form, fullDay: e.target.value })} placeholder="e.g. 750" style={inputStyle} />
             </div>
           </div>
-        </FormPanel>
+        </SectionCard>
       )}
 
       <table className="data-table">
@@ -554,7 +552,7 @@ function FestivalTab({ rows, setRows }) {
       </div>
 
       {showForm && (
-        <FormPanel title={editId !== null ? `Edit: ${form.name}` : "Add New Festival Period"} icon="ti-calendar-event" onClose={closeForm} onSave={handleSave} saveLabel={editId !== null ? "Update Festival" : "Save Festival"}>
+        <SectionCard title={editId !== null ? `Edit: ${form.name}` : "Add New Festival Period"} icon="ti-calendar-event" onClose={closeForm} onSave={handleSave} saveLabel={editId !== null ? "Update Festival" : "Save Festival"}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
             <div>
               <label style={labelStyle}>Festival / Season Name *</label>
@@ -593,7 +591,7 @@ function FestivalTab({ rows, setRows }) {
               </select>
             </div>
           </div>
-        </FormPanel>
+        </SectionCard>
       )}
 
       <table className="data-table">
