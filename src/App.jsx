@@ -6,6 +6,7 @@ import Accommodation from "./pages/Accommodation";
 import DevotionalContent from "./pages/DevotionalContent";
 import TouristSpots from "./pages/TouristSpots";
 import ChargesPricing from "./pages/ChargesPricing";
+import Landing from "./pages/Landing";  
 import "./App.css";
 
 const NAV = [
@@ -53,10 +54,12 @@ const SCREEN_MAP = {
   devotionalContent: <DevotionalContent />,
   touristSpots: <TouristSpots />,
   chargesPricing: <ChargesPricing />,
+  landing: <Landing />,
 };
 
 const TITLES = {
   dashboard: "Dashboard",
+  landing: "Landing",
   // analytics: "Analytics",
   tourists: "Tourist & Guide Management",
   // tourGuides: "Tour Guides",
@@ -73,7 +76,7 @@ const TITLES = {
 };
 
 export default function App() {
-  const [active, setActive] = useState("dashboard");
+  const [active, setActive] = useState("landing");
 
   const content = SCREEN_MAP[active] || (
     <div style={{ padding: 40, color: "#b5860d", fontFamily: "'DM Sans', sans-serif" }}>
