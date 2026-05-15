@@ -1,0 +1,201 @@
+.css
+/* =================================
+   Accommodation Form Grid
+================================= */
+
+.accommodation-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+/* =================================
+   Form Labels
+================================= */
+
+.form-label {
+  font-size: 11px;
+  color: #888;
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+/* =================================
+   Form Inputs
+================================= */
+
+.form-input {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 7px;
+  font-size: 12px;
+  background: #fdf8f0;
+  outline: none;
+}
+/* =================================
+   Form Selects
+================================= */
+
+.form-select {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 7px;
+  font-size: 12px;
+  background: #fdf8f0;
+  outline: none;
+}
+/* =================================
+   Form Actions
+================================= */
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  justify-content: flex-end;
+}
+/* =================================
+   Main Layout
+================================= */
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 14px;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+/* =================================
+   Pricing Section
+================================= */
+
+.pricing-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pricing-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 8px;
+}
+
+.pricing-icon {
+  width: 32px;
+  height: 32px;
+  background: #fef9c3;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pricing-title {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.pricing-sub {
+  font-size: 10px;
+  color: #999;
+}
+
+.pricing-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a0a00;
+}
+
+.price-input {
+  width: 110px;
+  padding: 6px 8px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  font-size: 12px;
+  background: #fff;
+  outline: none;
+}
+
+.kpi-sub-text {
+  color: #999;
+}
+
+.checkin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checkin-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: #fdf8f0;
+  border-radius: 8px;
+}
+
+.checkin-name {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.checkin-meta {
+  font-size: 10px;
+  color: #999;
+}
+
+.room-note {
+  font-size: 10px;
+  color: #bbb;
+  margin-top: 10px;
+}
+
+.room-note-box {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: #fee2e2;
+  border-radius: 3px;
+  margin-right: 4px;
+  vertical-align: -2px;
+}
+
+.tabs-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.page-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.legend-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #666;
+}
