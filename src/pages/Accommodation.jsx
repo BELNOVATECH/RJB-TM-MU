@@ -1,6 +1,3 @@
-
-
-
 import { useState } from "react";
 
 import "./styles/Accommodation.css";
@@ -87,6 +84,35 @@ const PRICING = [
 
 const TABS = ["Room Grid", "Bookings", "Pricing", "Export"];
 
+const BOOKINGS = [
+  {
+    guest: "Rajesh Singh",
+    room: "101",
+    type: "Family",
+    stay: "3 Nights",
+    status: "Checked In",
+  },
+  {
+    guest: "Pradeep Das",
+    room: "104",
+    type: "Solo",
+    stay: "2 Nights",
+    status: "Checked In",
+  },
+  {
+    guest: "Meena Joshi",
+    room: "106",
+    type: "Group",
+    stay: "5 Nights",
+    status: "Staying",
+  },
+];
+
+const EXPORT_OPTIONS = [
+  "Export PDF Report",
+  "Download Excel",
+  "Print Occupancy",
+];
 
 const EMPTY_FORM = {
   roomNo: "",
@@ -536,6 +562,7 @@ style={{
         className="main-layout">
       
         {/* Left */}
+        
         <div
           // style={{
           //   display: "flex",
@@ -669,6 +696,7 @@ style={{
                   </div>
 
                   <span className={`badge ${g.statusCls}`}>
+
                     {g.status}
                   </span>
                 </div>
@@ -827,7 +855,7 @@ style={{
           </div>
         </div>
       </div>
+    
     </div>
   );
 }
-
