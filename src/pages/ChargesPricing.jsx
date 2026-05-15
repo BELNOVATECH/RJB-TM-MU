@@ -1,5 +1,6 @@
 // // src/pages/ChargesPricing.jsx
 import { useState } from "react";
+import "./ChargesPricing.css";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -46,11 +47,12 @@ const TABS = ["Accommodation", "Vehicle", "Tour Guides", "Festival / Seasonal", 
 
 function ActionBtns() {
   return (
-    <div style={{ display: "flex", gap: 5 }}>
-      <button style={{ width: 28, height: 28, borderRadius: 6, border: "1px solid rgba(0,0,0,0.09)", background: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#888" }}>
-        <i className="ti ti-edit" style={{ fontSize: 12 }} />
+    <div className="cp-action-btns">
+      <button className="cp-icon-btn">
+        <i className="ti ti-edit cp-edit-icon" />
       </button>
-      <button style={{ width: 28, height: 28, borderRadius: 6, border: "1px solid rgba(0,0,0,0.09)", background: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#c0392b" }}>
+
+      <button className="cp-icon-btn cp-delete-btn">
         <i className="ti ti-trash" style={{ fontSize: 12 }} />
       </button>
     </div>
@@ -58,13 +60,11 @@ function ActionBtns() {
 }
 
 function FestBadge({ variant, children }) {
-  const map = {
-    up:     { background: "rgba(196,75,42,0.10)",  color: "#c0392b", border: "1px solid rgba(196,75,42,0.25)"  },
-    down:   { background: "rgba(22,163,74,0.10)",  color: "#15803d", border: "1px solid rgba(22,163,74,0.25)"  },
-    purple: { background: "rgba(120,80,200,0.10)", color: "#7c3aed", border: "1px solid rgba(120,80,200,0.25)" },
-  };
+  
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", padding: "3px 10px", borderRadius: 20, fontSize: 10.5, fontWeight: 600, whiteSpace: "nowrap", ...map[variant] }}>
+    <span
+      className={`cp-fest-badge cp-fest-${variant}`}
+    >
       {children}
     </span>
   );
@@ -72,24 +72,24 @@ function FestBadge({ variant, children }) {
 
 function Toggle({ on, onToggle }) {
   return (
-    <div
-      onClick={onToggle}
-      style={{ width: 38, height: 22, borderRadius: 11, background: on ? "#f5c842" : "#e5e7eb", position: "relative", cursor: "pointer", flexShrink: 0, transition: "background 0.2s" }}
-    >
-      <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#fff", position: "absolute", top: 3, left: on ? 19 : 3, transition: "left 0.2s", boxShadow: "0 1px 3px rgba(0,0,0,0.2)" }} />
-    </div>
-  );
+  <div
+    onClick={onToggle}
+    className={`cp-toggle ${on ? "active" : ""}`}
+  >
+    <div className={`cp-toggle-ball ${on ? "active" : ""}`} />
+  </div>
+);
 }
 
 function SectionCard({ icon, title, children, onAdd, addLabel = "Add" }) {
   return (
-    <div className="card" style={{ marginBottom: 16 }}>
+    <div className="card cp-section-card">
       <div className="card-head">
-        <div className="card-title" style={{ display: "flex", alignItems: "center", gap: 7 }}>
-          <i className={`ti ${icon}`} style={{ fontSize: 15, color: "#b5860d" }} />
+        <div className="card-title cp-card-title">
+         <i className={`ti ${icon} cp-card-icon`} />
           {title}
         </div>
-        <button className="btn-primary" style={{ fontSize: 11, padding: "5px 12px" }} onClick={onAdd}>
+       <button className="btn-primary cp-small-btn"onClick={onAdd}>
           <i className="ti ti-plus" /> {addLabel}
         </button>
       </div>
@@ -99,26 +99,27 @@ function SectionCard({ icon, title, children, onAdd, addLabel = "Add" }) {
 }
 
 function SubField({ label, defaultValue, type = "number" }) {
-  return (
-    <div>
-      <label style={{ fontSize: 10.5, color: "#888", display: "block", marginBottom: 4 }}>{label}</label>
-      <input
-        type={type}
-        defaultValue={defaultValue}
-        style={{ width: "100%", padding: "6px 10px", border: "1px solid rgba(0,0,0,0.12)", borderRadius: 7, fontSize: 12, fontFamily: "inherit", background: "#fdf8f0" }}
-      />
-    </div>
-  );
+ return (
+  <div>
+    <label className="cp-subfield-label">{label}</label>
+
+    <input
+      type={type}
+      defaultValue={defaultValue}
+      className="cp-subfield-input"
+    />
+  </div>
+);
 }
 
 function SaveBtn() {
-  return (
-    <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
-      <button className="btn-primary">
-        <i className="ti ti-device-floppy" /> Save Changes
-      </button>
-    </div>
-  );
+ return (
+  <div className="cp-save-wrap">
+    <button className="btn-primary">
+      <i className="ti ti-device-floppy" /> Save Changes
+    </button>
+  </div>
+);
 }
 
 // ── Tab panels ────────────────────────────────────────────────────────────────
