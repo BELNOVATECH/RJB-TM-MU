@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import "./Vehicles.css";
+import "./styles/Vehicles.css";
  
 const INITIAL_FLEET = [
   { reg: "UP-32 AB 1234", model: "Toyota Innova · 2022", type: "SUV", typeCls: "badge-blue", driver: "Ram Prasad", capacity: "7 pax", status: "On Trip", statusCls: "badge-green" },

@@ -1,7 +1,7 @@
 // src/pages/Tourists.jsx
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import "./Tourists.css";
+import "./styles/Tourists.css";
 
 const INITIAL_TOURISTS = [
   {
