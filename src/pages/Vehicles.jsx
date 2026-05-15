@@ -9,7 +9,58 @@ const INITIAL_FLEET = [
   { reg: "UP-32 GH 3456", model: "Bajaj Auto · 2024", type: "Auto", typeCls: "badge-amber", driver: "Mohan Gupta", capacity: "3 pax", status: "Maintenance", statusCls: "badge-red" },
   { reg: "UP-32 IJ 7890", model: "Toyota Etios · 2023", type: "EV", typeCls: "badge-green", driver: "Raju Sharma", capacity: "4 pax", status: "Permit Due", statusCls: "badge-red" },
 ];
- 
+ const DRIVERS_DATA = [
+  {
+    name: "Ram Prasad",
+    phone: "+91 9876543210",
+    vehicle: "UP-32 AB 1234",
+    status: "On Duty",
+  },
+  {
+    name: "Suresh Yadav",
+    phone: "+91 9876543211",
+    vehicle: "UP-32 CD 5678",
+    status: "Available",
+  },
+  {
+    name: "Ganesh Tiwari",
+    phone: "+91 9876543212",
+    vehicle: "UP-32 EF 9012",
+    status: "On Trip",
+  },
+];
+
+const BOOKINGS_DATA = [
+  {
+    bookingId: "BK101",
+    customer: "Ramesh Sharma",
+    vehicle: "Toyota Innova",
+    date: "14 May 2026",
+    status: "Confirmed",
+  },
+  {
+    bookingId: "BK102",
+    customer: "Priya Singh",
+    vehicle: "Mini Bus",
+    date: "15 May 2026",
+    status: "Pending",
+  },
+];
+
+const TRACKING_DATA = [
+  {
+    vehicle: "UP-32 AB 1234",
+    location: "Ayodhya",
+    speed: "65 km/h",
+    status: "Moving",
+  },
+  {
+    vehicle: "UP-32 EF 9012",
+    location: "Lucknow",
+    speed: "0 km/h",
+    status: "Stopped",
+  },
+];
 const FLEET_BY_TYPE = [
   { label: "Cars/Sedans", count: 18, color: "#f5c842", pct: 82 },
   { label: "SUV/Innova", count: 14, color: "#b5860d", pct: 64 },
@@ -55,8 +106,28 @@ const EMPTY_FORM = {
 };
  
 // ── ADD VEHICLE MODAL (rendered via Portal into document.body) ──
-function AddVehicleModal({ onClose, onSave }) {
-  const [form, setForm] = useState(EMPTY_FORM);
+function AddVehicleModal({
+  onClose,
+  onSave,
+  editData,
+  isEdit,
+}) {
+  const [form, setForm] = useState(
+  editData
+    ? {
+        reg: editData.reg || "",
+        vehicleName:
+          editData.model?.split("·")[0]?.trim() || "",
+        year:
+          editData.model?.split("·")[1]?.trim() || "",
+        type: editData.type || "SUV",
+        driver: editData.driver || "",
+        capacity:
+          editData.capacity?.replace(" pax", "") || "",
+        status: editData.status || "Available",
+      }
+    : EMPTY_FORM
+);
   const [errors, setErrors] = useState({});
  
   const handleChange = (e) => {
@@ -105,10 +176,12 @@ function AddVehicleModal({ onClose, onSave }) {
         <div className="vehicle-modal-header">
           <div>
             <div style={{ fontSize: 17, fontWeight: 800, color: "#0f172a", letterSpacing: "-0.01em" }}>
-              🚗 Add New Vehicle
+              {isEdit ? "✏️ Edit Vehicle" : "🚗 Add New Vehicle"}
             </div>
             <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 3 }}>
-              Fill in all details to register the vehicle
+              {isEdit
+  ? "Update vehicle details"
+  : "Fill in all details to register the vehicle"}
             </div>
           </div>
           <button
@@ -230,7 +303,7 @@ function AddVehicleModal({ onClose, onSave }) {
   onClick={handleSave}
   className="vehicle-save-btn"
 >
-            💾 Save Vehicle
+            {isEdit ? "💾 Update Vehicle" : "💾 Save Vehicle"}
           </button>
         </div>
       </div>
@@ -241,32 +314,410 @@ function AddVehicleModal({ onClose, onSave }) {
   // This escapes any parent overflow:hidden / transform / z-index stacking traps
   return createPortal(modal, document.body);
 }
- 
+ function DriverEditModal({
+  onClose,
+  editData,
+}) {
+
+  const [form, setForm] = useState({
+    name: editData?.name || "",
+    phone: editData?.phone || "",
+    vehicle: editData?.vehicle || "",
+    status: editData?.status || "",
+  });
+
+  return createPortal(
+
+    <div
+      className="common-modal-overlay"
+      onMouseDown={onClose}
+    >
+
+      <div
+        className="common-modal"
+        onMouseDown={(e) => e.stopPropagation()}
+      >
+
+        <div className="common-modal-header">
+
+          <div>
+            <h2>Edit Driver</h2>
+            <p>Update driver details</p>
+          </div>
+
+          <button
+            className="common-close-btn"
+            onClick={onClose}
+          >
+            ×
+          </button>
+
+        </div>
+
+        <div className="common-divider" />
+
+        <div className="common-grid">
+
+          <div>
+            <label>Driver Name</label>
+
+            <input
+              value={form.name}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  name: e.target.value,
+                })
+              }
+            />
+          </div>
+
+          <div>
+            <label>Phone Number</label>
+
+            <input
+              value={form.phone}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  phone: e.target.value,
+                })
+              }
+            />
+          </div>
+
+          <div>
+            <label>Vehicle</label>
+
+            <input
+              value={form.vehicle}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  vehicle: e.target.value,
+                })
+              }
+            />
+          </div>
+
+          <div>
+            <label>Status</label>
+
+            <input
+              value={form.status}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  status: e.target.value,
+                })
+              }
+            />
+          </div>
+
+        </div>
+
+        <div className="common-divider common-divider-footer" />
+
+        <div className="common-footer">
+
+          <button
+            className="common-cancel-btn"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+
+          <button
+            className="common-save-btn"
+          >
+            Update Driver
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>,
+
+    document.body
+  );
+}
+function BookingEditModal({
+  onClose,
+  editData,
+}) {
+
+  const [form] = useState({
+    bookingId: editData?.bookingId || "",
+    customer: editData?.customer || "",
+    vehicle: editData?.vehicle || "",
+    date: editData?.date || "",
+    status: editData?.status || "",
+  });
+
+  return createPortal(
+
+    <div
+      className="common-modal-overlay"
+      onMouseDown={onClose}
+    >
+
+      <div
+        className="common-modal"
+        onMouseDown={(e) => e.stopPropagation()}
+      >
+
+        <div className="common-modal-header">
+
+          <div>
+            <h2>Edit Booking</h2>
+            <p>Update booking details</p>
+          </div>
+
+          <button
+            className="common-close-btn"
+            onClick={onClose}
+          >
+            ×
+          </button>
+
+        </div>
+
+        <div className="common-divider" />
+
+        <div className="common-grid">
+
+          <div>
+            <label>Booking ID</label>
+            <input value={form.bookingId} />
+          </div>
+
+          <div>
+            <label>Customer</label>
+            <input value={form.customer} />
+          </div>
+
+          <div>
+            <label>Vehicle</label>
+            <input value={form.vehicle} />
+          </div>
+
+          <div>
+            <label>Date</label>
+            <input value={form.date} />
+          </div>
+
+          <div>
+            <label>Status</label>
+            <input value={form.status} />
+          </div>
+
+        </div>
+
+        <div className="common-divider common-divider-footer" />
+
+        <div className="common-footer">
+
+          <button
+            className="common-cancel-btn"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+
+          <button className="common-save-btn">
+            Update Booking
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>,
+
+    document.body
+  );
+}
+function TrackingEditModal({
+  onClose,
+  editData,
+}) {
+
+  const [form] = useState({
+    vehicle: editData?.vehicle || "",
+    location: editData?.location || "",
+    speed: editData?.speed || "",
+    status: editData?.status || "",
+  });
+
+  return createPortal(
+
+    <div
+      className="common-modal-overlay"
+      onMouseDown={onClose}
+    >
+
+      <div
+        className="common-modal"
+        onMouseDown={(e) => e.stopPropagation()}
+      >
+
+        <div className="common-modal-header">
+
+          <div>
+            <h2>Edit Tracking</h2>
+            <p>Update tracking details</p>
+          </div>
+
+          <button
+            className="common-close-btn"
+            onClick={onClose}
+          >
+            ×
+          </button>
+
+        </div>
+
+        <div className="common-divider" />
+
+        <div className="common-grid">
+
+          <div>
+            <label>Vehicle</label>
+            <input value={form.vehicle} />
+          </div>
+
+          <div>
+            <label>Location</label>
+            <input value={form.location} />
+          </div>
+
+          <div>
+            <label>Speed</label>
+            <input value={form.speed} />
+          </div>
+
+          <div>
+            <label>Status</label>
+            <input value={form.status} />
+          </div>
+
+        </div>
+
+        <div className="common-divider common-divider-footer" />
+
+        <div className="common-footer">
+
+          <button
+            className="common-cancel-btn"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+
+          <button className="common-save-btn">
+            Update Tracking
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>,
+
+    document.body
+  );
+}
 // ── MAIN PAGE ──
 export default function Vehicles() {
   const [activeTab, setActiveTab] = useState(0);
+  const [editType, setEditType] = useState("");
   const [fleet, setFleet] = useState(INITIAL_FLEET);
+  const [driversData, setDriversData] =
+  useState(DRIVERS_DATA);
+
+const [bookingsData, setBookingsData] =
+  useState(BOOKINGS_DATA);
+
+const [trackingData, setTrackingData] =
+  useState(TRACKING_DATA);
   const [showModal, setShowModal] = useState(false);
+  const [editVehicle, setEditVehicle] = useState(null);
+const [editIndex, setEditIndex] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
  
-  const handleSave = (newVehicle) => {
-    setFleet((prev) => [newVehicle, ...prev]);
-    setShowModal(false);
-  };
+const handleSave = (vehicleData) => {
+
+  if (editVehicle !== null) {
+
+    const updatedFleet = [...fleet];
+
+    updatedFleet[editIndex] = vehicleData;
+
+    setFleet(updatedFleet);
+
+  } else {
+
+    setFleet((prev) => [vehicleData, ...prev]);
+
+  }
+
+  setEditVehicle(null);
+  setEditIndex(null);
+  setShowModal(false);
+};
   const handleDelete = (reg) => {
   setFleet((prev) =>
     prev.filter((v) => v.reg !== reg)
   );
 };
-
-const handleEdit = (vehicle) => {
-  alert(`Edit feature for ${vehicle.reg}`);
+const handleDeleteDriver = (phone) => {
+  setDriversData((prev) =>
+    prev.filter((d) => d.phone !== phone)
+  );
 };
-  const filteredFleet = fleet.filter((v) =>
+
+const handleDeleteBooking = (bookingId) => {
+  setBookingsData((prev) =>
+    prev.filter((b) => b.bookingId !== bookingId)
+  );
+};
+
+const handleDeleteTracking = (vehicle) => {
+  setTrackingData((prev) =>
+    prev.filter((t) => t.vehicle !== vehicle)
+  );
+};
+
+const handleEdit = (data, index, type) => {
+  setEditVehicle(data);
+  setEditIndex(index);
+  setEditType(type);
+  setShowModal(true);
+};
+ const filteredFleet = fleet.filter((v) =>
   v.reg.toLowerCase().includes(searchTerm.toLowerCase()) ||
   v.driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
   v.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
   v.model.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+const filteredDrivers = driversData.filter((d) =>
+  d.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  d.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  d.vehicle.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+const filteredBookings = bookingsData.filter((b) =>
+  b.bookingId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  b.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  b.vehicle.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+const filteredTracking = trackingData.filter((t) =>
+  t.vehicle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  t.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  t.status.toLowerCase().includes(searchTerm.toLowerCase())
 );
  
   return (
@@ -375,7 +826,12 @@ const handleEdit = (vehicle) => {
           <button
             className="btn-primary"
             type="button"
-            onClick={() => setShowModal(true)}
+      onClick={() => {
+  setEditVehicle(null);
+  setEditIndex(null);
+  setEditType("vehicle");
+  setShowModal(true);
+}}
           >
             <i className="ti ti-plus" /> Add Vehicle
           </button>
@@ -384,59 +840,246 @@ const handleEdit = (vehicle) => {
  
       {/* Main content grid */}
       <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 14, marginBottom: 14 }}>
-        {/* Fleet Table */}
-        <div className="card">
-          <div className="card-head">
-            <div className="card-title">
-              <i className="ti ti-list" style={{ fontSize: 14, marginRight: 6, verticalAlign: -2, color: "#b5860d" }} />
-              Vehicle Fleet
-            </div>
-            <button className="card-action">View all →</button>
-          </div>
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Vehicle</th>
-                <th>Type</th>
-                <th>Driver</th>
-                <th>Capacity</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredFleet.map((v, idx) => (
-                <tr key={v.reg + idx}>
-                  <td>
-                    <div style={{ fontWeight: 500, fontSize: 12 }}>{v.reg}</div>
-                    <div style={{ fontSize: 10, color: "#999" }}>{v.model}</div>
-                  </td>
-                  <td><span className={`badge ${v.typeCls}`}>{v.type}</span></td>
-                  <td style={{ fontSize: 12 }}>{v.driver}</td>
-                  <td style={{ fontSize: 12 }}>{v.capacity}</td>
-                  <td><span className={`badge ${v.statusCls}`}>{v.status}</span></td>
-                  <td>
+        {/* Dynamic Tab Content */}
+<div className="card">
+
+  <div className="card-head">
+    <div className="card-title">
+
+      {activeTab === 0 && "Vehicle Fleet"}
+      {activeTab === 1 && "Drivers List"}
+      {activeTab === 2 && "Bookings List"}
+      {activeTab === 3 && "Vehicle Tracking"}
+
+    </div>
+
+    <button className="card-action">
+      View all →
+    </button>
+  </div>
+
+  {/* ALL VEHICLES */}
+  {activeTab === 0 && (
+    <table className="data-table">
+      <thead>
+        <tr>
+          <th>Vehicle</th>
+          <th>Type</th>
+          <th>Driver</th>
+          <th>Capacity</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {filteredFleet.map((v, idx) => (
+          <tr key={v.reg + idx}>
+            <td>
+              <div style={{ fontWeight: 500, fontSize: 12 }}>
+                {v.reg}
+              </div>
+
+              <div style={{ fontSize: 10, color: "#999" }}>
+                {v.model}
+              </div>
+            </td>
+
+            <td>
+              <span className={`badge ${v.typeCls}`}>
+                {v.type}
+              </span>
+            </td>
+
+            <td style={{ fontSize: 12 }}>
+              {v.driver}
+            </td>
+
+            <td style={{ fontSize: 12 }}>
+              {v.capacity}
+            </td>
+
+            <td>
+              <span className={`badge ${v.statusCls}`}>
+                {v.status}
+              </span>
+            </td>
+
+            <td>
+              <div className="table-action-btns">
+                <button
+                  className="table-icon-btn"
+                  onClick={() => handleEdit(v, idx, "vehicle")}
+                >
+                  <i className="ti ti-edit" />
+                </button>
+
+                <button
+                  className="table-icon-btn delete"
+                  onClick={() => handleDelete(v.reg)}
+                >
+                  <i className="ti ti-trash" />
+                </button>
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+
+  {/* DRIVERS */}
+  {activeTab === 1 && (
+    <table className="data-table">
+      <thead>
+        <tr>
+          <th>Driver Name</th>
+          <th>Phone</th>
+          <th>Vehicle</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {filteredDrivers.map((d, i) => (
+          <tr key={i}>
+            <td>{d.name}</td>
+            <td>{d.phone}</td>
+            <td>{d.vehicle}</td>
+            <td>
+              <span className="badge badge-green">
+                {d.status}
+              </span>
+            </td>
+            <td>
   <div className="table-action-btns">
+
     <button
       className="table-icon-btn"
-      onClick={() => handleEdit(v)}
+      onClick={() => handleEdit(d, i, "driver")}
     >
       <i className="ti ti-edit" />
     </button>
 
     <button
       className="table-icon-btn delete"
-      onClick={() => handleDelete(v.reg)}
+      onClick={() => handleDeleteDriver(d.phone)}
     >
       <i className="ti ti-trash" />
     </button>
+
   </div>
 </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+
+  {/* BOOKINGS */}
+  {activeTab === 2 && (
+    <table className="data-table">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Customer</th>
+          <th>Vehicle</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {filteredBookings.map((b, i) => (
+          <tr key={i}>
+            <td>{b.bookingId}</td>
+            <td>{b.customer}</td>
+            <td>{b.vehicle}</td>
+            <td>{b.date}</td>
+           <td>
+  <span className="badge badge-blue">
+    {b.status}
+  </span>
+</td>
+
+<td>
+  <div className="table-action-btns">
+
+    <button
+      className="table-icon-btn"
+     onClick={() => handleEdit(b, i, "booking")}
+    >
+      <i className="ti ti-edit" />
+    </button>
+
+    <button
+      className="table-icon-btn delete"
+      onClick={() => handleDeleteBooking(b.bookingId)}
+    >
+      <i className="ti ti-trash" />
+    </button>
+
+  </div>
+</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+
+  {/* TRACKING */}
+  {activeTab === 3 && (
+    <table className="data-table">
+      <thead>
+        <tr>
+          <th>Vehicle</th>
+          <th>Location</th>
+          <th>Speed</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {filteredTracking.map((t, i) => (
+          <tr key={i}>
+            <td>{t.vehicle}</td>
+            <td>{t.location}</td>
+            <td>{t.speed}</td>
+           <td>
+  <span className="badge badge-green">
+    {t.status}
+  </span>
+</td>
+
+<td>
+  <div className="table-action-btns">
+
+    <button
+      className="table-icon-btn"
+      onClick={() => handleEdit(t, i, "tracking")}
+    >
+      <i className="ti ti-edit" />
+    </button>
+
+    <button
+      className="table-icon-btn delete"
+      onClick={() => handleDeleteTracking(t.vehicle)}
+    >
+      <i className="ti ti-trash" />
+    </button>
+
+  </div>
+</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+
+</div>
  
         {/* Right Column */}
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -478,12 +1121,40 @@ const handleEdit = (vehicle) => {
       </div>
  
       {/* ✅ Modal via Portal — bypasses all parent z-index/overflow traps */}
-      {showModal && (
-        <AddVehicleModal
-          onClose={() => setShowModal(false)}
-          onSave={handleSave}
-        />
-      )}
+      {/* VEHICLE MODAL */}
+{showModal && editType === "vehicle" && (
+  <AddVehicleModal
+    onClose={() => setShowModal(false)}
+    onSave={handleSave}
+    editData={editVehicle}
+    isEdit={true}
+  />
+)}
+
+{/* DRIVER MODAL */}
+{showModal && editType === "driver" && (
+  <DriverEditModal
+    onClose={() => setShowModal(false)}
+    editData={editVehicle}
+  />
+)}
+
+{/* BOOKING MODAL */}
+{showModal && editType === "booking" && (
+  <BookingEditModal
+    onClose={() => setShowModal(false)}
+    editData={editVehicle}
+  />
+)}
+
+{/* TRACKING MODAL */}
+{showModal && editType === "tracking" && (
+  <TrackingEditModal
+    onClose={() => setShowModal(false)}
+    editData={editVehicle}
+  />
+)}
+
     </div>
   );
 }
