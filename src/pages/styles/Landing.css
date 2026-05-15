@@ -1,6 +1,6 @@
 /* Landing Page Specific Styles */
 .landing-page {
-    background: linear-gradient(145deg, #ff8c42 0%, #f25e1c 100%);
+    background: linear-gradient(145deg, #f1c8ac 0%, #fef9f7 100%);
     min-height: 100vh;
     font-family: 'Poppins', sans-serif;
 }
@@ -348,7 +348,7 @@
 
 /* Support Banner */
 .support-banner {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(226, 207, 207, 0.2);
     backdrop-filter: blur(10px);
     border-radius: 48px;
     padding: 40px 20px;
@@ -411,7 +411,7 @@
 
 .attraction-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(235, 217, 217, 0.2);
 }
 
 .attraction-icon {
@@ -556,12 +556,15 @@
 
 /* Footer */
 .landing-footer {
-    background: #281a0c;
+    background: #b5a595;
     color: #ffdfb5;
     border-radius: 48px 48px 0 0;
     padding: 35px 20px;
     text-align: center;
     margin-top: 58px;
+}
+.landing-footer p{
+    text-decoration: black;
 }
 
 /* Responsive */
