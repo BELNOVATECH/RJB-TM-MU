@@ -6,6 +6,7 @@ import Accommodation from "./pages/Accommodation";
 import DevotionalContent from "./pages/DevotionalContent";
 import TouristSpots from "./pages/TouristSpots";
 import ChargesPricing from "./pages/ChargesPricing";
+import Landing from "./pages/Landing";
 import "./App.css";
 
 const NAV = [
@@ -13,14 +14,12 @@ const NAV = [
     section: "Overview",
     items: [
       { key: "dashboard", label: "Dashboard", icon: "ti-layout-dashboard" },
-      // { key: "analytics", label: "Analytics", icon: "ti-chart-bar", badge: "New" },
     ],
   },
   {
     section: "Management",
     items: [
       { key: "tourists", label: "Tourists", icon: "ti-users" },
-      // { key: "tourGuides", label: "Tour Guides", icon: "ti-license" },
       { key: "vehicles", label: "Vehicles", icon: "ti-car" },
       { key: "accommodation", label: "Accommodation", icon: "ti-building" },
       { key: "touristSpots", label: "Tourist Spots", icon: "ti-map-pin" },
@@ -30,17 +29,14 @@ const NAV = [
     section: "Services",
     items: [
       { key: "devotionalContent", label: "Devotional Content", icon: "ti-music" },
-      // { key: "payments", label: "Payments", icon: "ti-credit-card" },
-      // { key: "poojaBookings", label: "Pooja Bookings", icon: "ti-ticket", badge: "12" },
-      // { key: "donations", label: "Donations", icon: "ti-heart-handshake" },
     ],
   },
   {
     section: "System",
     items: [
       { key: "chargesPricing", label: "Charges & Pricing", icon: "ti-cash" },
-      { key: "settings", label: "Settings", icon: "ti-settings" },
-      { key: "support", label: "Support", icon: "ti-headset", badge: "3" },
+      // { key: "settings", label: "Settings", icon: "ti-settings" },
+      // { key: "support", label: "Support", icon: "ti-headset", badge: "3" },
     ],
   },
 ];
@@ -57,16 +53,11 @@ const SCREEN_MAP = {
 
 const TITLES = {
   dashboard: "Dashboard",
-  // analytics: "Analytics",
   tourists: "Tourist & Guide Management",
-  // tourGuides: "Tour Guides",
   vehicles: "Vehicle & Transport Management",
   accommodation: "Accommodation & Cottage Management",
   touristSpots: "Tourist Spot Configuration",
   devotionalContent: "Devotional Content Management",
-  // payments: "Payments",
-  // poojaBookings: "Pooja Bookings",
-  // donations: "Donations",
   chargesPricing: "Charges & Pricing Configuration",
   settings: "Settings",
   support: "Support",
@@ -74,6 +65,12 @@ const TITLES = {
 
 export default function App() {
   const [active, setActive] = useState("dashboard");
+  const [showLanding, setShowLanding] = useState(true); // ← START on Landing
+
+  // If landing page is visible, render it fullscreen
+  if (showLanding) {
+    return <Landing onEnter={() => setShowLanding(false)} />;
+  }
 
   const content = SCREEN_MAP[active] || (
     <div style={{ padding: 40, color: "#b5860d", fontFamily: "'DM Sans', sans-serif" }}>
@@ -130,7 +127,6 @@ export default function App() {
 
       {/* Main */}
       <div className="main-area">
-        {/* Topbar */}
         <header className="topbar">
           <div className="tb-title">{TITLES[active]}</div>
           <div className="tb-search">
@@ -148,7 +144,6 @@ export default function App() {
           </div>
         </header>
 
-        {/* Page Content */}
         <div className="page-content">{content}</div>
       </div>
     </div>
