@@ -6,75 +6,95 @@ import Accommodation from "./pages/Accommodation";
 import DevotionalContent from "./pages/DevotionalContent";
 import TouristSpots from "./pages/TouristSpots";
 import ChargesPricing from "./pages/ChargesPricing";
+import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import "./App.css";
 
+// ─── Navigation config ────────────────────────────────────────────────────────
 const NAV = [
   {
     section: "Overview",
     items: [
       { key: "dashboard", label: "Dashboard", icon: "ti-layout-dashboard" },
-      // { key: "analytics", label: "Analytics", icon: "ti-chart-bar", badge: "New" },
     ],
   },
   {
     section: "Management",
     items: [
-      { key: "tourists", label: "Tourists", icon: "ti-users" },
-      // { key: "tourGuides", label: "Tour Guides", icon: "ti-license" },
-      { key: "vehicles", label: "Vehicles", icon: "ti-car" },
-      { key: "accommodation", label: "Accommodation", icon: "ti-building" },
-      { key: "touristSpots", label: "Tourist Spots", icon: "ti-map-pin" },
+      { key: "tourists",      label: "Tourists",       icon: "ti-users"    },
+      { key: "vehicles",      label: "Vehicles",       icon: "ti-car"      },
+      { key: "accommodation", label: "Accommodation",  icon: "ti-building" },
+      { key: "touristSpots",  label: "Tourist Spots",  icon: "ti-map-pin"  },
     ],
   },
   {
     section: "Services",
     items: [
       { key: "devotionalContent", label: "Devotional Content", icon: "ti-music" },
-      // { key: "payments", label: "Payments", icon: "ti-credit-card" },
-      // { key: "poojaBookings", label: "Pooja Bookings", icon: "ti-ticket", badge: "12" },
-      // { key: "donations", label: "Donations", icon: "ti-heart-handshake" },
     ],
   },
   {
     section: "System",
     items: [
       { key: "chargesPricing", label: "Charges & Pricing", icon: "ti-cash" },
-      { key: "settings", label: "Settings", icon: "ti-settings" },
-      { key: "support", label: "Support", icon: "ti-headset", badge: "3" },
     ],
   },
 ];
 
 const SCREEN_MAP = {
-  dashboard: <Dashboard />,
-  tourists: <Tourists />,
-  vehicles: <Vehicles />,
-  accommodation: <Accommodation />,
+  dashboard:         <Dashboard />,
+  tourists:          <Tourists />,
+  vehicles:          <Vehicles />,
+  accommodation:     <Accommodation />,
   devotionalContent: <DevotionalContent />,
-  touristSpots: <TouristSpots />,
-  chargesPricing: <ChargesPricing />,
+  touristSpots:      <TouristSpots />,
+  chargesPricing:    <ChargesPricing />,
 };
 
 const TITLES = {
-  dashboard: "Dashboard",
-  // analytics: "Analytics",
-  tourists: "Tourist & Guide Management",
-  // tourGuides: "Tour Guides",
-  vehicles: "Vehicle & Transport Management",
-  accommodation: "Accommodation & Cottage Management",
-  touristSpots: "Tourist Spot Configuration",
+  dashboard:         "Dashboard",
+  tourists:          "Tourist & Guide Management",
+  vehicles:          "Vehicle & Transport Management",
+  accommodation:     "Accommodation & Cottage Management",
+  touristSpots:      "Tourist Spot Configuration",
   devotionalContent: "Devotional Content Management",
-  // payments: "Payments",
-  // poojaBookings: "Pooja Bookings",
-  // donations: "Donations",
-  chargesPricing: "Charges & Pricing Configuration",
-  settings: "Settings",
-  support: "Support",
+  chargesPricing:    "Charges & Pricing Configuration",
 };
 
+// ─── ROOT APP ─────────────────────────────────────────────────────────────────
 export default function App() {
+  // "landing" | "login" | "register" | "app"
+  const [screen, setScreen] = useState("landing");
   const [active, setActive] = useState("dashboard");
 
+  // ── Landing ───────────────────────────────────────────────────────────────
+  if (screen === "landing") {
+    return <Landing onEnter={() => setScreen("login")} />;
+  }
+
+  // ── Login ─────────────────────────────────────────────────────────────────
+  if (screen === "login") {
+    return (
+      <Login
+        onSuccess={() => setScreen("app")}
+        onRegister={() => setScreen("register")}
+        onBack={() => setScreen("landing")} 
+      />
+    );
+  }
+
+  // ── Register ──────────────────────────────────────────────────────────────
+  if (screen === "register") {
+    return (
+      <Register
+        onBack={() => setScreen("login")}
+        onBackToLanding={() => setScreen("landing")} 
+      />
+    );
+  }
+
+  // ── Main App Shell ────────────────────────────────────────────────────────
   const content = SCREEN_MAP[active] || (
     <div style={{ padding: 40, color: "#b5860d", fontFamily: "'DM Sans', sans-serif" }}>
       <div style={{ fontSize: 32, marginBottom: 8 }}>🚧</div>
@@ -120,35 +140,44 @@ export default function App() {
         </nav>
 
         <div className="sb-footer">
-          <div className="sb-avatar"></div>
+          <div className="sb-avatar" />
           <div>
-            <div className="sb-user-name">new user</div>
+            <div className="sb-user-name">Admin User</div>
             <div className="sb-user-role">Super Admin</div>
           </div>
+          {/* Logout */}
+          <button
+            title="Logout"
+            onClick={() => { setScreen("login"); setActive("dashboard"); }}
+            style={{
+              marginLeft: "auto", background: "none", border: "none",
+              cursor: "pointer", color: "#b5860d", fontSize: 16, padding: 4,
+            }}
+          >
+            <i className="ti ti-logout" />
+          </button>
         </div>
       </aside>
 
       {/* Main */}
       <div className="main-area">
-        {/* Topbar */}
         <header className="topbar">
           <div className="tb-title">{TITLES[active]}</div>
           <div className="tb-search">
             <i className="ti ti-search" style={{ fontSize: 14 }} />
             <span>Search pilgrims, vehicles, guides…</span>
           </div>
-          <div style={{ fontSize: 11, color: "#888" }}>Thu, 14 May 2026</div>
+          <div style={{ fontSize: 11, color: "#888" }}>Fri, 15 May 2026</div>
           <div className="tb-icon-btn">
             <i className="ti ti-bell" style={{ fontSize: 15, color: "#888" }} />
             <div className="tb-dot" />
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div className="tb-user-avatar"></div>
+            <div className="tb-user-avatar" />
             <div style={{ fontSize: 11, fontWeight: 500, color: "#1a0a00" }}>Super Admin</div>
           </div>
         </header>
 
-        {/* Page Content */}
         <div className="page-content">{content}</div>
       </div>
     </div>
