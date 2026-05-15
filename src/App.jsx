@@ -67,6 +67,7 @@ export default function App() {
   // "landing" | "login" | "register" | "app"
   const [screen, setScreen] = useState("landing");
   const [active, setActive] = useState("dashboard");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // ── Landing ───────────────────────────────────────────────────────────────
   if (screen === "landing") {
@@ -106,7 +107,7 @@ export default function App() {
   return (
     <div className="app-shell">
       {/* Sidebar */}
-      <aside className="sidebar">
+      <aside className={`sidebar ${sidebarOpen ? "active" : ""}`}>
         <div className="sb-logo">
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div className="sb-logo-icon">
@@ -127,8 +128,15 @@ export default function App() {
                 <button
                   key={item.key}
                   className={`sb-item ${active === item.key ? "active" : ""}`}
-                  onClick={() => setActive(item.key)}
+                  onClick={() => {
+  setActive(item.key);
+
+  if (window.innerWidth <= 768) {
+    setSidebarOpen(false);
+  }
+}}
                 >
+                  
                   <i className={`ti ${item.icon}`} />
                   <span>{item.label}</span>
                   {item.badge && <span className="sb-badge">{item.badge}</span>}
@@ -162,6 +170,15 @@ export default function App() {
       {/* Main */}
       <div className="main-area">
         <header className="topbar">
+
+  <button
+    className="menu-toggle"
+    onClick={() => setSidebarOpen(!sidebarOpen)}
+  >
+    <i className="ti ti-menu-2"></i>
+  </button>
+
+  <div className="tb-title">{TITLES[active]}</div>
           <div className="tb-title">{TITLES[active]}</div>
           <div className="tb-search">
             <i className="ti ti-search" style={{ fontSize: 14 }} />
