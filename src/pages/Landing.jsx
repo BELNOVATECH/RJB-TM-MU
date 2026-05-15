@@ -327,3 +327,347 @@ const Landing = ({ onEnter }) => {
 };
 
 export default Landing;
+
+
+
+
+
+// import React from "react";
+// import "./styles/Landing.css";
+
+// const Landing = ({ onEnter }) => {
+//   const statItems = [
+//     { label: "Temple", value: "140" },
+//     { label: "Ghat", value: "8" },
+//     { label: "Charity", value: "1" },
+//     { label: "Kund", value: "9" },
+//     { label: "Bhawan", value: "2" },
+//     { label: "Aashram", value: "5" },
+//   ];
+
+//   return (
+//     <div className="landing-page">
+
+//       {/* TOP HEADER */}
+//       <div className="top-header">
+
+//         <div className="top-left">
+//           Government of Uttar Pradesh
+//         </div>
+
+//         <div className="top-right">
+//           <input
+//             type="text"
+//             placeholder="Search"
+//             className="search-box"
+//           />
+
+//           <button className="lang-btn">
+//             English
+//           </button>
+
+//           <button className="visitor-btn">
+//             Visitor Pass
+//           </button>
+//         </div>
+
+//       </div>
+
+//       {/* NAVBAR */}
+//       <div className="main-navbar">
+
+//         <div className="nav-logo">
+
+//           <img
+//             src="/assets/logo.png"
+//             alt="logo"
+//             className="logo-img"
+//           />
+
+//         </div>
+
+//         <div className="nav-icons">
+
+//           <button>A-</button>
+//           <button className="active-font">A</button>
+//           <button>A+</button>
+
+//         </div>
+
+//       </div>
+
+//       {/* HERO */}
+//       <section className="landing-hero">
+
+//         <div className="hero-overlay"></div>
+
+//         <div className="hero-content">
+
+//           <div className="hero-left">
+
+//             <div className="youtube-icon">
+//               ▶
+//             </div>
+
+//             <div className="hero-small-title">
+//               श्रीराम मंदिर, अयोध्या
+//             </div>
+
+//             <div className="hero-main-title">
+//               SHRI RAM MANDIR,
+//               <br />
+//               AYODHYA
+//             </div>
+
+//             <button className="live-btn">
+//               लाइव दर्शन | Live Darshan
+//             </button>
+
+//             <h1 className="welcome-title">
+//               WELCOME TO
+//               <br />
+//               AYODHYA DHAM
+//             </h1>
+
+//             <button
+//               className="hero-btn"
+//               onClick={onEnter}
+//             >
+//               Visitor Registration
+//             </button>
+
+//           </div>
+
+//           <div className="hero-right">
+
+//             <img
+//               src="/assets/banner1.jpg"
+//               alt="ram"
+//               className="hero-image"
+//             />
+
+//           </div>
+
+//         </div>
+
+//       </section>
+
+    
+//       {/* <div className="design-strip">
+
+//         <img
+//           src="/assets/design-strip.jpg"
+//           alt="design"
+//           className="design-strip-img"
+//         />
+
+//       </div> */}
+
+//       {/* CONTENT */}
+//       <div className="landing-container">
+
+//         {/* ABOUT */}
+//         <div className="about-section">
+
+//           <div className="section-icon">
+//             🪷
+//           </div>
+
+//           <div className="about-title">
+//             ABOUT US
+//           </div>
+
+//           <h2 className="section-head">
+//             OVERVIEW OF AYODHYA DHAM
+//           </h2>
+
+//           <div className="overview-grid">
+
+//             <div className="overview-text">
+
+//               Ayodhya counted among the seven most sacred
+//               cities of ancient India, is situated on the
+//               right bank of the river Saryu, once the capital
+//               of Avadh region.
+
+//               Ayodhya holds a place of pride among the
+//               devotees of Lord Rama, who was a descendant
+//               of the Surya Vansh which is believed to have
+//               been founded by Manu, the lawgiver of the
+//               Hindus.....
+
+//             </div>
+
+//             <div className="leaders-column">
+
+//               <div className="leader-card">
+
+//                 <img
+//                   src="/assets/modi-ji.jpg"
+//                   alt="modi"
+//                   className="leader-img"
+//                 />
+
+//                 <div>
+
+//                   <h4>
+//                     SHRI NARENDRA
+//                     MODI
+//                   </h4>
+
+//                   <p>
+//                     Hon'ble Prime Minister,
+//                     India
+//                   </p>
+
+//                 </div>
+
+//               </div>
+
+//               <div className="leader-card">
+
+//                 <img
+//                   src="/assets/yogi-ji.jpg"
+//                   alt="yogi"
+//                   className="leader-img"
+//                 />
+
+//                 <div>
+
+//                   <h4>
+//                     SHRI YOGI
+//                     ADITYANATH
+//                   </h4>
+
+//                   <p>
+//                     Hon'ble Chief Minister,
+//                     Uttar Pradesh
+//                   </p>
+
+//                 </div>
+
+//               </div>
+
+//             </div>
+
+//           </div>
+
+//           <button className="read-btn">
+//             Read More
+//           </button>
+
+//         </div>
+
+//         {/* VIDEO */}
+//         <div className="video-card">
+
+//           <img
+//             src="/assets/ram-mandir.jpg"
+//             alt="ram mandir"
+//             className="video-image"
+//           />
+
+//           <div className="play-btn">
+//             ▶
+//           </div>
+
+//         </div>
+
+//         {/* STATS */}
+//         <div className="stats-section">
+
+//           <div className="small-title">
+//             AVAILABILITY
+//           </div>
+
+//           <h2 className="section-head left-head">
+//             IN AYODHYA
+//           </h2>
+
+//           <div className="stats-grid">
+
+//             {statItems.map((item, index) => (
+
+//               <div
+//                 className="stat-card"
+//                 key={index}
+//               >
+
+//                 <div className="lotus-icon">
+//                   🪷
+//                 </div>
+
+//                 <div className="stat-value">
+//                   {item.value}
+//                 </div>
+
+//                 <div className="stat-label">
+//                   {item.label}
+//                 </div>
+
+//               </div>
+
+//             ))}
+
+//           </div>
+
+//         </div>
+
+//         {/* SUPPORT */}
+//         <div className="support-banner">
+
+//           <h2>
+//             SUPPORT US, WE NEED YOUR HELP.
+//           </h2>
+
+//           <p>
+//             Help us develop Ayodhya Dham services and
+//             facilities for pilgrims.
+//           </p>
+
+//           <div className="progress-bar">
+
+//             <div className="progress-fill"></div>
+
+//           </div>
+
+//           <button className="support-btn">
+//             Go To Donation Page
+//           </button>
+
+//         </div>
+
+//         {/* OUR ATTRACTION */}
+//         <div className="attraction-section">
+
+//           <div className="section-icon">
+//             🐘
+//           </div>
+
+//           <div className="about-title">
+//             OUR SERVICES
+//           </div>
+
+//           <h2 className="section-head">
+//             OUR ATTRACTION
+//           </h2>
+
+//           <div className="main-attraction-card">
+
+//             <img
+//               src="/assets/our_attraction.jpg"
+//               alt="ram family"
+//               className="main-attraction-image"
+//             />
+
+//           </div>
+
+//         </div>
+
+//       </div>
+
+//     </div>
+//   );
+// };
+
+// export default Landing;
