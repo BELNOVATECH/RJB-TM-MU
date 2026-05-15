@@ -5,10 +5,10 @@
 
 .accommodation-form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  align-items: end;
 }
-
 /* =================================
    Form Labels
 ================================= */
@@ -199,3 +199,4 @@
   font-size: 11px;
   color: #666;
 }
+

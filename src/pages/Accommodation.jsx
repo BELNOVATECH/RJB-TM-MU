@@ -148,18 +148,17 @@ export default function Accommodation() {
   function handleSave() {
     if (!form.roomNo.trim()) return;
 
-  const newRoom = {
-  num: form.roomNo,
-  status: form.status,
-  roomType: form.roomType,
-  block: form.block,
-  capacity: form.capacity,
-  price: form.price,
-  acType: form.acType,
-  };
+    const newRoom = {
+      num: form.roomNo,
+      status: form.status,
+      roomType: form.roomType,
+      block: form.block,
+      capacity: form.capacity,
+      price: form.price,
+      acType: form.acType,
+    };
 
     setRooms((prev) => [...prev, newRoom]);
-
     setForm(EMPTY_FORM);
     setShowForm(false);
   }
@@ -265,15 +264,13 @@ export default function Accommodation() {
 
           <div className="kpi-value">28</div>
 
-          <div className="kpi-sub" 
-          // style={{ color: "#999" }}
-          >
+          <div className="kpi-sub">
             14 check-outs
           </div>
         </div>
       </div>
 
-      {/* Add Room Form */}
+      {/* Add Booking Form */}
       {showForm && (
         <div
           className="card"
@@ -285,7 +282,7 @@ export default function Accommodation() {
           <div className="card-head">
             <div className="card-title">
               <i
-                className="ti ti-building"
+                className="ti ti-calendar-plus"
                 style={{
                   fontSize: 14,
                   marginRight: 6,
@@ -293,7 +290,7 @@ export default function Accommodation() {
                   color: "#b5860d",
                 }}
               />
-              Add New Room
+              Add New Booking
             </div>
 
             <button
@@ -305,215 +302,97 @@ export default function Accommodation() {
             </button>
           </div>
 
-          {/* OLD INLINE CSS
-style={{
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr 1fr",
-  gap: 12,
-}}
-*/}
-<div className="accommodation-form-grid">
-
-             <div>
-              {/* <label
-                style={{
-                  fontSize: 11,
-                  color: "#888",
-                  display: "block",
-                  marginBottom: 4,
-                  fontWeight: 500,
-                }}
-              > */ }
-              <label className="form-label">
-                Room Number
-              </label>
-
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+            <div style={{ gridColumn: "1 / -1" }}>
+              <label className="form-label">Room Number</label>
               <input
                 value={form.roomNo}
-                onChange={(e) =>
-                  setForm({ ...form, roomNo: e.target.value })
-                }
+                onChange={(e) => setForm({ ...form, roomNo: e.target.value })}
                 placeholder="e.g. 116"
-                // style={{
-                //   width: "100%",
-                //   padding: "7px 10px",
-                //   border: "1px solid rgba(0,0,0,0.12)",
-                //   borderRadius: 7,
-                //   fontSize: 12,
-                //   background: "#fdf8f0",
-                //   outline: "none",
-                // }}
                 className="form-input"
               />
             </div>
 
-            
-            
-          <div>
-            <label
-             className="form-label"
-            >
-              Room Status
-            </label>
+            <div>
+              <label className="form-label">Room Status</label>
+              <select
+                value={form.status}
+                onChange={(e) => setForm({ ...form, status: e.target.value })}
+                className="form-select"
+              >
+                <option value="occupied">Occupied</option>
+                <option value="available">Available</option>
+                <option value="cleaning">Cleaning</option>
+                <option value="maintenance">Maintenance</option>
+              </select>
+            </div>
 
-            <select
-              value={form.status}
-              onChange={(e) =>
-                setForm({ ...form, status: e.target.value })
-              }
-              // style={{
-              //   width: "100%",
-              //   padding: "7px 10px",
-              //   border: "1px solid rgba(0,0,0,0.12)",
-              //   borderRadius: 7,
-              //   fontSize: 12,
-              //   background: "#fdf8f0",
-              //   outline: "none",
-              // }}
-              className="form-select"
-            >
-              <option value="occupied">Occupied</option>
-              <option value="available">Available</option>
-              <option value="cleaning">Cleaning</option>
-              <option value="maintenance">Maintenance</option>
-            </select>
+            <div>
+              <label className="form-label">Room Type</label>
+              <select
+                value={form.roomType}
+                onChange={(e) => setForm({ ...form, roomType: e.target.value })}
+                className="form-select"
+              >
+                <option>Standard Room</option>
+                <option>Family Suite</option>
+                <option>VIP Cottage</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="form-label">Block</label>
+              <select
+                value={form.block}
+                onChange={(e) => setForm({ ...form, block: e.target.value })}
+                className="form-select"
+              >
+                <option>Block A</option>
+                <option>Block B</option>
+                <option>VIP Cottage</option>
+                <option>Dharamshala</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="form-label">Capacity</label>
+              <input
+                value={form.capacity}
+                onChange={(e) => setForm({ ...form, capacity: e.target.value })}
+                placeholder="e.g. 4 pax"
+                className="form-input"
+              />
+            </div>
+
+            <div>
+              <label className="form-label">Price</label>
+              <input
+                value={form.price}
+                onChange={(e) => setForm({ ...form, price: e.target.value })}
+                placeholder="e.g. ₹1500"
+                className="form-input"
+              />
+            </div>
+
+            <div>
+              <label className="form-label">AC Type</label>
+              <select
+                value={form.acType}
+                onChange={(e) => setForm({ ...form, acType: e.target.value })}
+                className="form-select"
+              >
+                <option>AC</option>
+                <option>Non AC</option>
+              </select>
+            </div>
           </div>
 
-          <div>
-            <label
-              className="form-label"
-            >
-              Room Type
-            </label>
-
-            <select
-              value={form.roomType}
-              onChange={(e) =>
-                setForm({ ...form, roomType: e.target.value })
-              }
-              // style={{
-              //   width: "100%",
-              //   padding: "7px 10px",
-              //   border: "1px solid rgba(0,0,0,0.12)",
-              //   borderRadius: 7,
-              //   fontSize: 12,
-              //   background: "#fdf8f0",
-              //   outline: "none",
-              // }}
-              className="form-select"
-            >
-              <option>Standard Room</option>
-              <option>Family Suite</option>
-              <option>VIP Cottage</option>
-            </select>
-          </div>
-
-          <div>
-            <label
-             className="form-label"
-            >
-              Block
-            </label>
-
-            <select
-              value={form.block}
-              onChange={(e) =>
-                setForm({ ...form, block: e.target.value })
-              }
-              // style={{
-              //   width: "100%",
-              //   padding: "7px 10px",
-              //   border: "1px solid rgba(0,0,0,0.12)",
-              //   borderRadius: 7,
-              //   fontSize: 12,
-              //   background: "#fdf8f0",
-              //   outline: "none",
-              // }}
-              className="form-select"
-            >
-              <option>Block A</option>
-              <option>Block B</option>
-              <option>VIP Cottage</option>
-              <option>Dharamshala</option>
-            </select>
-          </div>
-
-          <div>
-            <label
-              className="form-label"
-            >
-              Capacity
-            </label>
-
-            <input
-  value={form.capacity}
-  onChange={(e) =>
-    setForm({ ...form, capacity: e.target.value })
-  }
-  placeholder="e.g. 4 pax"
-  className="form-input"
-/>
-          </div>
-
-          <div>
-            <label
-              className="form-label"
-            >
-              Price
-            </label>
-
-            <input
-  value={form.price}
-  onChange={(e) =>
-    setForm({ ...form, price: e.target.value })
-  }
-  placeholder="e.g. ₹1500"
-  className="form-input"
-/>
-          </div>
-
-          <div>
-            <label
-              className="form-label"
-            >
-              AC Type
-            </label>
-
-            <select
-  value={form.acType}
-  onChange={(e) =>
-    setForm({ ...form, acType: e.target.value })
-  }
-  className="form-select"
->
-            
-              <option>AC</option>
-              <option>Non AC</option>
-            </select>
-          </div>
-          </div>
-
-          <div
-            // style={{
-            //   display: "flex",
-            //   gap: 8,
-            //   marginTop: 14,
-            //   justifyContent: "flex-end",
-            // }}
-             className="form-actions">
-          
-            <button
-              className="btn-outline"
-              onClick={() => setShowForm(false)}
-            >
+          <div className="form-actions">
+            <button className="btn-outline" onClick={() => setShowForm(false)}>
               Cancel
             </button>
-
-            <button
-              className="btn-primary"
-              onClick={handleSave}
-            >
-              <i className="ti ti-device-floppy" /> Save Room
+            <button className="btn-primary" onClick={handleSave}>
+              <i className="ti ti-device-floppy" /> Save Booking
             </button>
           </div>
         </div>
@@ -521,12 +400,6 @@ style={{
 
       {/* Tabs + Actions */}
       <div
-        // style={{
-        //   display: "flex",
-        //   alignItems: "center",
-        //   justifyContent: "space-between",
-        //   marginBottom: 14,
-        // }}
         className="tabs-actions"
       >
         <div className="tab-bar" style={{ marginBottom: 0 }}>
@@ -553,309 +426,323 @@ style={{
         </div>
       </div>
 
-      <div
-        // style={{
-        //   display: "grid",
-        //   gridTemplateColumns: "3fr 2fr",
-        //   gap: 14,
-        // }}
-        className="main-layout">
-      
-        {/* Left */}
-        
-        <div
-          // style={{
-          //   display: "flex",
-          //   flexDirection: "column",
-          //   gap: 14,
-          // }}
-          className="left-column"
-        >
-          {/* Room Grid */}
-          <div className="card">
-            <div className="card-head">
-              <div className="card-title">
-                Room occupancy map — Block A (Ground Floor)
-              </div>
-            </div>
+      <div className="main-layout">
 
-            {/* Legend */}
-            <div
-              className="legend-row"
-            >
-              {[
-                ["Occupied", "#f5c842", "#1a0a00"],
-                ["Available", "#dcfce7", "#15803d"],
-                ["Cleaning", "#dbeafe", "#1d4ed8"],
-              ].map(([l, bg, color]) => (
+        {/* ROOM GRID TAB */}
+        {activeTab === 0 && (
+          <>
+            <div className="left-column">
+
+              <div className="card">
+                <div className="card-head">
+                  <div className="card-title">
+                    Room occupancy map — Block A (Ground Floor)
+                  </div>
+                </div>
+
+                {/* Legend */}
                 <div
-                  key={l}
-                  className="legend-item"
+                  className="legend-row"
                 >
-                  <div
-                    style={{
-                      width: 12,
-                      height: 12,
-                      borderRadius: 3,
-                      background: bg,
-                      border: `1px solid ${color}30`,
-                    }}
+                  {[
+                    ["Occupied", "#f5c842", "#1a0a00"],
+                    ["Available", "#dcfce7", "#15803d"],
+                    ["Cleaning", "#dbeafe", "#1d4ed8"],
+                  ].map(([l, bg, color]) => (
+                    <div
+                      key={l}
+                      className="legend-item"
+                    >
+                      <div
+                        style={{
+                          width: 12,
+                          height: 12,
+                          borderRadius: 3,
+                          background: bg,
+                          border: `1px solid ${color}30`,
+                        }}
+                      />
+                      {l}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="room-grid">
+                  {rooms.map((r) => (
+                    <div
+                      key={r.num}
+                      className={`room-cell ${ROOM_STATUS_CLASS[r.status]}`}
+                    >
+                      {r.num}
+                    </div>
+                  ))}
+                </div>
+
+                <div
+                  className="room-note"
+                >
+                  <span
+                    className="room-note-box"
                   />
-                  {l}
+                  Maintenance &nbsp;&nbsp; Tap any room to view guest details
                 </div>
-              ))}
-            </div>
-
-            <div className="room-grid">
-              {rooms.map((r) => (
-                <div
-                  key={r.num}
-                  className={`room-cell ${ROOM_STATUS_CLASS[r.status]}`}
-                >
-                  {r.num}
-                </div>
-              ))}
-            </div>
-
-            <div
-              // style={{
-              //   fontSize: 10,
-              //   color: "#bbb",
-              //   marginTop: 10,
-              // }}
-              className="room-note"
-            >
-              <span
-                // style={{
-                //   display: "inline-block",
-                //   width: 12,
-                //   height: 12,
-                //   background: "#fee2e2",
-                //   borderRadius: 3,
-                //   marginRight: 4,
-                //   verticalAlign: -2,
-                // }}
-                className="room-note-box"
-              />
-              Maintenance &nbsp;&nbsp; Tap any room to view guest details
-            </div>
-          </div>
-
-          {/* Recent Check-ins */}
-          <div className="card">
-            <div className="card-head">
-              <div className="card-title">
-                <i
-                  className="ti ti-users"
-                  style={{
-                    fontSize: 14,
-                    marginRight: 5,
-                    verticalAlign: -2,
-                    color: "#b5860d",
-                  }}
-                />
-                Recent check-ins
-              </div>
-            </div>
-
-            <div
-              // style={{
-              //   display: "flex",
-              //   flexDirection: "column",
-              //   gap: 8,
-              // }}
-              className="checkin-list"
-            >
-              {RECENT_CHECKINS.map((g) => (
-                <div
-                  key={g.name}
-                  // style={{
-                  //   display: "flex",
-                  //   alignItems: "center",
-                  //   gap: 10,
-                  //   padding: "8px 10px",
-                  //   background: "#fdf8f0",
-                  //   borderRadius: 8,
-                  // }}
-                  className="checkin-item"
-                >
-                  <div className="avatar-circle">{g.initials}</div>
-
-                  <div style={{ flex: 1 }}>
-                    <div
-                      className="checkin-name"
-                    >
-                      {g.room} · {g.name}
-                    </div>
-
-                    <div
-                      className="checkin-meta"
-                    >
-                      {g.meta}
-                    </div>
-                  </div>
-
-                  <span className={`badge ${g.statusCls}`}>
-
-                    {g.status}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Right */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 14,
-          }}
-        >
-          {/* Occupancy */}
-          <div className="card">
-            <div className="card-head">
-              <div className="card-title">
-                Occupancy by block
-              </div>
-            </div>
-
-            <div
-              className="occupancy-list"
-            >
-              {OCCUPANCY_BY_BLOCK.map((b) => (
-                <div key={b.label} className="bar-row">
-                  <div
-                    className="bar-label"
-                    style={{ width: 90 }}
-                  >
-                    {b.label}
-                  </div>
-
-                  <div className="bar-track">
-                    <div
-                      className="bar-fill"
-                      style={{
-                        width: b.pct + "%",
-                        background: b.color,
-                      }}
-                    />
-                  </div>
-
-                  <div className="bar-val">{b.pct}%</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Pricing */}
-          <div className="card">
-            <div className="card-head">
-              <div className="card-title">
-                Room type pricing
               </div>
 
-              <button
-                className="card-action"
-                onClick={() => setEditingPrice(!editingPrice)}
-              >
-                {editingPrice ? "Close" : "Edit →"}
-              </button>
-            </div>
-
-            <div
-              // style={{
-              //   display: "flex",
-              //   flexDirection: "column",
-              //   gap: 10,
-              // }}
-              className="pricing-list"
-            >
-              {pricingData.map((p, index) => (
-                <div
-                 key={p.label}
-                 className="pricing-item"
-                  >
-                  
-                  <div
-                    // style={{
-                    //   width: 32,
-                    //   height: 32,
-                    //   background: "#fef9c3",
-                    //   borderRadius: 8,
-                    //   display: "flex",
-                    //   alignItems: "center",
-                    //   justifyContent: "center",
-                    //   flexShrink: 0,
-                    // }}
-                    className="pricing-icon"
-                  >
+              {/* Recent Check-ins */}
+              <div className="card">
+                <div className="card-head">
+                  <div className="card-title">
                     <i
-                      className={`ti ${p.icon}`}
+                      className="ti ti-users"
                       style={{
-                        fontSize: 16,
+                        fontSize: 14,
+                        marginRight: 5,
+                        verticalAlign: -2,
                         color: "#b5860d",
                       }}
                     />
+                    Recent check-ins
+                  </div>
+                </div>
+
+                <div
+                  className="checkin-list"
+                >
+                  {RECENT_CHECKINS.map((g) => (
+                    <div
+                      key={g.name}
+                      className="checkin-item"
+                    >
+                      <div className="avatar-circle">{g.initials}</div>
+
+                      <div style={{ flex: 1 }}>
+                        <div
+                          className="checkin-name"
+                        >
+                          {g.room} · {g.name}
+                        </div>
+
+                        <div
+                          className="checkin-meta"
+                        >
+                          {g.meta}
+                        </div>
+                      </div>
+
+                      <span className={`badge ${g.statusCls}`}>
+
+                        {g.status}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 14,
+              }}
+            >
+              {/* Occupancy */}
+              <div className="card">
+                <div className="card-head">
+                  <div className="card-title">
+                    Occupancy by block
+                  </div>
+                </div>
+
+                <div
+                  className="occupancy-list"
+                >
+                  {OCCUPANCY_BY_BLOCK.map((b) => (
+                    <div key={b.label} className="bar-row">
+                      <div
+                        className="bar-label"
+                        style={{ width: 90 }}
+                      >
+                        {b.label}
+                      </div>
+
+                      <div className="bar-track">
+                        <div
+                          className="bar-fill"
+                          style={{
+                            width: b.pct + "%",
+                            background: b.color,
+                          }}
+                        />
+                      </div>
+
+                      <div className="bar-val">{b.pct}%</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Pricing */}
+              <div className="card">
+                <div className="card-head">
+                  <div className="card-title">
+                    Room type pricing
                   </div>
 
-                  <div style={{ flex: 1 }}>
-                    <div
-                      // style={{ fontSize: 12, fontWeight: 500 }}
-                      className="pricing-title"
-                    >
-                      {p.label}
-                    </div>
+                  <button
+                    className="card-action"
+                    onClick={() => setEditingPrice(!editingPrice)}
+                  >
+                    {editingPrice ? "Close" : "Edit →"}
+                  </button>
+                </div>
 
+                <div
+                  className="pricing-list"
+                >
+                  {pricingData.map((p, index) => (
                     <div
-                      // style={{ fontSize: 10, color: "#999" }}
-                      className="pricing-sub"
+                      key={p.label}
+                      className="pricing-item"
                     >
-                      {p.sub}
+
+                      <div
+                        className="pricing-icon"
+                      >
+                        <i
+                          className={`ti ${p.icon}`}
+                          style={{
+                            fontSize: 16,
+                            color: "#b5860d",
+                          }}
+                        />
+                      </div>
+
+                      <div style={{ flex: 1 }}>
+                        <div
+                          className="pricing-title"
+                        >
+                          {p.label}
+                        </div>
+
+                        <div
+                          className="pricing-sub"
+                        >
+                          {p.sub}
+                        </div>
+                      </div>
+
+                      {editingPrice ? (
+                        <input
+                          value={p.price}
+                          onChange={(e) => {
+                            const updated = [...pricingData];
+
+                            updated[index].price = e.target.value;
+
+                            setPricingData(updated);
+                          }}
+                          className="price-input"
+                        />
+                      ) : (
+                        <div
+                          className="pricing-value"
+                        >
+                          {p.price}
+                        </div>
+                      )}
                     </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* BOOKINGS TAB */}
+        {activeTab === 1 && (
+          <div className="card">
+            <div className="card-head">
+              <div className="card-title">Bookings</div>
+            </div>
+
+            {BOOKINGS.map((b) => (
+              <div className="checkin-item" key={b.room}>
+                <div>
+                  <div className="checkin-name">
+                    {b.guest}
                   </div>
 
-                  {editingPrice ? (
-                    <input
-                      value={p.price}
-                      onChange={(e) => {
-                        const updated = [...pricingData];
+                  <div className="checkin-meta">
+                    Room {b.room} · {b.type} · {b.stay}
+                  </div>
+                </div>
 
-                        updated[index].price = e.target.value;
+                <span className="badge badge-green">
+                  {b.status}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
 
-                        setPricingData(updated);
-                      }}
-                      // style={{
-                      //   width: 110,
-                      //   padding: "6px 8px",
-                      //   border: "1px solid rgba(0,0,0,0.12)",
-                      //   borderRadius: 6,
-                      //   fontSize: 12,
-                      //   background: "#fff",
-                      //   outline: "none",
-                      // }}
-                      className="price-input"
-                    />
-                  ) : (
-                    <div
-                      // style={{
-                      //   fontSize: 12,
-                      //   fontWeight: 600,
-                      //   color: "#1a0a00",
-                      // }}
-                      className="pricing-value"
-                    >
-                      {p.price}
-                    </div>
-                  )}
+        {/* PRICING TAB */}
+        {activeTab === 2 && (
+          <div className="card">
+
+            <div className="card-head">
+              <div className="card-title">
+                Room Pricing
+              </div>
+            </div>
+
+            <div className="pricing-list">
+              {pricingData.map((p) => (
+                <div className="pricing-item" key={p.label}>
+
+                  <div className="pricing-title">
+                    {p.label}
+                  </div>
+
+                  <div className="pricing-value">
+                    {p.price}
+                  </div>
+
                 </div>
               ))}
             </div>
+
           </div>
-        </div>
+        )}
+
+        {/* EXPORT TAB */}
+        {activeTab === 3 && (
+          <div className="card">
+
+            <div className="card-head">
+              <div className="card-title">
+                Export Data
+              </div>
+            </div>
+
+            <div className="pricing-list">
+              {EXPORT_OPTIONS.map((item) => (
+                <button
+                  key={item}
+                  className="btn-outline"
+                  style={{ marginBottom: 10 }}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+
+          </div>
+        )}
+
       </div>
-    
+
     </div>
   );
 }
