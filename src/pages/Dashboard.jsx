@@ -222,7 +222,7 @@
 
 
 
-import "./Dashboard.css";
+import "./styles/Dashboard.css";
 
 const CHART_BARS = [
   { day: "Mon", pct: 45, type: "normal" },
