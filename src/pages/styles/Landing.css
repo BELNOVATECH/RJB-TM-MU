@@ -620,14 +620,7 @@
 
 
 
-/* =====================================================
-   RESPONSIVE MEDIA QUERIES - LANDING PAGE
-===================================================== */
 
-
-/* =========================
-   LARGE TABLETS
-========================= */
 @media (max-width: 1200px) {
 
   .landing-container {
@@ -710,7 +703,7 @@
     align-items: center;
     justify-content: center;
     background: rgba(255,255,255,0.12);
-    color: white;
+    color: rgb(26, 20, 20);
     cursor: pointer;
     font-size: 20px;
   }
