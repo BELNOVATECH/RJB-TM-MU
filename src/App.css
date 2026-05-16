@@ -895,6 +895,9 @@ body {
   .page-content {
     padding: 8px;
   }
+   .menu-toggle {
+    margin-right: 59px;
+  }
 
   .topbar {
     gap: 8px;

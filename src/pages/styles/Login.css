@@ -25,3 +25,134 @@
 .auth-field-input[type="text"] {
   padding-right: 42px;
 }
+
+
+
+
+/* =========================================================
+   MOBILE VIEW
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .auth-eye {
+    right: 12px;
+    font-size: 14px;
+  }
+
+  .auth-field-input[type="password"],
+  .auth-field-input[type="text"] {
+    height: 48px;
+    font-size: 14px;
+    padding-right: 40px;
+  }
+
+  .auth-form {
+    gap: 14px;
+  }
+
+  .auth-field {
+    margin-bottom: 12px;
+  }
+
+  .auth-btn {
+    height: 48px;
+    font-size: 14px;
+  }
+
+  .auth-card {
+    width: 100%;
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
+  .auth-title {
+    font-size: 24px;
+  }
+
+  .auth-subtitle {
+    font-size: 13px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .auth-eye {
+    right: 10px;
+    font-size: 13px;
+  }
+
+  .auth-field-input[type="password"],
+  .auth-field-input[type="text"] {
+    height: 44px;
+    font-size: 13px;
+    padding-right: 38px;
+  }
+
+  .auth-btn {
+    height: 44px;
+    font-size: 13px;
+  }
+
+  .auth-card {
+    padding: 20px 14px;
+    border-radius: 16px;
+  }
+
+  .auth-title {
+    font-size: 22px;
+  }
+
+  .auth-subtitle {
+    font-size: 12px;
+  }
+}
+
+
+/* =========================================================
+   EXTRA SMALL DEVICES
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .auth-eye {
+    right: 9px;
+    font-size: 12px;
+  }
+
+  .auth-field-input[type="password"],
+  .auth-field-input[type="text"] {
+    height: 42px;
+    font-size: 12px;
+    padding-right: 36px;
+  }
+
+  .auth-btn {
+    height: 42px;
+    font-size: 12px;
+  }
+
+  .auth-logo-row {
+    margin-top: 24px;
+  }
+
+  .auth-card {
+    padding: 18px 12px;
+  }
+  .auth-back-btn {
+  margin-bottom: 48px;
+}
+
+  .auth-title {
+    font-size: 20px;
+  }
+
+  .auth-subtitle {
+    font-size: 11px;
+  }
+}
