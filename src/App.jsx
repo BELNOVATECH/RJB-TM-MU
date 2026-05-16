@@ -83,7 +83,7 @@ if (screen === "customerLogin") {
   return (
   <CustomerLogin
   onSuccess={() => setScreen("customer_dashboard")}
-  onRegister={() => setScreen("customer_register")}
+  onRegister={() => setScreen("customerRegister")}
   onAdmin={() => setScreen("login")}
   onBack={() => setScreen("landing")}
 />
