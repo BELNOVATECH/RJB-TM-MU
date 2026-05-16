@@ -178,8 +178,8 @@ export default function App() {
     <i className="ti ti-menu-2"></i>
   </button>
 
-  <div className="tb-title">{TITLES[active]}</div>
-          <div className="tb-title">{TITLES[active]}</div>
+  
+          {/* <div className="tb-title">{TITLES[active]}</div> */}
           <div className="tb-search">
             <i className="ti ti-search" style={{ fontSize: 14 }} />
             <span>Search pilgrims, vehicles, guides…</span>
@@ -190,7 +190,7 @@ export default function App() {
             <div className="tb-dot" />
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div className="tb-user-avatar" />
+            {/* <div className="tb-user-avatar" /> */}
             <div style={{ fontSize: 11, fontWeight: 500, color: "#1a0a00" }}>Super Admin</div>
           </div>
         </header>

@@ -705,10 +705,19 @@ export default function DevotionalContent() {
             <button key={t} className={`tab-pill ${navTab === i ? "active" : ""}`} onClick={() => setNavTab(i)}>{t}</button>
           ))}
         </div>
+
         <div className="search-upload-wrap">
-          <div className="search-box">
-            <i className="ti ti-search search-icon" /> Search bhajans, slokas…
+          <div className="search-box devotional-search-wrap" style={{ minWidth: 0 }}>
+            <i className="ti ti-search search-icon" style={{ fontSize: 13, color: "#888" }} />
+
+            <input
+              type="text"
+              placeholder="Search bhajans, slokas…"
+              className="devotional-search-input"
+              style={{ border: "none", outline: "none", fontSize: 12, background: "transparent", flex: 1, minWidth: 0 }}
+            />
           </div>
+
           {/* Clicking this switches directly to the Upload tab */}
           <button className="btn-primary" onClick={() => setNavTab(2)}>
             <i className="ti ti-upload" /> Upload Media
@@ -718,7 +727,7 @@ export default function DevotionalContent() {
 
       {/* All Content */}
       {navTab === 0 && (
-        <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 14 }}>
+        <div className="devotional-content-grid">
           <div className="card">
             <div className="card-head">
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -754,7 +763,7 @@ export default function DevotionalContent() {
             </div>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <div className="devotional-sidebar-cards">
             <div className="card">
               <div className="card-head"><div className="card-title">Top played today</div></div>
               <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
