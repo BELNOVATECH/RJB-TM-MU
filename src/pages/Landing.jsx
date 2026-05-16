@@ -4,7 +4,7 @@ import './styles/Landing.css';
 import AboutUs from "./About_us";
 import TempleDetails from "./TempleDetails";
 
-const Landing = ({ onEnter }) => {
+const Landing = ({ onEnter, onCustomer }) => {
   // Statistics data for the floral stats section
   const [showAboutPage, setShowAboutPage] = React.useState(false);
   
@@ -179,12 +179,28 @@ const Landing = ({ onEnter }) => {
               <a href="#attractions" className="nav-link">Attractions</a>
               <a href="#events" className="nav-link">Events</a>
               <a href="#services" className="nav-link">Services</a>
-             <button 
-  className="dashboard-btn"
-  onClick={onEnter}
->
-  <i className="fas fa-tachometer-alt"></i> Go to Dashboard
-</button>
+             <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+
+  {/* Dashboard Button */}
+  <button 
+    className="dashboard-btn"
+    onClick={onEnter}
+  >
+    <i className="fas fa-tachometer-alt"></i> Go to Dashboard
+  </button>
+
+  {/* Customer Login Button */}
+  <button 
+      className="dashboard-btn customer-btn"
+      onClick={onCustomer}
+    >
+      <i className="fas fa-user"></i>
+      Customer Login
+    </button>
+
+</div>
+
+
             </div>
             
             <div className="mobile-menu-btn" onClick={toggleMobileMenu}>

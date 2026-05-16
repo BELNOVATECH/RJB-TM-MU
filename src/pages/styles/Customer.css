@@ -1,0 +1,143 @@
+/* Customer.css
+   Extra styles ONLY for Customer page.
+   Shared layout + form styling comes from AuthLayout.css
+*/
+
+/* =========================================
+   PASSWORD EYE ICON
+========================================= */
+
+.auth-eye {
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  cursor: pointer;
+  opacity: .45;
+  transition: opacity .2s;
+  user-select: none;
+  z-index: 1;
+}
+
+.auth-eye:hover {
+  opacity: .85;
+}
+
+/* Make room for eye icon */
+
+.auth-field-input[type="password"],
+.auth-field-input[type="text"],
+.auth-field-input[type="email"] {
+  padding-right: 42px;
+}
+
+/* =========================================
+   REQUIRED FIELD STAR
+========================================= */
+
+.required-star {
+  color: #d84315;
+  margin-left: 3px;
+  font-weight: 700;
+}
+
+/* =========================================
+   OTP ROW
+========================================= */
+
+.otp-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.otp-input-wrap {
+  flex: 1;
+}
+
+/* =========================================
+   OTP BUTTON
+========================================= */
+
+.otp-btn {
+  height: 44px;
+  padding: 0 16px;
+
+  border: none;
+  border-radius: 9px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7a2e00 0%,
+      #c45800 50%,
+      #ff7200 100%
+    );
+
+  color: #fff8ee;
+
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 18px rgba(180,70,0,.28);
+
+  transition:
+    transform .2s,
+    box-shadow .2s;
+
+  white-space: nowrap;
+}
+
+.otp-btn:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 24px rgba(180,70,0,.38);
+}
+
+/* =========================================
+   CUSTOMER FORM CARD
+========================================= */
+
+.customer-card {
+  max-height: 92vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Scrollbar */
+
+.customer-card::-webkit-scrollbar {
+  width: 6px;
+}
+
+.customer-card::-webkit-scrollbar-thumb {
+  background: rgba(196,88,0,.22);
+  border-radius: 20px;
+}
+
+/* =========================================
+   MOBILE RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .otp-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .otp-btn {
+    width: 100%;
+  }
+
+  .customer-card {
+    max-height: 95vh;
+  }
+}

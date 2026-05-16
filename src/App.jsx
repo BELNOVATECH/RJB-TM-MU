@@ -9,6 +9,7 @@ import ChargesPricing from "./pages/ChargesPricing";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Customer from "./pages/Customer";
 import "./App.css";
 
 // ─── Navigation config ────────────────────────────────────────────────────────
@@ -64,15 +65,20 @@ const TITLES = {
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
 export default function App() {
-  // "landing" | "login" | "register" | "app"
+  // "landing" | "login" | "register" | "customer" | "app"
   const [screen, setScreen] = useState("landing");
   const [active, setActive] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // ── Landing ───────────────────────────────────────────────────────────────
   if (screen === "landing") {
-    return <Landing onEnter={() => setScreen("login")} />;
-  }
+  return (
+    <Landing
+      onEnter={() => setScreen("login")}
+      onCustomer={() => setScreen("customer")}
+    />
+  );
+}
 
   // ── Login ─────────────────────────────────────────────────────────────────
   if (screen === "login") {
@@ -94,6 +100,14 @@ export default function App() {
       />
     );
   }
+
+  if (screen === "customer") {
+  return (
+    <Customer
+      onBack={() => setScreen("landing")}
+    />
+  );
+}
 
   // ── Main App Shell ────────────────────────────────────────────────────────
   const content = SCREEN_MAP[active] || (
