@@ -267,3 +267,86 @@
   border: none;
   font-weight: 600;
 }
+
+
+
+/* =================================
+   TOURIST SPOT RESPONSIVE FIX
+================================= */
+
+@media screen and (max-width: 900px) {
+
+  .touristspots-page .kpi-row,
+  .touristspots-page .touristspots-form-grid,
+  .touristspots-page .touristspots-button-row {
+    grid-template-columns: 1fr;
+  }
+
+  .touristspots-page .kpi-row {
+    gap: 10px;
+  }
+
+  .touristspots-page .card-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .touristspots-page .touristspots-tab-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .touristspots-page .touristspots-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .touristspots-page .touristspots-search-box {
+    width: 100%;
+    max-width: none;
+  }
+
+  .touristspots-page .touristspots-search-input {
+    width: 100%;
+  }
+
+  .touristspots-page .touristspots-form-actions {
+    flex-direction: column-reverse;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .touristspots-page .touristspots-form-actions button,
+  .touristspots-page .btn-primary,
+  .touristspots-page .btn-outline {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .touristspots-page .touristspots-table-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .touristspots-page .touristspots-pagination {
+    flex-wrap: wrap;
+  }
+
+  .touristspots-page .data-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  .touristspots-page .card {
+    overflow-x: visible;
+  }
+}
+

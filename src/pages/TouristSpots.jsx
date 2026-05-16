@@ -128,7 +128,7 @@ export default function TouristSpots() {
   }
 
   return (
-    <div>
+    <div className="touristspots-page">
       {/* KPI Row */}
       <div className="kpi-row">
         <div className="kpi-card">

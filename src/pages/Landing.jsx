@@ -1,23 +1,91 @@
 import React from "react";
 // import "./Landing.css";
 import './styles/Landing.css';
+import AboutUs from "./About_us";
+import TempleDetails from "./TempleDetails";
 
 const Landing = ({ onEnter }) => {
   // Statistics data for the floral stats section
-  const statItems = [
-    { label: "Temples", value: "140", icon: "fas fa-temple", flowerEmoji: "🌸" },
-    { label: "Ghat", value: "8", icon: "fas fa-water", flowerEmoji: "🌼" },
-    { label: "Charity", value: "1", icon: "fas fa-hand-holding-heart", flowerEmoji: "🌻" },
-    { label: "Kund", value: "9", icon: "fas fa-dharmachakra", flowerEmoji: "🌸" },
-    { label: "Bhawan", value: "2", icon: "fas fa-building", flowerEmoji: "🌺" },
-    { label: "Aashram", value: "5", icon: "fas fa-spa", flowerEmoji: "🌸" }
-  ];
-
+  const [showAboutPage, setShowAboutPage] = React.useState(false);
+  
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [showTemplePage, setShowTemplePage] = React.useState(false);
+  const [selectedPage, setSelectedPage] = React.useState(null);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
+    
   };
+
+   if (showAboutPage) {
+    return (
+      <AboutUs
+        onBack={() => setShowAboutPage(false)}
+      />
+    );
+  }
+
+ if (selectedPage) {
+  return (
+    <TempleDetails
+      type={selectedPage}
+      onBack={() => setSelectedPage(null)}
+    />
+  );
+}
+
+
+ const statItems = [
+
+  {
+    label: "Temples",
+    value: "6",
+    icon: "fas fa-temple",
+    flowerEmoji: "🌸",
+    page: "temples"
+  },
+
+  {
+    label: "Ghat",
+    value: "4",
+    icon: "fas fa-water",
+    flowerEmoji: "🌼",
+    page: "ghat"
+  },
+
+  {
+    label: "Charity",
+    value: "1",
+    icon: "fas fa-hand-holding-heart",
+    flowerEmoji: "🌻",
+    page: "charity"
+  },
+
+  {
+    label: "Kund",
+    value: "5",
+    icon: "fas fa-dharmachakra",
+    flowerEmoji: "🌸",
+    page: "kund"
+  },
+
+  {
+    label: "Bhawan",
+    value: "2",
+    icon: "fas fa-building",
+    flowerEmoji: "🌺",
+    page: "bhawan"
+  },
+
+  {
+    label: "Aashram",
+    value: "3",
+    icon: "fas fa-spa",
+    flowerEmoji: "🌸",
+    page: "aashram"
+  }
+
+];
 
   // Attractions data with images
   const attractionsData = [
@@ -94,6 +162,7 @@ const Landing = ({ onEnter }) => {
     { name: "Daily Visitors", number: "30k+", icon: "fas fa-users" }
   ];
 
+  
   return (
     <div className="landing-page">
       {/* Navbar Section */}
@@ -135,9 +204,14 @@ const Landing = ({ onEnter }) => {
               Ayodhya counted among the seven most sacred cities of ancient India, on the right bank of river Saryu, 
               once capital of Avadh region. Lord Rama, descendant of Surya Vansh, makes this land divine.
             </p>
-            <button className="hero-btn" onClick={() => alert('"May Ram bless you!" – Explore the divine city of Ayodhya')}>
-              Read More <i className="fas fa-arrow-right"></i>
-            </button>
+          <button
+  className="hero-btn"
+  onClick={() => setShowAboutPage(true)}
+>
+  Read More <i className="fas fa-arrow-right"></i>
+</button>
+
+
           </div>
         </div>
       </div>
@@ -147,7 +221,18 @@ const Landing = ({ onEnter }) => {
         <div className="stats-section">
           <div className="stats-grid">
             {statItems.map((item, idx) => (
-              <div key={idx} className="stat-card-floral">
+            //   <div key={idx} className="stat-card-floral">
+            <div
+  key={idx}
+  className="stat-card-floral"
+ onClick={() => {
+
+  if (item.page) {
+    setSelectedPage(item.page);
+  }
+
+  }}
+>
                 <div className="stat-value">{item.value}</div>
                 <div className="stat-label">
                   <i className={item.icon}></i> {item.label}

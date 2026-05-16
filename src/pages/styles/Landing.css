@@ -602,3 +602,359 @@
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   RESPONSIVE MEDIA QUERIES - LANDING PAGE
+===================================================== */
+
+
+/* =========================
+   LARGE TABLETS
+========================= */
+@media (max-width: 1200px) {
+
+  .landing-container {
+    padding: 0 20px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .attractions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .helpline-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
+/* =========================
+   TABLETS
+========================= */
+@media (max-width: 992px) {
+
+  .hero-title {
+    font-size: 42px;
+    line-height: 1.3;
+  }
+
+  .hero-description {
+    font-size: 15px;
+  }
+
+  .leaders-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .helpline-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .news-row {
+    flex-wrap: wrap;
+  }
+}
+
+
+/* =========================
+   MOBILE NAVBAR
+========================= */
+@media (max-width: 768px) {
+
+  .landing-navbar {
+    padding: 12px 0;
+  }
+
+  .nav-content {
+    position: relative;
+  }
+
+  .mobile-menu-btn {
+    display: flex !important;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.12);
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    width: 250px;
+    background: white;
+    border-radius: 14px;
+    padding: 18px;
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    z-index: 999;
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-link {
+    color: #1a0a00 !important;
+    font-size: 15px;
+  }
+
+  .dashboard-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* HERO */
+  .landing-hero {
+    padding: 70px 0 50px;
+  }
+
+  .hero-content {
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 34px;
+    line-height: 1.4;
+  }
+
+  .hero-tag {
+    font-size: 14px;
+  }
+
+  .hero-description {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .hero-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* SECTION HEADINGS */
+  .section-head {
+    font-size: 24px;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  /* STATS */
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .stat-card-floral {
+    padding: 18px;
+  }
+
+  .stat-value {
+    font-size: 28px;
+  }
+
+  /* LEADERS */
+  .leaders-row {
+    grid-template-columns: 1fr;
+  }
+
+  .leader-card {
+    padding: 20px;
+  }
+
+  /* SUPPORT */
+  .support-banner {
+    padding: 24px 18px;
+    text-align: center;
+  }
+
+  .support-banner h2 {
+    font-size: 24px;
+    line-height: 1.4;
+  }
+
+  .support-btn {
+    width: 100%;
+  }
+
+  /* ATTRACTIONS */
+  .attractions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .attraction-card {
+    overflow: hidden;
+  }
+
+  .attraction-image {
+    height: 220px;
+  }
+
+  .attraction-info {
+    padding: 18px;
+  }
+
+  .attraction-info h3 {
+    font-size: 20px;
+  }
+
+  /* EVENTS */
+  .event-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .event-date {
+    width: 100%;
+    text-align: left;
+  }
+
+  /* SERVICES */
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-chip {
+    justify-content: center;
+  }
+
+  /* HELPLINE */
+  .helpline-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* FOOTER */
+  .landing-footer {
+    padding: 30px 20px;
+    text-align: center;
+  }
+
+  .landing-footer p {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+@media (max-width: 480px) {
+
+  .landing-container {
+    padding: 0 14px;
+  }
+
+  .nav-logo h2 {
+    font-size: 18px;
+  }
+
+  .nav-logo p {
+    font-size: 11px;
+  }
+
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .hero-description {
+    font-size: 13px;
+  }
+
+  .section-head {
+    font-size: 20px;
+  }
+
+  .support-banner h2 {
+    font-size: 20px;
+  }
+
+  .attraction-image {
+    height: 190px;
+  }
+
+  .attraction-info h3 {
+    font-size: 18px;
+  }
+
+  .event-card {
+    padding: 16px;
+  }
+
+  .service-chip {
+    font-size: 13px;
+    padding: 14px;
+  }
+
+  .helpline-card {
+    padding: 18px;
+  }
+}
+
+
+/* =========================
+   EXTRA SMALL MOBILE
+========================= */
+@media (max-width: 360px) {
+
+  .hero-title {
+    font-size: 24px;
+  }
+
+  .hero-description {
+    font-size: 12px;
+  }
+
+  .section-head {
+    font-size: 18px;
+  }
+
+  .nav-menu {
+    width: 220px;
+  }
+
+  .landing-footer p {
+    font-size: 12px;
+  }
+}
