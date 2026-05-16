@@ -958,3 +958,311 @@
     font-size: 12px;
   }
 }
+/* Overlay */
+
+.seva-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.65);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    padding:20px;
+}
+
+/* Modal */
+
+.seva-modal{
+    background:white;
+    width:90%;
+    max-width:950px;
+    border-radius:25px;
+    padding:35px;
+    position:relative;
+    animation:popup .4s ease;
+    overflow-y:auto;
+    max-height:90vh;
+}
+
+/* animation */
+
+@keyframes popup{
+
+from{
+transform:scale(.7);
+opacity:0;
+}
+
+to{
+transform:scale(1);
+opacity:1;
+}
+
+}
+
+/* close button */
+
+.close-btn{
+    position:absolute;
+    right:20px;
+    top:20px;
+    border:none;
+    background:#ff5c5c;
+    color:white;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:18px;
+}
+
+/* Header */
+
+.seva-header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.seva-header h2{
+    color:#e66b00;
+    margin-bottom:10px;
+}
+
+.seva-header p{
+    color:#666;
+}
+
+/* cards */
+
+.seva-options{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.seva-card{
+    background:#fff8ef;
+    padding:25px;
+    border-radius:18px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+    transition:.3s;
+}
+
+.seva-card:hover{
+    transform:translateY(-8px);
+}
+
+.seva-card span{
+    font-size:35px;
+}
+
+.seva-card h3{
+    margin-top:10px;
+}
+
+.seva-card p{
+    color:#666;
+    font-size:14px;
+}
+
+.seva-card h4{
+    color:#e66b00;
+}
+
+.seva-card button{
+    border:none;
+    background:#ff8c42;
+    color:white;
+    padding:10px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+
+/* Tablet */
+
+@media(max-width:768px){
+
+.seva-modal{
+padding:20px;
+}
+
+.seva-options{
+grid-template-columns:1fr;
+}
+
+}
+
+
+/* Mobile */
+
+@media(max-width:480px){
+
+.seva-header h2{
+font-size:22px;
+}
+
+.seva-card{
+padding:18px;
+}
+
+.close-btn{
+right:10px;
+top:10px;
+}
+
+}
+.info-popup-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.6);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+backdrop-filter:blur(5px);
+}
+
+.info-popup-modal{
+background:white;
+width:85%;
+max-width:800px;
+padding:35px;
+border-radius:25px;
+position:relative;
+animation:popupAnimation .3s ease;
+}
+
+@keyframes popupAnimation{
+
+from{
+opacity:0;
+transform:scale(.8);
+}
+
+to{
+opacity:1;
+transform:scale(1);
+}
+
+}
+
+.popup-close{
+position:absolute;
+top:15px;
+right:15px;
+border:none;
+width:35px;
+height:35px;
+border-radius:50%;
+background:#ff8c42;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+.info-popup-modal h2{
+text-align:center;
+margin-bottom:25px;
+color:#cc6600;
+}
+
+.popup-content-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+}
+
+.popup-card{
+background:#fff7ef;
+padding:20px;
+border-radius:18px;
+box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.popup-card button{
+margin-top:10px;
+border:none;
+padding:10px 16px;
+background:#ff8c42;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+@media(max-width:768px){
+
+.popup-content-grid{
+grid-template-columns:1fr;
+}
+
+.info-popup-modal{
+width:95%;
+padding:20px;
+}
+
+}
+.donation-success-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+    animation: fadeIn .3s ease;
+}
+
+.donation-success-box{
+    width:380px;
+    background:#fffaf5;
+    border-radius:25px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+    animation: popup .4s ease;
+}
+
+.success-icon{
+    font-size:55px;
+    margin-bottom:15px;
+}
+
+.donation-success-box h2{
+    color:#ff7a00;
+    margin-bottom:12px;
+}
+
+.donation-success-box p{
+    color:#555;
+    line-height:1.7;
+}
+
+@keyframes popup{
+from{
+transform:scale(.7);
+opacity:0;
+}
+to{
+transform:scale(1);
+opacity:1;
+}
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+}
+to{
+opacity:1;
+}
+}
