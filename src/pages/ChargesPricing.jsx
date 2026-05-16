@@ -210,8 +210,8 @@ function AccommodationTab({ rows, setRows }) {
 
       {showForm && (
         <SectionCard title={editId !== null ? `Edit: ${form.type}` : "Add New Room Type"} icon="ti-building" onClose={closeForm} onSave={handleSave} saveLabel={editId !== null ? "Update Room Type" : "Save Room Type"}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
-            <div style={{ gridColumn: "1 / -1" }}>
+          <div className="cp-form-grid">
+            <div className="cp-full-span">
               <label style={labelStyle}>Room Type *</label>
               <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={inputStyle}>
                 {ROOM_TYPE_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
@@ -241,7 +241,7 @@ function AccommodationTab({ rows, setRows }) {
                 {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
-            <div style={{ gridColumn: "1 / -1" }}>
+            <div className="cp-full-span">
               <label style={labelStyle}>Amenities</label>
               <input type="text" value={form.amenities} onChange={e => setForm({ ...form, amenities: e.target.value })} placeholder="e.g. AC · TV · WiFi · Breakfast" style={inputStyle} />
             </div>
@@ -333,9 +333,9 @@ function VehicleTab({ rows, setRows }) {
           onSave={handleSave}
           saveLabel={editId !== null ? "Update Vehicle" : "Save Vehicle"}
         >
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+          <div className="cp-form-grid">
             {/* ── Vehicle Type dropdown — explicit value + onChange so options render correctly ── */}
-            <div style={{ gridColumn: "1 / -1" }}>
+            <div className="cp-full-span">
               <label style={labelStyle}>Vehicle Type *</label>
               <select
                 value={form.type}
@@ -392,7 +392,7 @@ function VehicleTab({ rows, setRows }) {
 
       <div style={{ paddingTop: 14, borderTop: "1px solid rgba(0,0,0,0.06)" }}>
         <div style={{ fontSize: 11, color: "#888", marginBottom: 10, fontWeight: 500, letterSpacing: "0.05em", textTransform: "uppercase" }}>Additional Charges</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 10 }}>
+        <div className="cp-grid-4">
           <SubField label="Driver Allowance / day (₹)" defaultValue="500" />
           <SubField label="Toll Charges"                defaultValue="At actuals" type="text" />
           <SubField label="Multi-day Discount (%)"      defaultValue="10" />
@@ -451,8 +451,8 @@ function GuideTab({ rows, setRows }) {
 
       {showForm && (
         <SectionCard title={editId !== null ? `Edit: ${form.type}` : "Add New Guide Type"} icon="ti-license" onClose={closeForm} onSave={handleSave} saveLabel={editId !== null ? "Update Guide" : "Save Guide"}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
-            <div style={{ gridColumn: "1 / -1" }}>
+          <div className="cp-form-grid">
+            <div className="cp-full-span">
               <label style={labelStyle}>Guide Type *</label>
               <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={inputStyle}>
                 {GUIDE_TYPE_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
@@ -553,7 +553,7 @@ function FestivalTab({ rows, setRows }) {
 
       {showForm && (
         <SectionCard title={editId !== null ? `Edit: ${form.name}` : "Add New Festival Period"} icon="ti-calendar-event" onClose={closeForm} onSave={handleSave} saveLabel={editId !== null ? "Update Festival" : "Save Festival"}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+          <div className="cp-form-grid">
             <div>
               <label style={labelStyle}>Festival / Season Name *</label>
               <input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="e.g. Ram Navami" style={inputStyle} />
@@ -639,7 +639,7 @@ function DynamicTab() {
           Dynamic Pricing Configuration
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+      <div className="cp-grid-2">
         {items.map((item, i) => (
           <div key={item.label} style={{ padding: 14, border: "1px solid rgba(0,0,0,0.08)", borderRadius: 10, display: "flex", alignItems: "flex-start", gap: 12, background: "#fdf8f0" }}>
             <div style={{ flex: 1 }}>
@@ -669,7 +669,7 @@ export default function ChargesPricing() {
   const [festivalRows, setFestivalRows]           = useState(INITIAL_FESTIVAL_ROWS);
 
   return (
-    <div>
+    <div className="chargespricing-page">
       {/* KPI Row — counts now derived from live state */}
       <div className="kpi-row">
         <div className="kpi-card">
