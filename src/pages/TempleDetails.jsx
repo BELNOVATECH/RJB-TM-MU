@@ -199,21 +199,21 @@ const DATA = {
 
       {
         name: "Ram Aashram",
-        image: "/assets/aashram1.jpg",
+        image: "/assets/ashram1.jpg",
         description:
           "Spiritual aashram for meditation and devotional learning.",
       },
 
       {
         name: "Saryu Aashram",
-        image: "/assets/aashram2.jpg",
+        image: "/assets/ashram2.jpg",
         description:
           "Peaceful yoga and spiritual retreat near River Saryu.",
       },
 
       {
         name: "Hanuman Aashram",
-        image: "/assets/aashram3.jpg",
+        image: "/assets/ashram3.jpg",
         description:
           "Sacred aashram dedicated to Hanuman bhakti and seva.",
       },
