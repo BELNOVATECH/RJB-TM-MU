@@ -888,7 +888,7 @@ const handleFilter = () => {
   setFilterActive((prev) => !prev);
 };
   return (
-    <div>
+    <div className="tourist-page">
       {/* KPI Row */}
       <div className="kpi-row">
         <div className="kpi-card">
@@ -957,10 +957,10 @@ const handleFilter = () => {
               </button>
             ))}
           </div>
-          <div style={{ display: "flex", gap: 8 }}>
+          <div className="tourist-action-row">
 
   {/* Search */}
-  <div
+  <div className="tourist-search-wrap"
     style={{
       display: "flex",
       alignItems: "center",
@@ -969,6 +969,7 @@ const handleFilter = () => {
       border: "1px solid rgba(0,0,0,0.09)",
       borderRadius: 8,
       padding: "6px 12px",
+      minWidth: 0,
     }}
   >
     <i
@@ -986,7 +987,8 @@ const handleFilter = () => {
         outline: "none",
         fontSize: 12,
         background: "transparent",
-        width: 180,
+        minWidth: 100,
+        flex: 1,
       }}
     />
   </div>

@@ -721,7 +721,7 @@ const filteredTracking = trackingData.filter((t) =>
 );
  
   return (
-    <div>
+    <div className="vehicle-page">
       {/* KPI Row */}
       <div className="kpi-row">
         <div className="kpi-card">
@@ -780,31 +780,25 @@ const filteredTracking = trackingData.filter((t) =>
         </div>
       </div>
  
-      {/* Tab bar + actions */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-        <div className="tab-bar" style={{ marginBottom: 0 }}>
-          {TABS.map((t, i) => (
-            <button
-              key={t}
-              className={`tab-pill ${activeTab === i ? "active" : ""}`}
-              onClick={() => setActiveTab(i)}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-        <div style={{ display: "flex", gap: 8 }}>
-         <div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: 6,
-    background: "#fff",
-    border: "1px solid rgba(0,0,0,0.09)",
-    borderRadius: 8,
-    padding: "6px 12px",
-  }}
->
+     {/* Tab bar */}
+<div className="top-nav vehicle-top-nav">
+
+  <div className="tab-bar" style={{ marginBottom: 0 }}>
+    {TABS.map((t, i) => (
+      <button
+        key={t}
+        className={`tab-pill ${activeTab === i ? "active" : ""}`}
+        onClick={() => setActiveTab(i)}
+      >
+        {t}
+      </button>
+    ))}
+  </div>
+
+
+{/* Search + Add BELOW tabs */}
+<div className="search-upload-wrap vehicle-action-row">
+         <div className="search-box vehicle-search-wrap">
   <i className="ti ti-search" style={{ fontSize: 13, color: "#888" }} />
 
   <input
@@ -817,7 +811,9 @@ const filteredTracking = trackingData.filter((t) =>
       outline: "none",
       fontSize: 12,
       background: "transparent",
-      width: 180,
+      width: "100%",
+      minWidth: 0,
+      flex: 1,
     }}
   />
 </div>
@@ -839,7 +835,7 @@ const filteredTracking = trackingData.filter((t) =>
       </div>
  
       {/* Main content grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 14, marginBottom: 14 }}>
+      <div style={{ marginBottom: 14 }}>
         {/* Dynamic Tab Content */}
 <div className="card">
 
@@ -1080,47 +1076,89 @@ const filteredTracking = trackingData.filter((t) =>
   )}
 
 </div>
- 
-        {/* Right Column */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          <div className="card">
-            <div className="card-head"><div className="card-title">Fleet by type</div></div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-              {FLEET_BY_TYPE.map((f) => (
-                <div key={f.label} className="bar-row">
-                  <div className="bar-label" style={{ width: 90 }}>{f.label}</div>
-                  <div className="bar-track">
-                    <div className="bar-fill" style={{ width: f.pct + "%", background: f.color }} />
-                  </div>
-                  <div className="bar-val">{f.count}</div>
-                </div>
-              ))}
-            </div>
+ {/* Bottom Cards */}
+<div className="vehicle-bottom-cards">
+
+  {/* Fleet by type */}
+  <div className="card fleet-card">
+    <div className="card-head">
+      <div className="card-title">Fleet by type</div>
+    </div>
+
+    <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+      {FLEET_BY_TYPE.map((f) => (
+        <div key={f.label} className="bar-row">
+          <div className="bar-label" style={{ width: 90 }}>
+            {f.label}
           </div>
- 
-          <div className="card">
-            <div className="card-head">
-              <div className="card-title">
-                <i className="ti ti-alert-circle" style={{ fontSize: 14, marginRight: 5, verticalAlign: -2, color: "#c0392b" }} />
-                Expiry alerts
-              </div>
-            </div>
-            <div>
-              {ALERTS.map((a, i) => (
-                <div key={i} className="alert-item">
-                  <div className="alert-dot" style={{ background: a.dot }} />
-                  <div>
-                    <div className="alert-text">{a.text}</div>
-                    <div style={{ fontSize: 10, color: "#bbb", marginTop: 1 }}>{a.sub}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+
+          <div className="bar-track">
+            <div
+              className="bar-fill"
+              style={{
+                width: f.pct + "%",
+                background: f.color,
+              }}
+            />
           </div>
+
+          <div className="bar-val">{f.count}</div>
         </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Expiry alerts */}
+  <div className="card expiry-card">
+
+    <div className="card-head">
+      <div className="card-title">
+        <i
+          className="ti ti-alert-circle"
+          style={{
+            fontSize: 14,
+            marginRight: 5,
+            verticalAlign: -2,
+            color: "#c0392b",
+          }}
+        />
+        Expiry alerts
       </div>
+    </div>
+
+    <div>
+      {ALERTS.map((a, i) => (
+        <div key={i} className="alert-item">
+
+          <div
+            className="alert-dot"
+            style={{ background: a.dot }}
+          />
+
+          <div>
+            <div className="alert-text">{a.text}</div>
+
+            <div
+              style={{
+                fontSize: 10,
+                color: "#bbb",
+                marginTop: 1,
+              }}
+            >
+              {a.sub}
+            </div>
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+
+</div>
+  </div>
  
-      {/* ✅ Modal via Portal — bypasses all parent z-index/overflow traps */}
+    {/* ✅ Modal via Portal — bypasses all parent z-index/overflow traps */}
       {/* VEHICLE MODAL */}
 {showModal && editType === "vehicle" && (
   <AddVehicleModal
