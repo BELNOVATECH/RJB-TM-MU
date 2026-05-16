@@ -1,0 +1,568 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.pilgrim-page {
+  min-height: 100vh;
+  background: #f7f0de;
+  font-family: "DM Sans", sans-serif;
+  padding-bottom: 90px;
+}
+
+/* HERO */
+
+.hero-section {
+  background: linear-gradient(180deg, #ff8c00, #f56600);
+  padding: 24px;
+}
+
+.hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.hero-top h1 {
+  color: #fff;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.hero-top p {
+  color: rgba(255,255,255,0.9);
+  margin-top: 8px;
+  font-size: 20px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.hero-icon-btn {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.profile-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #ffe100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* SEARCH */
+
+.hero-search {
+  height: 64px;
+  background: #fff;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 18px;
+}
+
+.hero-search i {
+  font-size: 22px;
+  color: #666;
+}
+
+.hero-search input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 18px;
+}
+
+/* CONTENT */
+
+.pilgrim-content {
+  padding: 24px;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+
+.section-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.view-all-btn {
+  border: none;
+  background: none;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* SERVICES */
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 40px;
+}
+
+.service-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 32px 20px;
+  text-align: center;
+  border: 1px solid #eadfc8;
+}
+
+.service-icon {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  background: #f4f4f4;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-icon i {
+  font-size: 34px;
+}
+
+.service-card span {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+/* ICON COLORS */
+
+.blue i { color: #2563eb; }
+.green i { color: #16a34a; }
+.purple i { color: #9333ea; }
+.red i { color: #dc2626; }
+.orange i { color: #ea580c; }
+.violet i { color: #4f46e5; }
+.gold i { color: #d97706; }
+.gray i { color: #6b7280; }
+
+/* TEMPLE CARD */
+
+.temple-card {
+  background: #f5e5cb;
+  border-radius: 28px;
+  padding: 30px;
+  border: 1px solid #f0c88d;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.temple-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.temple-title i {
+  color: #ff8c00;
+}
+
+.temple-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.temple-info i {
+  color: #ff8c00;
+}
+
+.temple-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.status-badge {
+  padding: 12px 20px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.open {
+  background: #12c44b;
+  color: #fff;
+}
+
+.moderate {
+  border: 2px solid #f0aa00;
+  color: #b97700;
+}
+
+/* BOOKING */
+
+.booking-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 24px;
+  border: 1px solid #e8dcc6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 22px;
+  margin-bottom: 40px;
+}
+
+.booking-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.booking-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: #f7ebdb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.booking-icon i {
+  font-size: 34px;
+  color: #ff8c00;
+}
+
+.booking-card h4 {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.booking-card p {
+  color: #777;
+  font-size: 22px;
+}
+
+.booking-card > i {
+  font-size: 36px;
+  color: #888;
+}
+
+/* PLACE CARD */
+
+.place-card {
+  background: #fff;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid #eadfc8;
+}
+
+.place-card img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+}
+
+.place-info {
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.place-info h3 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.place-info p {
+  font-size: 22px;
+  color: #777;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.rating i {
+  color: #facc15;
+}
+
+/* BOTTOM NAV */
+
+.bottom-navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 84px;
+  background: #fff;
+  border-top: 1px solid #ececec;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.bottom-nav-item {
+  border: none;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.bottom-nav-item i {
+  font-size: 24px;
+}
+
+.bottom-nav-item span {
+  font-size: 14px;
+}
+
+.bottom-nav-item.active {
+  color: #ff8c00;
+}
+
+/* TABLETS */
+
+@media (max-width: 1024px) {
+
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-top h1 {
+    font-size: 34px;
+  }
+
+  .service-card span {
+    font-size: 18px;
+  }
+
+  .temple-title {
+    font-size: 24px;
+  }
+
+  .temple-info {
+    font-size: 18px;
+  }
+
+  .place-info h3 {
+    font-size: 26px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .hero-section {
+    padding: 18px 16px 22px;
+  }
+
+  .hero-top h1 {
+    font-size: 28px;
+  }
+
+  .hero-top p {
+    font-size: 15px;
+  }
+
+  .hero-icon-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
+
+  .profile-avatar {
+    width: 46px;
+    height: 46px;
+    font-size: 20px;
+  }
+
+  .hero-search {
+    height: 52px;
+  }
+
+  .hero-search input {
+    font-size: 14px;
+  }
+
+  .pilgrim-content {
+    padding: 16px;
+  }
+
+  .section-title {
+    font-size: 20px;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .service-card {
+    padding: 20px 12px;
+    border-radius: 18px;
+  }
+
+  .service-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .service-icon i {
+    font-size: 24px;
+  }
+
+  .service-card span {
+    font-size: 14px;
+  }
+
+  .temple-card {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .temple-title {
+    font-size: 18px;
+    margin-bottom: 18px;
+  }
+
+  .temple-info {
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+
+  .temple-right {
+    flex-direction: row;
+  }
+
+  .status-badge {
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+
+  .booking-card {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .booking-icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .booking-icon i {
+    font-size: 24px;
+  }
+
+  .booking-card h4 {
+    font-size: 18px;
+  }
+
+  .booking-card p {
+    font-size: 14px;
+  }
+
+  .booking-card > i {
+    font-size: 24px;
+  }
+
+  .place-card img {
+    height: 180px;
+  }
+
+  .place-info {
+    padding: 18px;
+  }
+
+  .place-info h3 {
+    font-size: 20px;
+  }
+
+  .place-info p {
+    font-size: 14px;
+  }
+
+  .rating {
+    font-size: 16px;
+  }
+
+  .bottom-navbar {
+    height: 74px;
+  }
+
+  .bottom-nav-item span {
+    font-size: 11px;
+  }
+}
+
+/* SMALL MOBILE */
+
+@media (max-width: 480px) {
+
+  .hero-top {
+    gap: 14px;
+  }
+
+  .hero-top h1 {
+    font-size: 24px;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .service-card {
+    padding: 18px 10px;
+  }
+
+  .service-card span {
+    font-size: 13px;
+  }
+
+  .bottom-nav-item i {
+    font-size: 20px;
+  }
+
+  .bottom-nav-item span {
+    font-size: 10px;
+  }
+}

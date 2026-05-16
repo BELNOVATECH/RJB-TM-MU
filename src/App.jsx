@@ -12,6 +12,8 @@ import Register from "./pages/Register";
 import CustomerLogin from "./pages/CustomerLogin";
 import CustomerRegister from "./pages/CustomerRegister";
 import "./App.css";
+import CustomerDashboard from "./pages/CustomerLogin";
+import PilgrimHome from "./pages/styles/Customer_Dashboard";
 
 // ─── Navigation config ────────────────────────────────────────────────────────
 const NAV = [
@@ -79,13 +81,16 @@ export default function App() {
   // ── Customer Login ─────────────────────────────────────────────────
 if (screen === "customerLogin") {
   return (
-    <CustomerLogin
-      onSuccess={() => setScreen("app")}
-      onRegister={() => setScreen("customerRegister")}
-      onAdmin={() => setScreen("login")}
-      onBack={() => setScreen("landing")}
-    />
+  <CustomerLogin
+  onSuccess={() => setScreen("customer_dashboard")}
+  onRegister={() => setScreen("customer_register")}
+  onAdmin={() => setScreen("login")}
+  onBack={() => setScreen("landing")}
+/>
   );
+}
+if (screen === "customer_dashboard") {
+  return <PilgrimHome />;
 }
 
   // ── Login ─────────────────────────────────────────────────────────────────
