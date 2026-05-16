@@ -125,3 +125,73 @@
   justify-content: flex-end;
   margin-top: 12px;
 }
+
+/* =================================
+   ChargesPricing responsive helpers
+================================= */
+
+.chargespricing-page .cp-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.chargespricing-page .cp-full-span {
+  grid-column: 1 / -1;
+}
+
+.chargespricing-page .cp-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.chargespricing-page .cp-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.chargespricing-page .cp-action-btns {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chargespricing-page .cp-action-btns button {
+  flex: 1 1 auto;
+}
+
+@media (max-width: 900px) {
+  .chargespricing-page .kpi-row,
+  .chargespricing-page .cp-form-grid,
+  .chargespricing-page .cp-grid-2,
+  .chargespricing-page .cp-grid-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .chargespricing-page .tab-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chargespricing-page .card-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .chargespricing-page .btn-primary,
+  .chargespricing-page .cp-small-btn {
+    width: 100%;
+  }
+
+  .chargespricing-page .data-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .chargespricing-page .cp-save-wrap {
+    width: 100%;
+  }
+}

@@ -1,0 +1,269 @@
+/* TouristSpots styles extracted from inline JSX styles */
+
+.touristspots-kpi-accent {
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+}
+
+.touristspots-kpi-accent.gold { background: #f5c842; }
+.touristspots-kpi-accent.green { background: #16a34a; }
+.touristspots-kpi-accent.gray { background: #999; }
+
+.touristspots-kpi-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.touristspots-kpi-icon.yellow { background: #fef9c3; }
+.touristspots-kpi-icon.green { background: #dcfce7; }
+.touristspots-kpi-icon.gray { background: #f3f4f6; }
+
+.touristspots-kpi-icon .ti {
+  color: inherit;
+}
+
+.touristspots-kpi-icon.yellow .ti { color: #b5860d; }
+.touristspots-kpi-icon.green .ti { color: #15803d; }
+.touristspots-kpi-icon.gray .ti { color: #666; }
+
+.touristspots-kpi-sub-muted { color: #999; }
+
+.touristspots-form-panel {
+  margin-bottom: 14px;
+  border: 1px solid rgba(245, 200, 66, 0.3);
+}
+
+.touristspots-form-icon {
+  font-size: 14px;
+  margin-right: 6px;
+  vertical-align: -2px;
+}
+
+.touristspots-close-btn {
+  font-size: 11px;
+  padding: 4px 10px;
+}
+
+.touristspots-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.touristspots-grid-full {
+  grid-column: 1 / -1;
+}
+
+.touristspots-form-label {
+  font-size: 11px;
+  color: #888;
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.touristspots-form-input {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 7px;
+  font-size: 12px;
+  font-family: inherit;
+  color: #1a0a00;
+  background: #fdf8f0;
+  outline: none;
+}
+
+.touristspots-form-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.touristspots-featured-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 7px;
+  background: #fdf8f0;
+  cursor: pointer;
+}
+
+.touristspots-toggle-switch {
+  width: 34px;
+  height: 18px;
+  border-radius: 9px;
+  transition: background 0.2s;
+  position: relative;
+}
+
+.touristspots-toggle-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 2px;
+  transition: left 0.2s;
+}
+
+.touristspots-toggle-label {
+  font-size: 12px;
+}
+
+.touristspots-form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  justify-content: flex-end;
+}
+
+.touristspots-toolbar {
+  display: flex;
+  gap: 8px;
+}
+
+.touristspots-button-row {
+  display: flex;
+  gap: 5px;
+}
+
+.touristspots-tab-bar {
+  margin-bottom: 0;
+  flex-wrap: wrap;
+}
+
+.touristspots-search-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fdf8f0;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: #888;
+}
+
+.touristspots-search-icon {
+  font-size: 13px;
+}
+
+.touristspots-search-input {
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 12px;
+  color: #555;
+  font-family: inherit;
+  width: 120px;
+}
+
+.touristspots-location-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.touristspots-location-icon {
+  width: 34px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.touristspots-location-name {
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.touristspots-location-district {
+  font-size: 10px;
+  color: #999;
+}
+
+.touristspots-small-text {
+  font-size: 11px;
+  color: #666;
+}
+
+.touristspots-visited {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.touristspots-clickable {
+  cursor: pointer;
+}
+
+.touristspots-featured-tag {
+  font-size: 11px;
+  color: #bbb;
+  cursor: pointer;
+}
+
+.touristspots-icon-btn,
+.touristspots-page-button {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+}
+
+.touristspots-delete-btn {
+  border-color: rgba(255, 80, 60, 0.2);
+  color: #d9534f;
+}
+
+.touristspots-icon-sm {
+  font-size: 13px;
+}
+
+.touristspots-empty-row {
+  text-align: center;
+  padding: 28px 0;
+  color: #bbb;
+  font-size: 12px;
+}
+
+.touristspots-table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.touristspots-footer-text {
+  font-size: 11px;
+  color: #999;
+}
+
+.touristspots-pagination {
+  display: flex;
+  gap: 4px;
+}
+
+.touristspots-page-button.active {
+  background: #f5c842;
+  color: #1a0a00;
+  border: none;
+  font-weight: 600;
+}
