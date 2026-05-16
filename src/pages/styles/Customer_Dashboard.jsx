@@ -1,6 +1,22 @@
+import { useState } from "react";
 import "./Customer_dashboard.css";
+import CustomerAccommodation from "../CustomerAccommodation";
+import CustomerGuide from "../CustomerGuide";
+import CustomerVehicle from "../CustomerVehicle";
 
 export default function PilgrimHome() {
+  const [activePage, setActivePage] = useState("home");
+
+  if (activePage === "accommodation") {
+    return <CustomerAccommodation onBack={() => setActivePage("home")} />;
+  }
+  if (activePage === "guide") {
+    return <CustomerGuide onBack={() => setActivePage("home")} />;
+  }
+  if (activePage === "vehicle") {
+    return <CustomerVehicle onBack={() => setActivePage("home")} />;
+  }
+
   return (
     <div className="pilgrim-page">
 
@@ -48,7 +64,7 @@ export default function PilgrimHome() {
 
         <div className="services-grid">
 
-          <div className="service-card">
+          <div className="service-card" onClick={() => setActivePage("guide")}>
             <div className="service-icon blue">
               <i className="ti ti-user"></i>
             </div>
@@ -56,7 +72,7 @@ export default function PilgrimHome() {
             <span>Book Guide</span>
           </div>
 
-          <div className="service-card">
+          <div className="service-card" onClick={() => setActivePage("vehicle")}>
             <div className="service-icon green">
               <i className="ti ti-car"></i>
             </div>
@@ -64,7 +80,7 @@ export default function PilgrimHome() {
             <span>Book Vehicle</span>
           </div>
 
-          <div className="service-card">
+          <div className="service-card" onClick={() => setActivePage("accommodation")}>
             <div className="service-icon purple">
               <i className="ti ti-building"></i>
             </div>
