@@ -108,3 +108,56 @@
 .table-icon-btn.delete {
   color: #c0392b;
 }
+
+.tourist-action-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.tourist-search-wrap {
+  min-width: 0;
+  flex: 1 1 220px;
+}
+
+@media (max-width: 768px) {
+  .tourist-modal,
+  .common-modal {
+    width: min(100%, 560px);
+    margin: 0 16px;
+    box-sizing: border-box;
+  }
+
+  .tourist-form-grid,
+  .common-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tourist-modal-footer,
+  .common-footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .tourist-page .card-head {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .tourist-page .tourist-action-row {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .tourist-page .tourist-search-wrap {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .tourist-page .tourist-search-wrap input {
+    width: 100%;
+  }
+}

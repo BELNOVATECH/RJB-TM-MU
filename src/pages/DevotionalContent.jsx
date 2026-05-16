@@ -660,7 +660,7 @@ export default function DevotionalContent() {
   const [filterTab, setFilterTab] = useState(0);
 
   return (
-    <div>
+    <div className="devotional-page">
       {/* KPI Row */}
       <div className="kpi-row">
         <div className="kpi-card">
@@ -699,16 +699,25 @@ export default function DevotionalContent() {
       </div>
 
       {/* Nav + Upload button */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-        <div className="tab-bar" style={{ marginBottom: 0 }}>
+      <div className="top-nav devotional-top-nav">
+        <div className="tab-bar nav-tabs" style={{ marginBottom: 0 }}>
           {NAV_TABS.map((t, i) => (
             <button key={t} className={`tab-pill ${navTab === i ? "active" : ""}`} onClick={() => setNavTab(i)}>{t}</button>
           ))}
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, background: "#fff", border: "1px solid rgba(0,0,0,0.09)", borderRadius: 8, padding: "6px 12px", fontSize: 12, color: "#888" }}>
-            <i className="ti ti-search" style={{ fontSize: 13 }} /> Search bhajans, slokas…
+
+        <div className="search-upload-wrap">
+          <div className="search-box devotional-search-wrap" style={{ minWidth: 0 }}>
+            <i className="ti ti-search search-icon" style={{ fontSize: 13, color: "#888" }} />
+
+            <input
+              type="text"
+              placeholder="Search bhajans, slokas…"
+              className="devotional-search-input"
+              style={{ border: "none", outline: "none", fontSize: 12, background: "transparent", flex: 1, minWidth: 0 }}
+            />
           </div>
+
           {/* Clicking this switches directly to the Upload tab */}
           <button className="btn-primary" onClick={() => setNavTab(2)}>
             <i className="ti ti-upload" /> Upload Media
@@ -718,7 +727,7 @@ export default function DevotionalContent() {
 
       {/* All Content */}
       {navTab === 0 && (
-        <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 14 }}>
+        <div className="devotional-content-grid">
           <div className="card">
             <div className="card-head">
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -754,7 +763,7 @@ export default function DevotionalContent() {
             </div>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <div className="devotional-sidebar-cards">
             <div className="card">
               <div className="card-head"><div className="card-title">Top played today</div></div>
               <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
