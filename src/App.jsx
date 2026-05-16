@@ -193,7 +193,7 @@ export default function App() {
   </button>
 
   
-          <div className="tb-title">{TITLES[active]}</div>
+          {/* <div className="tb-title">{TITLES[active]}</div> */}
           <div className="tb-search">
             <i className="ti ti-search" style={{ fontSize: 14 }} />
             <span>Search pilgrims, vehicles, guides…</span>

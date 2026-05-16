@@ -164,7 +164,7 @@ export default function Accommodation() {
   }
 
   return (
-    <div>
+    <div className="accommodation-page">
       {/* KPI Row */}
       <div className="kpi-row">
         <div className="kpi-card">
@@ -302,8 +302,8 @@ export default function Accommodation() {
             </button>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
-            <div style={{ gridColumn: "1 / -1" }}>
+          <div className="accommodation-form-grid">
+            <div className="form-span-full">
               <label className="form-label">Room Number</label>
               <input
                 value={form.roomNo}

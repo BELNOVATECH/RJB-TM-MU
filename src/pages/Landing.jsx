@@ -9,8 +9,11 @@ const Landing = ({ onEnter, onCustomer }) => {
   const [showAboutPage, setShowAboutPage] = React.useState(false);
   
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  const [showTemplePage, setShowTemplePage] = React.useState(false);
   const [selectedPage, setSelectedPage] = React.useState(null);
+  const [showSevaPopup, setShowSevaPopup] = React.useState(false);
+  const [showInfoPopup, setShowInfoPopup] = React.useState(false);
+const [popupType, setPopupType] = React.useState("");
+const [showDonateSuccess, setShowDonateSuccess] = React.useState(false);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -140,14 +143,38 @@ const Landing = ({ onEnter, onCustomer }) => {
   ];
 
   // Services data
-  const servicesData = [
-    { name: "Railway Booking", icon: "fas fa-train" },
-    { name: "Bus Ticket Booking", icon: "fas fa-bus" },
-    { name: "Airways Booking", icon: "fas fa-plane" },
-    { name: "Hotel Booking", icon: "fas fa-hotel" },
-    { name: "Tour Package Booking", icon: "fas fa-suitcase" },
-    { name: "Boat Riding Booking", icon: "fas fa-ship" }
-  ];
+const servicesData = [
+  {
+    name: "Railway Booking",
+    icon: "fas fa-train",
+    link: "https://www.irctc.co.in"
+  },
+  {
+    name: "Bus Ticket Booking",
+    icon: "fas fa-bus",
+    link: "https://www.redbus.in"
+  },
+  {
+    name: "Airways Booking",
+    icon: "fas fa-plane",
+    link: "https://www.makemytrip.com/flights/"
+  },
+  {
+    name: "Hotel Booking",
+    icon: "fas fa-hotel",
+    link: "https://www.booking.com"
+  },
+  {
+    name: "Tour Package Booking",
+    icon: "fas fa-suitcase",
+    link: "https://www.makemytrip.com/holidays-india/"
+  },
+ {
+   name: "Boat Riding Booking",
+   icon: "fas fa-ship",
+   link: "https://jalsacruise.in"
+}
+];
 
   // Helpline data
   const helplineData = [
@@ -304,11 +331,121 @@ const Landing = ({ onEnter, onCustomer }) => {
             <div className="progress-fill" style={{ width: '68%' }}></div>
           </div>
           <p><strong>₹1,80,000 raised of ₹5,00,000</strong> 🌸</p>
-          <button className="support-btn" onClick={() => alert('Thank you for your support! Jai Shri Ram 🙏')}>
-            Contribute Seva <i className="fas fa-seedling"></i>
-          </button>
+         <button
+  className="support-btn"
+  onClick={() => setShowSevaPopup(true)}
+>
+  Contribute Seva <i className="fas fa-seedling"></i>
+</button>
+        </div>
+        {showSevaPopup && (
+  <div
+    className="seva-overlay"
+    onClick={() => setShowSevaPopup(false)}
+  >
+    <div
+      className="seva-modal"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button
+        className="close-btn"
+        onClick={() => setShowSevaPopup(false)}
+      >
+        ✕
+      </button>
+
+      <div className="seva-header">
+        <h2>🙏 Contribute Seva</h2>
+        <p>
+          Support Ayodhya Dham services and help pilgrims through
+          your valuable contribution.
+        </p>
+      </div>
+
+      <div className="seva-options">
+
+        <div className="seva-card">
+          <span>🍛</span>
+          <h3>Annadanam</h3>
+          <p>Support free meals for devotees</p>
+          <h4>₹501</h4>
+         <button
+  onClick={() => {
+    setShowDonateSuccess(true);
+
+    setTimeout(() => {
+      setShowDonateSuccess(false);
+    }, 2500);
+  }}
+>
+  Donate
+</button>
         </div>
 
+        <div className="seva-card">
+          <span>🪔</span>
+          <h3>Temple Seva</h3>
+          <p>Temple rituals and maintenance</p>
+          <h4>₹1001</h4>
+        <button
+  onClick={() => {
+    setShowDonateSuccess(true);
+
+    setTimeout(() => {
+      setShowDonateSuccess(false);
+    }, 2500);
+  }}
+>
+  Donate
+</button>
+        </div>
+
+        <div className="seva-card">
+          <span>📚</span>
+          <h3>Education</h3>
+          <p>Support children's education</p>
+          <h4>₹2001</h4>
+         <button
+  onClick={() => {
+    setShowDonateSuccess(true);
+
+    setTimeout(() => {
+      setShowDonateSuccess(false);
+    }, 2500);
+  }}
+>
+  Donate
+</button>
+        </div>
+
+        <div className="seva-card">
+          <span>🏥</span>
+          <h3>Health Seva</h3>
+          <p>Support healthcare camps</p>
+          <h4>₹5001</h4>
+          <button>Donate</button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+)}
+{showDonateSuccess && (
+  <div className="donation-success-overlay">
+    <div className="donation-success-box">
+      <div className="success-icon">🙏</div>
+
+      <h2>Donation Successful</h2>
+
+      <p>
+        Thank you for your valuable contribution.
+        <br />
+        May Lord Shri Ram bless you 🌸
+      </p>
+    </div>
+  </div>
+)}
         {/* Attractions with Images - FIXED */}
         <div className="section-head">🌸 What We Offer | Our Attraction 🌸</div>
         <div className="attractions-grid">
@@ -340,16 +477,127 @@ const Landing = ({ onEnter, onCustomer }) => {
 
         {/* News Row */}
         <div className="news-row">
-          <div className="chip-item" onClick={() => alert('Latest news about Ayodhya Dham')}>
-            <i className="fas fa-newspaper"></i> News & Announcements
-          </div>
-          <div className="chip-item" onClick={() => alert('Recent notifications and updates')}>
-            <i className="fas fa-bell"></i> Notification
-          </div>
-          <div className="chip-item" onClick={() => alert('Download official documents and brochures')}>
-            <i className="fas fa-folder-open"></i> Documents / Guidelines
-          </div>
-        </div>
+
+  <div
+    className="chip-item"
+    onClick={() => {
+      setPopupType("news");
+      setShowInfoPopup(true);
+    }}
+  >
+    <i className="fas fa-newspaper"></i>
+    News & Announcements
+  </div>
+
+  <div
+    className="chip-item"
+    onClick={() => {
+      setPopupType("notification");
+      setShowInfoPopup(true);
+    }}
+  >
+    <i className="fas fa-bell"></i>
+    Notification
+  </div>
+
+  <div
+    className="chip-item"
+    onClick={() => {
+      setPopupType("document");
+      setShowInfoPopup(true);
+    }}
+  >
+    <i className="fas fa-folder-open"></i>
+    Documents / Guidelines
+  </div>
+
+</div>
+{showInfoPopup && (
+
+<div
+className="info-popup-overlay"
+onClick={() => setShowInfoPopup(false)}
+>
+
+<div
+className="info-popup-modal"
+onClick={(e)=>e.stopPropagation()}
+>
+
+<button
+className="popup-close"
+onClick={() => setShowInfoPopup(false)}
+>
+✕
+</button>
+
+{popupType==="news" && (
+<>
+<h2>📰 News & Announcements</h2>
+
+<div className="popup-content-grid">
+
+<div className="popup-card">
+<h4>Ram Mandir Expansion</h4>
+<p>New facilities for pilgrims under development.</p>
+<span>16 May 2026</span>
+</div>
+
+<div className="popup-card">
+<h4>Saryu Aarti Update</h4>
+<p>Evening Aarti starts at 6:45 PM.</p>
+<span>14 May 2026</span>
+</div>
+
+</div>
+</>
+)}
+
+{popupType==="notification" && (
+<>
+<h2>🔔 Notifications</h2>
+
+<div className="popup-content-grid">
+
+<div className="popup-card">
+<h4>Temple Timing Update</h4>
+<p>Temple open from 5 AM - 10 PM</p>
+</div>
+
+<div className="popup-card">
+<h4>Festival Alert</h4>
+<p>Heavy crowd expected during Ram Navami.</p>
+</div>
+
+</div>
+</>
+)}
+
+{popupType==="document" && (
+<>
+<h2>📂 Documents & Guidelines</h2>
+
+<div className="popup-content-grid">
+
+<div className="popup-card">
+<h4>Visitor Guidelines</h4>
+<button>Download PDF</button>
+</div>
+
+<div className="popup-card">
+<h4>Travel Guide</h4>
+<button>Download PDF</button>
+</div>
+
+</div>
+</>
+)}
+
+</div>
+
+</div>
+
+)}
 
         {/* Special Attractions with Images - FIXED */}
         <div className="section-head">🌟 Special Attraction (Tourism)</div>
@@ -396,14 +644,18 @@ const Landing = ({ onEnter, onCustomer }) => {
         </div>
 
         {/* Services */}
-        <div className="section-head">🔍 Find Services</div>
-        <div className="services-grid">
-          {servicesData.map((service, idx) => (
-            <div key={idx} className="service-chip" onClick={() => alert(`Booking service for ${service.name} will be available soon`)}>
-              <i className={service.icon}></i> {service.name}
-            </div>
-          ))}
-        </div>
+       <div className="services-grid">
+  {servicesData.map((service, idx) => (
+    <div
+      key={idx}
+      className="service-chip"
+      onClick={() => window.open(service.link, "_blank")}
+    >
+      <i className={service.icon}></i>
+      {service.name}
+    </div>
+  ))}
+</div>
 
         {/* Helpline */}
         <div className="section-head">📞 Important Information</div>

@@ -1,18 +1,14 @@
+.css
 /* =================================
    Accommodation Form Grid
 ================================= */
 
 .accommodation-form-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
+  align-items: end;
 }
-
-.form-span-full {
-  grid-column: 1 / -1;
-}
-
-        
 /* =================================
    Form Labels
 ================================= */
@@ -89,9 +85,8 @@
 .pricing-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 10px;
-  padding: 12px 14px;
+  padding: 9px 10px;
   border: 1px solid rgba(0, 0, 0, 0.07);
   border-radius: 8px;
 }
@@ -146,7 +141,6 @@
 .checkin-item {
   display: flex;
   align-items: center;
-    justify-content: space-between;
   gap: 10px;
   padding: 8px 10px;
   background: #fdf8f0;
@@ -206,146 +200,3 @@
   color: #666;
 }
 
-@media (max-width: 900px) {
-
-  .main-layout {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .accommodation-form-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .tabs-actions {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .page-actions {
-    width: 100%;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .btn-primary,
-  .btn-outline {
-    width: 100%;
-  }
-
-  .room-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-
-  .pricing-item,
-  .checkin-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .kpi-row {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .tab-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .tab-pill {
-    white-space: nowrap;
-    flex: 0 0 auto;
-  }
-}
-
-@media (max-width: 600px) {
-
-  .main-layout {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .accommodation-form-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .tabs-actions {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .page-actions {
-    width: 100%;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .btn-primary,
-  .btn-outline {
-    width: 100%;
-  }
-
-  .room-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-
-  .pricing-item,
-  .checkin-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .kpi-row {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .kpi-card {
-    padding: 12px;
-  }
-
-  .kpi-label,
-  .kpi-sub {
-    font-size: 10px;
-  }
-
-  .tab-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .tab-pill {
-    padding: 6px 10px;
-    font-size: 11px;
-  }
-
-  .form-actions {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .pricing-item {
-    padding: 10px 12px;
-  }
-
-  .form-input,
-  .form-select {
-    padding: 6px 9px;
-    font-size: 11px;
-  }
-
-  .form-label {
-    font-size: 10px;
-  }
-}
