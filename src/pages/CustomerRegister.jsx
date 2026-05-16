@@ -340,6 +340,20 @@ export default function CustomerRegister({
                 Register your pilgrimage journey
                 and family visit
               </div>
+              <div className="auth-tabs">
+
+  <button
+    className="auth-tab"
+    onClick={onBack}
+  >
+    LOGIN
+  </button>
+
+  <button className="auth-tab active">
+    REGISTER
+  </button>
+
+</div>
 
               <div className="auth-fields">
 
