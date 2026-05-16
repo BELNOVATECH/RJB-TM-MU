@@ -631,18 +631,16 @@
   padding:6px 12px;
   font-size:12px;
   color:#888;
+  min-width: 0;
 }
 
-.content-grid{
-  display:grid;
-  grid-template-columns:3fr 2fr;
-  gap:14px;
-}
-
-.library-list{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
+.search-box input,
+.devotional-search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 12px;
 }
 
 .library-item{
@@ -927,4 +925,89 @@
 .playlist-subtitle{
   font-size:12px;
   color:#aaa;
+}
+@media (max-width: 768px) {
+  .devotional-page .top-nav,
+  .devotional-page .top-nav.devotional-top-nav {
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+  }
+
+  .devotional-page .nav-tabs {
+    width: 100%;
+  }
+
+  .devotional-page .search-upload-wrap {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .devotional-page .search-box {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .devotional-page .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* stronger stacking for devotional top-nav */
+  .devotional-page .devotional-top-nav .search-upload-wrap {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .devotional-page .devotional-top-nav .search-upload-wrap .search-box,
+  .devotional-page .devotional-top-nav .search-upload-wrap .devotional-search-wrap {
+    width: 100%;
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .devotional-page .devotional-top-nav .search-upload-wrap .btn-primary {
+    width: 100%;
+    margin-top: 6px;
+    justify-content: center;
+  }
+}
+
+.devotional-content-grid {
+  display: grid;
+  grid-template-columns: 3fr minmax(260px, 360px);
+  gap: 14px;
+  align-items: start;
+}
+
+.devotional-sidebar-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.devotional-sidebar-cards .card {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .devotional-content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .devotional-sidebar-cards {
+    width: 100%;
+  }
+
+  .devotional-sidebar-cards .card {
+    width: 100%;
+  }
 }

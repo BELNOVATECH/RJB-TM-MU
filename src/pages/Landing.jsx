@@ -9,7 +9,6 @@ const Landing = ({ onEnter }) => {
   const [showAboutPage, setShowAboutPage] = React.useState(false);
   
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  const [showTemplePage, setShowTemplePage] = React.useState(false);
   const [selectedPage, setSelectedPage] = React.useState(null);
   const [showSevaPopup, setShowSevaPopup] = React.useState(false);
   const [showInfoPopup, setShowInfoPopup] = React.useState(false);
