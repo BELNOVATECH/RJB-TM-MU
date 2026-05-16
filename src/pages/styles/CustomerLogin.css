@@ -1,0 +1,77 @@
+/* Customer Login Specific Styles */
+
+/* OTP Button */
+.customer-otp-btn {
+  margin-top: 10px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ff9f43, #ff7b00);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .25s ease;
+  box-shadow: 0 8px 18px rgba(255,140,0,.25);
+}
+
+.customer-otp-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(255,140,0,.35);
+}
+
+/* Tourist Portal Badge */
+.customer-tourist-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fff7ec, #ffe7c2);
+  border: 1px solid #ffd9a0;
+  color: #8a4a00;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .3px;
+}
+
+/* Mobile Friendly */
+@media (max-width: 768px) {
+
+  .auth-left-title {
+    font-size: 44px;
+    line-height: 1.05;
+  }
+
+  .auth-left-desc {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .auth-stats {
+    gap: 14px;
+  }
+
+  .auth-stat-num {
+    font-size: 20px;
+  }
+
+  .auth-form-card {
+    padding: 26px 22px;
+  }
+
+  .auth-heading {
+    font-size: 28px;
+  }
+
+  .auth-subheading {
+    font-size: 13px;
+  }
+
+  .auth-btn {
+    height: 52px;
+    font-size: 14px;
+  }
+
+}
