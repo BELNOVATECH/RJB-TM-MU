@@ -505,17 +505,15 @@ body {
 
 
 
-
-
-
-
 /* =========================================================
    RESPONSIVE MEDIA QUERIES
 ========================================================= */
 
-/* =========================
+
+/* =========================================================
    LARGE LAPTOPS
-========================= */
+========================================================= */
+
 @media (max-width: 1400px) {
 
   .sidebar {
@@ -537,9 +535,10 @@ body {
 }
 
 
-/* =========================
+/* =========================================================
    TABLETS
-========================= */
+========================================================= */
+
 @media (max-width: 1024px) {
 
   .sidebar {
@@ -583,9 +582,10 @@ body {
 }
 
 
-/* =========================
+/* =========================================================
    MOBILE & SMALL TABLETS
-========================= */
+========================================================= */
+
 @media (max-width: 768px) {
 
   .app-shell {
@@ -593,17 +593,65 @@ body {
   }
 
   /* SIDEBAR */
+
   .sidebar {
-    width: 240px;
-    min-width: 240px;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 320px;
+    min-width: 320px;
+    max-width: 320px;
+
+    height: 100vh;
+
+    background: #1a0700;
+
+    z-index: 99999;
+
     overflow-y: auto;
+
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
   }
 
-  /* MENU TEXT */
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  /* MAIN AREA */
+
+  .main-area {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  /* MENU BUTTON */
+
+  .menu-toggle {
+    display: flex;
+    width: 36px;
+    height: 36px;
+
+    border-radius: 8px;
+    border: 1px solid #ddd;
+
+    background: #fff;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+  }
+
+  /* SIDEBAR MENU */
+
   .sb-item {
     align-items: flex-start;
     gap: 10px;
-    padding: 11px 12px;
+    padding: 12px;
   }
 
   .sb-item span {
@@ -626,32 +674,46 @@ body {
   }
 
   /* TOPBAR */
+
   .topbar {
     padding: 10px 12px;
-    gap: 8px;
-    flex-wrap: wrap;
-    height: auto;
-    min-height: 52px;
+    gap: 10px;
+
+    min-height: 56px;
+
+    flex-wrap: nowrap;
   }
 
   .tb-title {
-    font-size: 13px;
-    flex: unset;
+    font-size: 12px;
   }
 
+  /* HIDE SEARCH */
+
   .tb-search {
-    width: 100%;
-    order: 3;
-    margin-top: 6px;
-    font-size: 11px;
+    display: none;
+  }
+
+  /* HIDE USER */
+
+  .topbar > div:last-child {
+    display: none;
+  }
+
+  .tb-icon-btn {
+    width: 34px;
+    height: 34px;
   }
 
   /* PAGE */
+
   .page-content {
     padding: 12px;
+    overflow-x: hidden;
   }
 
   /* GREETING */
+
   .page-greeting {
     font-size: 16px;
     line-height: 1.4;
@@ -662,12 +724,14 @@ body {
   }
 
   /* KPI */
+
   .kpi-row {
     grid-template-columns: 1fr;
     gap: 10px;
   }
 
   .kpi-card {
+    width: 100%;
     padding: 12px;
   }
 
@@ -676,13 +740,15 @@ body {
   }
 
   /* GRID */
+
   .grid-2,
   .grid-3,
   .grid-equal {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 
   /* TABLE */
+
   .data-table {
     display: block;
     overflow-x: auto;
@@ -690,7 +756,9 @@ body {
   }
 
   /* CARDS */
+
   .card {
+    width: 100%;
     padding: 14px;
   }
 
@@ -699,6 +767,7 @@ body {
   }
 
   /* BUTTONS */
+
   .btn-primary,
   .btn-outline {
     font-size: 11px;
@@ -706,6 +775,7 @@ body {
   }
 
   /* SECTION HEADER */
+
   .section-header {
     flex-direction: column;
     align-items: flex-start;
@@ -718,6 +788,7 @@ body {
   }
 
   /* ROOM GRID */
+
   .room-cell {
     width: 40px;
     height: 34px;
@@ -726,14 +797,16 @@ body {
 }
 
 
-/* =========================
+/* =========================================================
    SMALL MOBILE
-========================= */
+========================================================= */
+
 @media (max-width: 480px) {
 
   .sidebar {
-    width: 220px;
-    min-width: 220px;
+    width: 280px;
+    min-width: 280px;
+    max-width: 280px;
   }
 
   .sb-item {
@@ -746,22 +819,12 @@ body {
   }
 
   .tb-title {
-    font-size: 12px;
-  }
-
-  .tb-search {
-    font-size: 10px;
-    padding: 5px 8px;
+    font-size: 11px;
   }
 
   .tb-icon-btn {
     width: 30px;
     height: 30px;
-  }
-
-  .tb-user-avatar {
-    width: 24px;
-    height: 24px;
   }
 
   .page-content {
@@ -797,14 +860,16 @@ body {
 }
 
 
-/* =========================
+/* =========================================================
    EXTRA SMALL DEVICES
-========================= */
+========================================================= */
+
 @media (max-width: 360px) {
 
   .sidebar {
-    width: 200px;
-    min-width: 200px;
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
   }
 
   .sb-logo {
@@ -816,7 +881,7 @@ body {
   }
 
   .tb-title {
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .page-greeting {
@@ -827,43 +892,15 @@ body {
     font-size: 16px;
   }
 
-
-/* MOBILE */
-@media (max-width: 768px) {
-
-  .menu-toggle {
-    display: flex;
+  .page-content {
+    padding: 8px;
+  }
+   .menu-toggle {
+    margin-right: 59px;
   }
 
-  .sidebar {
-    position: fixed;
-    left: -100%;
-    top: 0;
-    height: 100vh;
-    z-index: 9999;
-    transition: 0.3s ease;
+  .topbar {
+    gap: 8px;
+    padding: 8px 10px;
   }
-
-  .sidebar.active {
-    left: 0;
-  }
-
-  .main-area {
-    width: 100%;
-  }
-}
-
-/* HIDE SEARCH & USER IN MOBILE */
-
-@media (max-width: 768px) {
-
-  .tb-search {
-    display: none;
-  }
-
-
-  .topbar > div:last-child {
-    display: none;
-  }
-}
 }

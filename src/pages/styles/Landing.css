@@ -620,14 +620,7 @@
 
 
 
-/* =====================================================
-   RESPONSIVE MEDIA QUERIES - LANDING PAGE
-===================================================== */
 
-
-/* =========================
-   LARGE TABLETS
-========================= */
 @media (max-width: 1200px) {
 
   .landing-container {
@@ -710,7 +703,7 @@
     align-items: center;
     justify-content: center;
     background: rgba(255,255,255,0.12);
-    color: white;
+    color: rgb(26, 20, 20);
     cursor: pointer;
     font-size: 20px;
   }
@@ -1008,16 +1001,16 @@ opacity:1;
 
 .close-btn{
     position:absolute;
-    right:20px;
-    top:20px;
+           right: 1px;
+        top: 0px;
     border:none;
     background:#ff5c5c;
     color:white;
-    width:35px;
-    height:35px;
+    width:25px;
+    height:25px;
     border-radius:50%;
     cursor:pointer;
-    font-size:18px;
+    font-size:15px;
 }
 
 /* Header */

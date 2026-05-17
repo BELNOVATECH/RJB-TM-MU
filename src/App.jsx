@@ -9,7 +9,11 @@ import ChargesPricing from "./pages/ChargesPricing";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import CustomerLogin from "./pages/CustomerLogin";
+import CustomerRegister from "./pages/CustomerRegister";
 import "./App.css";
+import CustomerDashboard from "./pages/CustomerLogin";
+import PilgrimHome from "./pages/Customer_Dashboard";
 
 // ─── Navigation config ────────────────────────────────────────────────────────
 const NAV = [
@@ -71,8 +75,23 @@ export default function App() {
 
   // ── Landing ───────────────────────────────────────────────────────────────
   if (screen === "landing") {
-    return <Landing onEnter={() => setScreen("login")} />;
+    // return <Landing onEnter={() => setScreen("login")} />;
+    return <Landing onEnter={() => setScreen("customerLogin")} />;
   }
+  // ── Customer Login ─────────────────────────────────────────────────
+if (screen === "customerLogin") {
+  return (
+  <CustomerLogin
+  onSuccess={() => setScreen("customer_dashboard")}
+  onRegister={() => setScreen("customerRegister")}
+  onAdmin={() => setScreen("login")}
+  onBack={() => setScreen("landing")}
+/>
+  );
+}
+if (screen === "customer_dashboard") {
+  return <PilgrimHome />;
+}
 
   // ── Login ─────────────────────────────────────────────────────────────────
   if (screen === "login") {
@@ -94,6 +113,15 @@ export default function App() {
       />
     );
   }
+  // ── Customer Register ──────────────────────────────────────────────
+if (screen === "customerRegister") {
+  return (
+    <CustomerRegister
+      onBack={() => setScreen("customerLogin")}
+      onBackToLanding={() => setScreen("landing")}
+    />
+  );
+}
 
   // ── Main App Shell ────────────────────────────────────────────────────────
   const content = SCREEN_MAP[active] || (
@@ -156,7 +184,11 @@ export default function App() {
           {/* Logout */}
           <button
             title="Logout"
-            onClick={() => { setScreen("login"); setActive("dashboard"); }}
+            // onClick={() => { setScreen("login"); setActive("dashboard"); }}
+            onClick={() => {
+  setScreen("customerLogin");
+  setActive("dashboard");
+}}
             style={{
               marginLeft: "auto", background: "none", border: "none",
               cursor: "pointer", color: "#b5860d", fontSize: 16, padding: 4,
