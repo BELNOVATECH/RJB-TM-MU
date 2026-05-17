@@ -26,6 +26,10 @@
   padding-right: 42px;
 }
 
+.auth-logo-row {
+  margin-top: 38px;
+}
+
 
 
 
@@ -145,7 +149,7 @@
     padding: 18px 12px;
   }
   .auth-back-btn {
-  margin-bottom: 48px;
+  margin-bottom: 60px;
 }
 
   .auth-title {
