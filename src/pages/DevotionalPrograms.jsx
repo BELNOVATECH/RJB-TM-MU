@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./styles/Devotionalprograms.css";
-
 const EVENTS_DATA = [
   {
     id: 1,
@@ -10,11 +9,12 @@ const EVENTS_DATA = [
     date: "Daily",
     time: "6:00 AM & 7:00 PM",
     location: "Main Temple",
-    image: "https://source.unsplash.com/featured/900x900/?temple,pooja,divine",
+    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1200&auto=format&fit=crop",
     category: "Daily Ritual",
     status: "Daily",
     bookable: false
   },
+
   {
     id: 2,
     title: "Ramayana Discourse",
@@ -23,11 +23,12 @@ const EVENTS_DATA = [
     date: "May 18, 2026",
     time: "4:00 PM - 6:00 PM",
     location: "Satsang Hall",
-    image: "https://source.unsplash.com/featured/900x900/?hindu-temple,temple-architecture",
+    image: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?q=80&w=1200&auto=format&fit=crop",
     category: "Spiritual Talk",
     status: "Upcoming",
     bookable: false
   },
+
   {
     id: 3,
     title: "Kirtan Sandhya",
@@ -36,11 +37,12 @@ const EVENTS_DATA = [
     date: "May 20, 2026",
     time: "5:30 PM - 8:00 PM",
     location: "Temple Courtyard",
-    image: "https://source.unsplash.com/featured/900x900/?bhajan,devotional-song",
+    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1200&auto=format&fit=crop",
     category: "Devotional Music",
     status: "Upcoming",
     bookable: true
   },
+
   {
     id: 4,
     title: "Meditation & Yoga Session",
@@ -49,11 +51,12 @@ const EVENTS_DATA = [
     date: "Daily",
     time: "5:00 AM",
     location: "Yoga Hall",
-    image: "https://source.unsplash.com/featured/900x900/?yoga,meditation,wellness",
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1200&auto=format&fit=crop",
     category: "Wellness",
     status: "Daily",
     bookable: true
   },
+
   {
     id: 5,
     title: "Ram Navami Celebration",
@@ -62,13 +65,12 @@ const EVENTS_DATA = [
     date: "April 6, 2026",
     time: "6:00 AM - 10:00 PM",
     location: "Entire Temple Complex",
-    image: "https://source.unsplash.com/featured/900x900/?festival,procession,celebration",
+    image: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?q=80&w=1200&auto=format&fit=crop",
     category: "Festival",
     status: "Upcoming",
     bookable: true
   }
 ];
-
 const AUDIO_DATA = [
   {
     id: 1,
@@ -125,7 +127,6 @@ const AUDIO_DATA = [
     url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
   }
 ];
-
 const VIDEOS_DATA = [
   {
     id: 1,
@@ -134,8 +135,10 @@ const VIDEOS_DATA = [
     description: "A heavenly Rama keerthana filled with love and devotion.",
     views: "428K",
     videoUrl: "https://www.youtube.com/watch?v=8zCNp8W2eJI",
-    thumbnailUrl: "https://img.youtube.com/vi/8zCNp8W2eJI/hqdefault.jpg"
+    thumbnailUrl:
+      "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1200&auto=format&fit=crop"
   },
+
   {
     id: 2,
     title: "Hanuman Chalisa - Telugu Version",
@@ -143,8 +146,10 @@ const VIDEOS_DATA = [
     description: "Soulful Hanuman Chalisa recital in Telugu with temple visuals.",
     views: "373K",
     videoUrl: "https://www.youtube.com/watch?v=9FaY05ww0bc",
-    thumbnailUrl: "https://img.youtube.com/vi/9FaY05ww0bc/hqdefault.jpg"
+    thumbnailUrl:
+      "https://images.unsplash.com/photo-1508009603885-50cf7c579365?q=80&w=1200&auto=format&fit=crop"
   },
+
   {
     id: 3,
     title: "Sri Rama Bhajan Evening",
@@ -152,8 +157,10 @@ const VIDEOS_DATA = [
     description: "Evening bhajans dedicated to Lord Rama with melodic temple music.",
     views: "291K",
     videoUrl: "https://www.youtube.com/watch?v=BrK5c6xv4mM",
-    thumbnailUrl: "https://img.youtube.com/vi/BrK5c6xv4mM/hqdefault.jpg"
+    thumbnailUrl:
+      "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1200&auto=format&fit=crop"
   },
+
   {
     id: 4,
     title: "Aarti Ceremony at the Temple",
@@ -161,19 +168,21 @@ const VIDEOS_DATA = [
     description: "Watch the temple aarti ritual and feel the sacred atmosphere.",
     views: "214K",
     videoUrl: "https://www.youtube.com/watch?v=BYiQTksNMcQ",
-    thumbnailUrl: "https://img.youtube.com/vi/BYiQTksNMcQ/hqdefault.jpg"
+    thumbnailUrl:
+      "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?q=80&w=1200&auto=format&fit=crop"
   },
+
   {
     id: 5,
     title: "Live Darshan Available",
     category: "Live Darshan",
-    description: "Watch live temple rituals and ceremonies from anywhere with our darshan stream.",
+    description: "Watch live temple rituals and ceremonies from anywhere.",
     views: "512K",
     videoUrl: "https://www.youtube.com/watch?v=5qap5aO4i9A",
-    thumbnailUrl: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=900"
+    thumbnailUrl:
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1200&auto=format&fit=crop"
   }
 ];
-
 export default function DevotionalPrograms({ onBack }) {
   const [activeTab, setActiveTab] = useState("events");
   const [playingAudio, setPlayingAudio] = useState(null);
