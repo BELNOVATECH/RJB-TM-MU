@@ -1,3 +1,7 @@
+import "./styles/Customer_dashboard.css";
+import GuideBooking from "./BookGuide";
+import VehicleBooking from "./VehicleBooking";
+import DevotionalPrograms from "./DevotionalPrograms";
 import { useState } from "react";
 import "./styles/Customer_dashboard.css";
 import CustomerAccommodation from "./CustomerAccommodation";
@@ -17,6 +21,30 @@ export default function PilgrimHome() {
   }
   if (activePage === "vehicle") {
     return <CustomerVehicle onBack={() => setActivePage("home")} />;
+  }
+
+  if (activePage === "guide") {
+    return (
+      <GuideBooking
+        onBack={() => setActivePage("home")}
+      />
+    );
+  }
+
+  if (activePage === "vehicle") {
+    return (
+      <VehicleBooking
+        onBack={() => setActivePage("home")}
+      />
+    );
+  }
+
+  if (activePage === "devotional") {
+    return (
+      <DevotionalPrograms
+        onBack={() => setActivePage("home")}
+      />
+    );
   }
 
   if (activePage === "ai") {
@@ -104,7 +132,10 @@ export default function PilgrimHome() {
             <span>Tourist Spots</span>
           </div>
 
-          <div className="service-card">
+          <div
+  className="service-card"
+  onClick={() => setActivePage("devotional")}
+>
             <div className="service-icon orange">
               <i className="ti ti-music"></i>
             </div>

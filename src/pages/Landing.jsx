@@ -197,8 +197,17 @@ const servicesData = [
         <div className="landing-container">
           <div className="nav-content">
             <div className="nav-logo">
-              <h2>🕉️ Ayodhya Dham</h2>
-              <p>Government of Uttar Pradesh</p>
+<h2 className="nav-brand">
+
+  <img
+    src="/assets/rama.jpeg"
+    alt="Sri Rama"
+    className="rama-img"
+  />
+
+  Ayodhya Dham
+
+</h2>              <p>Government of Uttar Pradesh</p>
             </div>
             
             <div className={`nav-menu ${mobileMenuOpen ? 'active' : ''}`}>
@@ -222,7 +231,7 @@ const servicesData = [
       </div>
 
       {/* Hero Section */}
-      <div className="landing-hero">
+    <div className="landing-hero" id="home">
         <div className="landing-container">
           <div className="hero-content">
             <div className="hero-title">🙏 जय श्री राम 🙏</div>
@@ -584,8 +593,12 @@ onClick={() => setShowInfoPopup(false)}
 )}
 
         {/* Special Attractions with Images - FIXED */}
-        <div className="section-head">🌟 Special Attraction (Tourism)</div>
-        <div className="attractions-grid">
+<div
+  className="section-head"
+  id="attractions"
+>
+  🌟 Special Attraction (Tourism)
+</div>        <div className="special-attractions-grid">
           {specialAttractions.map((item, idx) => (
             <div key={idx} className="attraction-card">
               <div className="attraction-image">
@@ -613,7 +626,7 @@ onClick={() => setShowInfoPopup(false)}
         </div>
 
         {/* Events */}
-        <div className="section-head">📅 Upcoming Festival and Events</div>
+        <div className="section-head"  id="events">📅 Upcoming Festival and Events</div>
         <div className="events-list">
           {eventsData.map((event, idx) => (
             <div key={idx} className="event-card">
@@ -628,7 +641,7 @@ onClick={() => setShowInfoPopup(false)}
         </div>
 
         {/* Services */}
-       <div className="services-grid">
+       <div className="services-grid"  id="services">
   {servicesData.map((service, idx) => (
     <div
       key={idx}
