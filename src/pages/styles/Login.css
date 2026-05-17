@@ -31,6 +31,8 @@
 }
 
 
+
+
 /* =========================================================
    MOBILE VIEW
 ========================================================= */
@@ -157,4 +159,34 @@
   .auth-subtitle {
     font-size: 11px;
   }
+}
+.auth-register-line{
+  text-align:center;
+  margin-bottom:18px;
+}
+
+.auth-portal-links{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:14px;
+  margin-top:10px;
+}
+
+.auth-portal-links span{
+  cursor:pointer;
+  color:#b86a1f;
+  font-weight:600;
+  font-size:13px;
+  transition:all .25s ease;
+  padding:8px 14px;
+  border-radius:12px;
+  background:rgba(255,166,0,.06);
+  border:1px solid rgba(184,106,31,.12);
+}
+
+.auth-portal-links span:hover{
+  background:#b86a1f;
+  color:white;
+  transform:translateY(-2px);
 }

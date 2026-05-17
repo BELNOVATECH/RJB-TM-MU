@@ -1,34 +1,33 @@
-import "./styles/Customer_dashboard.css";
-import GuideBooking from "./BookGuide";
-import VehicleBooking from "./VehicleBooking";
-import CustomerTouriestSpots from "./CustomerTouriestSpots";
 import { useState } from "react";
+import "./styles/Customer_dashboard.css";
+import CustomerAccommodation from "./CustomerAccommodation";
+import CustomerGuide from "./CustomerGuide";
+import CustomerVehicle from "./CustomerVehicle";
+import CustomerTouriestSpots from "./CustomerTouriestSpots";
+import AIAssistant from "./AIassistant";
+import PaymentIntegration from "./PaymentGateway";
 export default function PilgrimHome() {
+  const [activePage, setActivePage] = useState("home");
 
-  const [page, setPage] = useState("home");
+  if (activePage === "accommodation") {
+    return <CustomerAccommodation onBack={() => setActivePage("home")} />;
+  }
+  if (activePage === "guide") {
+    return <CustomerGuide onBack={() => setActivePage("home")} />;
+  }
+  if (activePage === "vehicle") {
+    return <CustomerVehicle onBack={() => setActivePage("home")} />;
+  }
 
-  if (page === "guide") {
-    return (
-      <GuideBooking
-        onBack={() => setPage("home")}
-      />
-    );
-  } 
-  
-  if (page === "vehicle") {
-  return (
-    <VehicleBooking
-      onBack={() => setPage("home")}
-    />
-  );
-}
+  if (activePage === "ai") {
+    return <AIAssistant setPage={setActivePage} />;
+  }
 
-  if (page === "spots") {
-    return (
-      <CustomerTouriestSpots
-        onBack={() => setPage("home")}
-      />
-    );
+  if (activePage === "payment") {
+    return <PaymentIntegration setPage={setActivePage} />;
+  }
+  if (activePage === "spots") {
+    return <CustomerTouriestSpots onBack={() => setActivePage("home")} />;
   }
   return (
     <div className="pilgrim-page">
@@ -77,41 +76,31 @@ export default function PilgrimHome() {
 
         <div className="services-grid">
 
-          <div
-  className="service-card"
-  onClick={() => setPage("guide")}
->
-             <div className="service-icon blue">
-    <i className="ti ti-user"></i>
-  </div>
+          <div className="service-card" onClick={() => setActivePage("guide")}>
+            <div className="service-icon blue">
+              <i className="ti ti-user"></i>
+            </div>
+            <span>Book Guide</span>
+          </div>
 
-  <span>Book Guide</span>
-</div>
+          <div className="service-card" onClick={() => setActivePage("vehicle")}>
+            <div className="service-icon green">
+              <i className="ti ti-car"></i>
+            </div>
+            <span>Book Vehicle</span>
+          </div>
 
-          <div
-  className="service-card"
-  onClick={() => setPage("vehicle")}
->
-  <div className="service-icon green">
-    <i className="ti ti-car"></i>
-  </div>
-
-  <span>Book Vehicle</span>
-</div>
-
-          <div className="service-card">
+          <div className="service-card" onClick={() => setActivePage("accommodation")}>
             <div className="service-icon purple">
               <i className="ti ti-building"></i>
             </div>
-
             <span>Accommodation</span>
           </div>
 
-          <div className="service-card" onClick={() => setPage("spots")}>
+          <div className="service-card" onClick={() => setActivePage("spots")}>
             <div className="service-icon red">
               <i className="ti ti-map"></i>
             </div>
-
             <span>Tourist Spots</span>
           </div>
 
@@ -119,23 +108,20 @@ export default function PilgrimHome() {
             <div className="service-icon orange">
               <i className="ti ti-music"></i>
             </div>
-
             <span>Devotional</span>
           </div>
 
-          <div className="service-card">
+          <div className="service-card" onClick={() => setActivePage("ai")}>
             <div className="service-icon violet">
               <i className="ti ti-robot"></i>
             </div>
-
             <span>AI Assistant</span>
           </div>
 
-          <div className="service-card">
+          <div className="service-card" onClick={() => setActivePage("payment")}>
             <div className="service-icon gold">
               <i className="ti ti-wallet"></i>
             </div>
-
             <span>Payments</span>
           </div>
 
@@ -143,7 +129,6 @@ export default function PilgrimHome() {
             <div className="service-icon gray">
               <i className="ti ti-history"></i>
             </div>
-
             <span>History</span>
           </div>
 
