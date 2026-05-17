@@ -56,6 +56,10 @@ export default function CustomerVehicle({ onBack }) {
   const tabs = ["All", "Sedan", "SUV", "MUV", "Mini Bus", "Luxury Van"];
   const [activeTab, setActiveTab] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const openBookingModal = (item) => setSelectedItem(item);
+  const closeBookingModal = () => setSelectedItem(null);
 
   const filteredData = vehicles.filter(item => {
     const matchesTab = activeTab === "All" || item.type === activeTab;
@@ -168,7 +172,7 @@ export default function CustomerVehicle({ onBack }) {
                 </div>
 
                 <div className="cp-actions" style={{ marginTop: "20px" }}>
-                  <button className="cp-btn-primary">
+                  <button className="cp-btn-primary" onClick={() => openBookingModal(item)}>
                     Book Vehicle
                   </button>
                 </div>
@@ -177,6 +181,45 @@ export default function CustomerVehicle({ onBack }) {
           ))
         )}
       </div>
+
+      {/* Booking Modal */}
+      {selectedItem && (
+        <div className="cp-modal-overlay">
+          <div className="cp-modal-content">
+            <div className="cp-modal-header">
+              <div className="cp-modal-title">Book {selectedItem.name}</div>
+              <button className="cp-modal-close" onClick={closeBookingModal}>
+                <i className="ti ti-x"></i>
+              </button>
+            </div>
+            <div className="cp-modal-body">
+              <div className="cp-form-group">
+                <label className="cp-form-label">Pickup Location</label>
+                <input type="text" className="cp-form-input" placeholder="Enter pickup address" />
+              </div>
+              <div className="cp-form-group">
+                <label className="cp-form-label">Pickup Date</label>
+                <input type="date" className="cp-form-input" />
+              </div>
+              <div className="cp-form-group">
+                <label className="cp-form-label">Pickup Time</label>
+                <input type="time" className="cp-form-input" />
+              </div>
+              <div className="cp-form-group">
+                <label className="cp-form-label">Number of Days</label>
+                <input type="number" min="1" className="cp-form-input" placeholder="E.g. 1" />
+              </div>
+            </div>
+            <div className="cp-modal-footer">
+              <button className="cp-btn-outline" onClick={closeBookingModal}>Cancel</button>
+              <button className="cp-btn-primary" onClick={() => {
+                alert('Booking Confirmed!');
+                closeBookingModal();
+              }}>Confirm Booking</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -50,6 +50,10 @@ export default function CustomerGuide({ onBack }) {
   const tabs = ["All", "Hindi", "English", "Sanskrit", "Gujarati", "Tamil", "Bengali", "Telugu"];
   const [activeTab, setActiveTab] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const openBookingModal = (item) => setSelectedItem(item);
+  const closeBookingModal = () => setSelectedItem(null);
 
   const filteredData = guides.filter(item => {
     const matchesTab = activeTab === "All" || item.languages.includes(activeTab);
@@ -163,7 +167,7 @@ export default function CustomerGuide({ onBack }) {
                   <button className="cp-btn-outline">
                     <i className="ti ti-phone"></i> Call
                   </button>
-                  <button className="cp-btn-primary">
+                  <button className="cp-btn-primary" onClick={() => openBookingModal(item)}>
                     Book Now
                   </button>
                 </div>
@@ -172,6 +176,45 @@ export default function CustomerGuide({ onBack }) {
           ))
         )}
       </div>
+
+      {/* Booking Modal */}
+      {selectedItem && (
+        <div className="cp-modal-overlay">
+          <div className="cp-modal-content">
+            <div className="cp-modal-header">
+              <div className="cp-modal-title">Book {selectedItem.name}</div>
+              <button className="cp-modal-close" onClick={closeBookingModal}>
+                <i className="ti ti-x"></i>
+              </button>
+            </div>
+            <div className="cp-modal-body">
+              <div className="cp-form-group">
+                <label className="cp-form-label">Date</label>
+                <input type="date" className="cp-form-input" />
+              </div>
+              <div className="cp-form-group">
+                <label className="cp-form-label">Time</label>
+                <input type="time" className="cp-form-input" />
+              </div>
+              <div className="cp-form-group">
+                <label className="cp-form-label">Number of People</label>
+                <input type="number" min="1" className="cp-form-input" placeholder="E.g. 2" />
+              </div>
+              <div className="cp-form-group">
+                <label className="cp-form-label">Special Requests</label>
+                <textarea className="cp-form-input" rows="3" placeholder="Any specific requirements..."></textarea>
+              </div>
+            </div>
+            <div className="cp-modal-footer">
+              <button className="cp-btn-outline" onClick={closeBookingModal}>Cancel</button>
+              <button className="cp-btn-primary" onClick={() => {
+                alert('Booking Confirmed!');
+                closeBookingModal();
+              }}>Confirm Booking</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

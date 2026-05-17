@@ -54,6 +54,10 @@ export default function CustomerAccommodation({ onBack }) {
   const tabs = ["All", "Hotel", "Guest House", "Dharamshala", "Cottage"];
   const [activeTab, setActiveTab] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const openBookingModal = (item) => setSelectedItem(item);
+  const closeBookingModal = () => setSelectedItem(null);
 
   const filteredData = accommodations.filter(item => {
     const matchesTab = activeTab === "All" || item.type === activeTab;
@@ -171,7 +175,7 @@ export default function CustomerAccommodation({ onBack }) {
                   <button className="cp-btn-outline">
                     <i className="ti ti-phone"></i> Contact
                   </button>
-                  <button className="cp-btn-primary">
+                  <button className="cp-btn-primary" onClick={() => openBookingModal(item)}>
                     Book Room
                   </button>
                 </div>
@@ -181,6 +185,49 @@ export default function CustomerAccommodation({ onBack }) {
         )}
 
       </div>
+
+      {/* Booking Modal */}
+      {selectedItem && (
+        <div className="cp-modal-overlay">
+          <div className="cp-modal-content">
+            <div className="cp-modal-header">
+              <div className="cp-modal-title">Book Room at {selectedItem.name}</div>
+              <button className="cp-modal-close" onClick={closeBookingModal}>
+                <i className="ti ti-x"></i>
+              </button>
+            </div>
+            <div className="cp-modal-body">
+              <div className="cp-form-group">
+                <label className="cp-form-label">Select Room</label>
+                <select className="cp-form-input">
+                  {selectedItem.rooms.map(room => (
+                    <option key={room.name} value={room.name}>{room.name} - ₹{room.price}/night</option>
+                  ))}
+                </select>
+              </div>
+              <div className="cp-form-group">
+                <label className="cp-form-label">Check-in Date</label>
+                <input type="date" className="cp-form-input" />
+              </div>
+              <div className="cp-form-group">
+                <label className="cp-form-label">Check-out Date</label>
+                <input type="date" className="cp-form-input" />
+              </div>
+              <div className="cp-form-group">
+                <label className="cp-form-label">Guests</label>
+                <input type="number" min="1" className="cp-form-input" placeholder="E.g. 2" />
+              </div>
+            </div>
+            <div className="cp-modal-footer">
+              <button className="cp-btn-outline" onClick={closeBookingModal}>Cancel</button>
+              <button className="cp-btn-primary" onClick={() => {
+                alert('Booking Confirmed!');
+                closeBookingModal();
+              }}>Confirm Booking</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
