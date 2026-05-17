@@ -1,4 +1,5 @@
 // src/pages/Tourists.jsx
+//This file contains the main component for managing tourists, tour guides, and group bookings. It includes data tables with search and filter functionality, as well as modals for adding and editing records.
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import "./styles/Tourists.css";

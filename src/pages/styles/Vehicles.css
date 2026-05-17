@@ -17,6 +17,7 @@
   max-width: 100%;
   box-shadow: 0 25px 80px rgba(0,0,0,0.25);
   position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .vehicle-modal-header {
@@ -40,6 +41,12 @@
   justify-content: center;
   line-height: 1;
   flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.vehicle-close-btn:hover {
+  background: #e2e8f0;
+  transform: rotate(6deg);
 }
 
 .vehicle-divider {
@@ -79,6 +86,13 @@
   box-sizing: border-box;
   background: #f8fafc;
   font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.vehicle-input:focus {
+  border-color: #f5c842;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(245, 200, 66, 0.16);
 }
 
 .vehicle-input-error {
@@ -108,6 +122,12 @@
   cursor: pointer;
   font-weight: 600;
   font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.vehicle-cancel-btn:hover {
+  background: #f8fafc;
+  transform: translateY(-1px);
 }
 
 .vehicle-save-btn {
@@ -124,6 +144,12 @@
   align-items: center;
   gap: 6px;
   box-shadow: 0 2px 8px rgba(245,200,66,0.4);
+  transition: all 0.2s ease;
+}
+
+.vehicle-save-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(245,200,66,0.45);
 }
 
 .table-action-btns {
@@ -143,11 +169,12 @@
   align-items: center;
   justify-content: center;
   color: #555;
-  transition: 0.2s;
+  transition: all 0.2s ease;
 }
 
 .table-icon-btn:hover {
   background: #f8fafc;
+  transform: translateY(-1px);
 }
 
 .table-icon-btn.delete {
@@ -169,6 +196,8 @@
   background: #fff;
   border-radius: 18px;
   padding: 26px;
+  box-shadow: 0 25px 80px rgba(0,0,0,0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .common-modal-header{
@@ -196,6 +225,12 @@
   background: #f1f5f9;
   cursor: pointer;
   font-size: 18px;
+  transition: all 0.2s ease;
+}
+
+.common-close-btn:hover{
+  background: #e2e8f0;
+  transform: rotate(6deg);
 }
 
 .common-divider{
@@ -224,6 +259,12 @@
   border-radius: 10px;
   padding: 10px;
   font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.common-grid input:focus{
+  border-color: #f5c842;
+  box-shadow: 0 0 0 3px rgba(245, 200, 66, 0.16);
 }
 
 .common-footer{
@@ -238,6 +279,12 @@
   border: 1px solid #cbd5e1;
   background: #fff;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.common-cancel-btn:hover{
+  background: #f8fafc;
+  transform: translateY(-1px);
 }
 
 .common-save-btn{
@@ -247,6 +294,13 @@
   background: #f5c842;
   font-weight: 700;
   cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(245,200,66,0.35);
+}
+
+.common-save-btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(245,200,66,0.45);
 }
 
 .vehicle-action-row {
@@ -268,6 +322,7 @@
   padding: 6px 12px;
   min-width: 0;
   flex: 1 1 220px;
+  transition: all 0.2s ease;
 }
 
 .vehicle-search-wrap input {

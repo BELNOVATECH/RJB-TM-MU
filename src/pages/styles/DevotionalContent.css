@@ -865,12 +865,16 @@
   display:flex;
   flex-direction:column;
   gap:14px;
+  max-width:100%;
+  overflow:hidden;
 }
 
 .top-played-list{
   display:flex;
   flex-direction:column;
   gap:9px;
+  max-width:100%;
+  overflow:hidden;
 }
 
 .fixed-width{
@@ -880,6 +884,8 @@
 .type-list{
   display:flex;
   flex-direction:column;
+  max-width:100%;
+  overflow:hidden;
 }
 
 .type-item{
@@ -887,6 +893,8 @@
   align-items:center;
   justify-content:space-between;
   padding:8px 0;
+  gap: 6px;
+  min-width:0;
 }
 
 .type-border{
@@ -896,11 +904,16 @@
 .type-label{
   font-size:12px;
   color:#444;
+  flex:1 1 auto;
+  min-width:0;
+  overflow-wrap:break-word;
+  word-break:break-word;
 }
 
 .type-count{
   font-size:12px;
   font-weight:500;
+  flex-shrink:0;
 }
 
 .playlist-empty{
@@ -1009,5 +1022,55 @@
 
   .devotional-sidebar-cards .card {
     width: 100%;
+  }
+
+  .top-played-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .side-column .card {
+    word-wrap: break-word;
+    overflow: hidden;
+  }
+
+  .type-list {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .type-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .type-label {
+    font-size: 12px;
+    color: #444;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
+
+  .type-count {
+    font-size: 12px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  /* Reduce title width for top played section */
+  .card-title {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
   }
 }
