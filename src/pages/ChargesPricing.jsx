@@ -77,11 +77,11 @@ function festLabel(pct) {
 function ActionBtns({ onEdit, onDelete }) {
   return (
     <div className="cp-action-btns">
-      <button className="cp-icon-btn">
+      <button className="cp-icon-btn" onClick={onEdit} title="Edit">
         <i className="ti ti-edit cp-edit-icon" />
       </button>
 
-      <button className="cp-icon-btn cp-delete-btn">
+      <button className="cp-icon-btn cp-delete-btn" onClick={onDelete} title="Delete">
         <i className="ti ti-trash" style={{ fontSize: 12 }} />
       </button>
     </div>
@@ -110,7 +110,7 @@ function Toggle({ on, onToggle }) {
 );
 }
 
-function SectionCard({ icon, title, children, onAdd, addLabel = "Add" }) {
+function SectionCard({ icon, title, children, onAdd, addLabel = "Add", onClose, onSave, saveLabel = "Save" }) {
   return (
     <div className="card cp-section-card">
       <div className="card-head">
@@ -118,11 +118,32 @@ function SectionCard({ icon, title, children, onAdd, addLabel = "Add" }) {
          <i className={`ti ${icon} cp-card-icon`} />
           {title}
         </div>
-       <button className="btn-primary cp-small-btn"onClick={onAdd}>
-          <i className="ti ti-plus" /> {addLabel}
-        </button>
+        {onAdd && (
+          <button className="btn-primary cp-small-btn" onClick={onAdd}>
+            <i className="ti ti-plus" /> {addLabel}
+          </button>
+        )}
+        {onClose && (
+          <button className="btn-outline cp-small-btn" onClick={() => onClose()}>
+            <i className="ti ti-x" /> Close
+          </button>
+        )}
       </div>
-      {children}
+
+      <div className="cp-section-body">
+        {children}
+      </div>
+
+      {onSave && (
+        <div style={{ paddingTop: 12, borderTop: "1px solid rgba(0,0,0,0.06)" }}>
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+            <button className="btn-outline" onClick={() => onClose && onClose()}>Cancel</button>
+            <button className="btn-primary" onClick={() => onSave && onSave()}>
+              <i className="ti ti-device-floppy" /> {saveLabel}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
