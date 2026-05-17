@@ -3,6 +3,7 @@ import GuideBooking from "./BookGuide";
 import VehicleBooking from "./VehicleBooking";
 import { useState } from "react";
 import AIAssistant from "./AIassistant";
+import PaymentIntegration from "./PaymentGateway";
 export default function PilgrimHome() {
 
   const [page, setPage] = useState("home");
@@ -26,6 +27,14 @@ export default function PilgrimHome() {
 if (page === "ai") {
   return (
     <AIAssistant
+      setPage={setPage}
+    />
+  );
+}
+
+if (page === "payment") {
+  return (
+    <PaymentIntegration
       setPage={setPage}
     />
   );
@@ -134,13 +143,20 @@ if (page === "ai") {
   <span>AI Assistant</span>
 </div>
 
-          <div className="service-card">
-            <div className="service-icon gold">
-              <i className="ti ti-wallet"></i>
-            </div>
+          <div
+  className="service-card"
+  onClick={() => setPage("payment")}
+>
 
-            <span>Payments</span>
-          </div>
+  <div className="service-icon gold">
+
+    <i className="ti ti-wallet"></i>
+
+  </div>
+
+  <span>Payments</span>
+
+</div>
 
           <div className="service-card">
             <div className="service-icon gray">
