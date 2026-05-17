@@ -1,5 +1,6 @@
 import "./styles/Customer_dashboard.css";
 import GuideBooking from "./BookGuide";
+import VehicleBooking from "./VehicleBooking";
 import { useState } from "react";
 export default function PilgrimHome() {
 
@@ -13,6 +14,13 @@ export default function PilgrimHome() {
     );
   } 
   
+  if (page === "vehicle") {
+  return (
+    <VehicleBooking
+      onBack={() => setPage("home")}
+    />
+  );
+}
   return (
     <div className="pilgrim-page">
 
@@ -71,13 +79,16 @@ export default function PilgrimHome() {
   <span>Book Guide</span>
 </div>
 
-          <div className="service-card">
-            <div className="service-icon green">
-              <i className="ti ti-car"></i>
-            </div>
+          <div
+  className="service-card"
+  onClick={() => setPage("vehicle")}
+>
+  <div className="service-icon green">
+    <i className="ti ti-car"></i>
+  </div>
 
-            <span>Book Vehicle</span>
-          </div>
+  <span>Book Vehicle</span>
+</div>
 
           <div className="service-card">
             <div className="service-icon purple">
