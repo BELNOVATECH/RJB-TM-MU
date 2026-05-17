@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./styles/AuthLayout.css";
 import "./styles/Login.css";
 
-const GUIDE_MOBILE = "9876543210";
-const GUIDE_PASSWORD = "1234";
+const PROFILE_KEY = "tourist_guide_profile";
 
 const SPARKS = Array.from({ length: 10 }, (_, i) => ({
   id: i,
@@ -24,6 +23,16 @@ export default function TourGuideLogin({
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
+  const [savedProfile, setSavedProfile] = useState(null);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(PROFILE_KEY);
+      if (raw) setSavedProfile(JSON.parse(raw));
+    } catch {
+      setSavedProfile(null);
+    }
+  }, []);
 
   const handleLogin = () => {
 
@@ -45,15 +54,26 @@ export default function TourGuideLogin({
 
       setLoading(false);
 
+      const profile = savedProfile;
+
+      if (!profile) {
+        setAlert({
+          type: "error",
+          msg: "⚠️ Please register the guide profile first.",
+        });
+        return;
+      }
+
       if (
-        mobile === GUIDE_MOBILE &&
-        password === GUIDE_PASSWORD
+        mobile === profile.mobile &&
+        password === profile.password
       ) {
 
         setAlert({
           type: "success",
           msg: "✅ Welcome Tour Guide!",
         });
+        localStorage.setItem("tourist_guide_current", JSON.stringify(profile));
 
         setTimeout(() => {
           onSuccess && onSuccess();

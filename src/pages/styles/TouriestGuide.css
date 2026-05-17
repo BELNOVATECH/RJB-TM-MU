@@ -1,0 +1,485 @@
+.tourguide-dashboard {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  background: #f7f1e6;
+  color: #1a0a00;
+}
+
+.tourguide-menu-toggle,
+.tourguide-overlay {
+  display: none;
+}
+
+.tourguide-sidebar {
+  padding: 20px;
+  background: linear-gradient(180deg, #2a1000, #1a0a00);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tourguide-back {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.tourguide-profile-card {
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+}
+
+.tourguide-avatar {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 186, 72, 0.7);
+  margin-bottom: 14px;
+}
+
+.tourguide-profile-card h2 {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.tourguide-profile-card p {
+  color: rgba(255,255,255,0.7);
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.tourguide-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 186, 72, 0.16);
+  color: #ffcf72;
+  font-weight: 700;
+}
+
+.tourguide-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tourguide-info-list > div {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.tourguide-info-list span,
+.tourguide-mini-stats span,
+.tourguide-hero-grid span,
+.tourguide-booking-grid span {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 4px;
+}
+
+.tourguide-info-list strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tourguide-mini-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.tourguide-mini-stats > div {
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.05);
+  text-align: center;
+}
+
+.tourguide-mini-stats strong {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.tourguide-mini-stats span {
+  margin-bottom: 0;
+}
+
+.tourguide-main {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tourguide-hero {
+  padding: 18px;
+  background:
+    radial-gradient(circle at top right, rgba(245, 200, 66, 0.18), transparent 30%),
+    linear-gradient(180deg, #ffffff, #fff8ef);
+  border: 1px solid rgba(181, 134, 13, 0.12);
+}
+
+.tourguide-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #b5860d;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.tourguide-hero h1 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 38px;
+  line-height: 0.95;
+  margin-bottom: 10px;
+}
+
+.tourguide-hero p {
+  color: #6f6257;
+  font-size: 13px;
+  line-height: 1.8;
+  max-width: 760px;
+  margin-bottom: 14px;
+}
+
+.tourguide-hero-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.tourguide-hero-grid > div {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.tourguide-hero-grid span {
+  color: #8b7c6d;
+  font-size: 10px;
+}
+
+.tourguide-hero-grid strong {
+  font-size: 15px;
+}
+
+.tourguide-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tourguide-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tourguide-section-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.tourguide-section-head p {
+  color: #7c6c5e;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.tourguide-count {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid rgba(181, 134, 13, 0.14);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.tourguide-booking-list {
+  display: grid;
+  gap: 14px;
+}
+
+.tourguide-booking {
+  padding: 18px;
+  background: linear-gradient(180deg, #fff, #fffaf1);
+  border: 1px solid rgba(181, 134, 13, 0.12);
+}
+
+.tourguide-booking-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.tourguide-booking-top h3 {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.tourguide-booking-top p {
+  font-size: 12px;
+  color: #7c6c5e;
+}
+
+.tourguide-status {
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.tourguide-status.pending {
+  background: #fef9c3;
+  color: #a16207;
+}
+
+.tourguide-status.accepted {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.tourguide-status.rejected {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.tourguide-booking-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.tourguide-booking-grid > div {
+  padding: 12px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.tourguide-booking-grid strong {
+  font-size: 12px;
+}
+
+.tourguide-note {
+  font-size: 12px;
+  color: #6f6257;
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+.tourguide-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.tourguide-btn {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tourguide-btn.outline {
+  background: #fff;
+  border-color: rgba(181, 134, 13, 0.16);
+  color: #2d1b0e;
+}
+
+.tourguide-btn.primary {
+  background: linear-gradient(135deg, #ff8a00, #ffb347);
+  color: #fff;
+}
+
+.tourguide-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1100px) {
+  .tourguide-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .tourguide-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 50;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: #7a4400;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: none;
+    margin: 0 0 10px;
+    padding: 0;
+  }
+
+  .tourguide-menu-toggle.open {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    left: auto;
+    margin: 0;
+    z-index: 65;
+    background: transparent;
+    border: none;
+    color: #6a3b00;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    box-shadow: none;
+  }
+
+  .tourguide-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 35;
+    background: rgba(18, 7, 0, 0.42);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .tourguide-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .tourguide-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(320px, 88vw);
+    height: 100vh;
+    z-index: 45;
+    transform: translateX(-105%);
+    transition: transform 0.25s ease;
+    border-bottom: none;
+    overflow-y: auto;
+  }
+
+  .tourguide-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .tourguide-hero-grid,
+  .tourguide-booking-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .tourguide-main {
+    padding: 14px;
+  }
+
+  .tourguide-sidebar {
+    padding: 14px;
+  }
+
+  .tourguide-hero h1 {
+    font-size: 32px;
+  }
+
+  .tourguide-section-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .tourguide-hero-grid,
+  .tourguide-booking-grid,
+  .tourguide-mini-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .tourguide-hero-grid,
+  .tourguide-booking-grid,
+  .tourguide-mini-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .tourguide-hero {
+    padding: 14px;
+  }
+
+  .tourguide-hero h1 {
+    font-size: 26px;
+  }
+
+  .tourguide-hero p,
+  .tourguide-section-head p,
+  .tourguide-note {
+    font-size: 11px;
+  }
+
+  .tourguide-booking,
+  .tourguide-profile-card {
+    padding: 14px;
+  }
+
+  .tourguide-profile-card h2 {
+    font-size: 18px;
+  }
+
+  .tourguide-profile-card p {
+    font-size: 12px;
+  }
+
+  .tourguide-rating,
+  .tourguide-count,
+  .tourguide-status {
+    font-size: 9px;
+  }
+
+  .tourguide-actions {
+    flex-direction: column;
+  }
+
+  .tourguide-btn {
+    width: 100%;
+  }
+}
