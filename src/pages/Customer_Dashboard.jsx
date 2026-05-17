@@ -3,6 +3,7 @@ import "./styles/Customer_dashboard.css";
 import CustomerAccommodation from "./CustomerAccommodation";
 import CustomerGuide from "./CustomerGuide";
 import CustomerVehicle from "./CustomerVehicle";
+import CustomerTouriestSpots from "./CustomerTouriestSpots";
 import AIAssistant from "./AIassistant";
 import PaymentIntegration from "./PaymentGateway";
 export default function PilgrimHome() {
@@ -24,6 +25,9 @@ export default function PilgrimHome() {
 
   if (activePage === "payment") {
     return <PaymentIntegration setPage={setActivePage} />;
+  }
+  if (activePage === "spots") {
+    return <CustomerTouriestSpots onBack={() => setActivePage("home")} />;
   }
   return (
     <div className="pilgrim-page">
@@ -93,7 +97,7 @@ export default function PilgrimHome() {
             <span>Accommodation</span>
           </div>
 
-          <div className="service-card">
+          <div className="service-card" onClick={() => setActivePage("spots")}>
             <div className="service-icon red">
               <i className="ti ti-map"></i>
             </div>
