@@ -2,6 +2,7 @@ import "./styles/Customer_dashboard.css";
 import GuideBooking from "./BookGuide";
 import VehicleBooking from "./VehicleBooking";
 import { useState } from "react";
+import AIAssistant from "./AIassistant";
 export default function PilgrimHome() {
 
   const [page, setPage] = useState("home");
@@ -18,6 +19,14 @@ export default function PilgrimHome() {
   return (
     <VehicleBooking
       onBack={() => setPage("home")}
+    />
+  );
+}
+
+if (page === "ai") {
+  return (
+    <AIAssistant
+      setPage={setPage}
     />
   );
 }
@@ -114,13 +123,16 @@ export default function PilgrimHome() {
             <span>Devotional</span>
           </div>
 
-          <div className="service-card">
-            <div className="service-icon violet">
-              <i className="ti ti-robot"></i>
-            </div>
+         <div
+  className="service-card"
+  onClick={() => setPage("ai")}
+>
+  <div className="service-icon violet">
+    <i className="ti ti-robot"></i>
+  </div>
 
-            <span>AI Assistant</span>
-          </div>
+  <span>AI Assistant</span>
+</div>
 
           <div className="service-card">
             <div className="service-icon gold">

@@ -12,8 +12,15 @@ import Register from "./pages/Register";
 import CustomerLogin from "./pages/CustomerLogin";
 import CustomerRegister from "./pages/CustomerRegister";
 import "./App.css";
-import CustomerDashboard from "./pages/CustomerLogin";
+// import CustomerDashboard from "./pages/CustomerLogin";
 import PilgrimHome from "./pages/Customer_Dashboard";
+import TourGuideLogin from "./pages/TourGuideLogin";
+import VehicleLogin from "./pages/VehicleLogin";
+import DriverLogin from "./pages/DriverLogin";
+
+import TourGuideRegistration from "./pages/TourGuideRegistration";
+import VehicleRegistration from "./pages/VehicleRegistration";
+import DriverManagement from "./pages/DriverManagement";
 
 // ─── Navigation config ────────────────────────────────────────────────────────
 const NAV = [
@@ -81,18 +88,105 @@ export default function App() {
   // ── Customer Login ─────────────────────────────────────────────────
 if (screen === "customerLogin") {
   return (
-  <CustomerLogin
-  onSuccess={() => setScreen("customer_dashboard")}
-  onRegister={() => setScreen("customerRegister")}
-  onAdmin={() => setScreen("login")}
-  onBack={() => setScreen("landing")}
-/>
+    <CustomerLogin
+      onSuccess={() => setScreen("customer_dashboard")}
+      onRegister={() => setScreen("customerRegister")}
+      onAdmin={() => setScreen("login")}
+
+      onGuide={() => setScreen("guideLogin")}
+      onVehicle={() => setScreen("vehicleLogin")}
+      onDriver={() => setScreen("driverLogin")}
+
+      onBack={() => setScreen("landing")}
+    />
   );
 }
 if (screen === "customer_dashboard") {
   return <PilgrimHome />;
 }
+/* GUIDE LOGIN */
+/* GUIDE LOGIN */
 
+if (screen === "guideLogin") {
+  return (
+    <TourGuideLogin
+      onSuccess={() => setScreen("guideDashboard")}
+
+      onRegister={() => setScreen("guideRegister")}
+
+      onBack={() => setScreen("customerLogin")}
+    />
+  );
+}
+
+/* GUIDE REGISTER */
+
+if (screen === "guideRegister") {
+  return (
+    <TourGuideRegistration
+
+      onLogin={() => setScreen("guideLogin")}
+
+      onBack={() => setScreen("customerLogin")}
+    />
+  );
+}
+
+/* VEHICLE LOGIN */
+
+if (screen === "vehicleLogin") {
+  return (
+    <VehicleLogin
+
+      onSuccess={() => setScreen("vehicleDashboard")}
+
+      onRegister={() => setScreen("vehicleRegister")}
+
+      onBack={() => setScreen("customerLogin")}
+    />
+  );
+}
+
+/* VEHICLE REGISTER */
+
+if (screen === "vehicleRegister") {
+  return (
+    <VehicleRegistration
+
+      onLogin={() => setScreen("vehicleLogin")}
+
+      onBack={() => setScreen("customerLogin")}
+    />
+  );
+}
+
+/* DRIVER LOGIN */
+
+if (screen === "driverLogin") {
+  return (
+    <DriverLogin
+
+      onSuccess={() => setScreen("driverDashboard")}
+
+      onRegister={() => setScreen("driverRegister")}
+
+      onBack={() => setScreen("customerLogin")}
+    />
+  );
+}
+
+/* DRIVER REGISTER */
+
+if (screen === "driverRegister") {
+  return (
+    <DriverManagement
+
+      onLogin={() => setScreen("driverLogin")}
+
+      onBack={() => setScreen("customerLogin")}
+    />
+  );
+}
   // ── Login ─────────────────────────────────────────────────────────────────
   if (screen === "login") {
     return (
