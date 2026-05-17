@@ -1,6 +1,7 @@
 import "./styles/Customer_dashboard.css";
 import GuideBooking from "./BookGuide";
 import VehicleBooking from "./VehicleBooking";
+import DevotionalPrograms from "./DevotionalPrograms";
 import { useState } from "react";
 export default function PilgrimHome() {
 
@@ -21,6 +22,14 @@ export default function PilgrimHome() {
     />
   );
 }
+
+  if (page === "devotional") {
+    return (
+      <DevotionalPrograms
+        onBack={() => setPage("home")}
+      />
+    );
+  }
   return (
     <div className="pilgrim-page">
 
@@ -106,7 +115,10 @@ export default function PilgrimHome() {
             <span>Tourist Spots</span>
           </div>
 
-          <div className="service-card">
+          <div
+  className="service-card"
+  onClick={() => setPage("devotional")}
+>
             <div className="service-icon orange">
               <i className="ti ti-music"></i>
             </div>
