@@ -113,7 +113,9 @@
 .auth-btn:hover::before {
   left: 120%;
 }
-
+.auth-heading{
+  margin-top: 55px;
+}
 /* Better Select Styling */
 .auth-field-input select,
 select.auth-field-input {

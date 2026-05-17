@@ -3,7 +3,8 @@ import "./styles/Customer_dashboard.css";
 import CustomerAccommodation from "./CustomerAccommodation";
 import CustomerGuide from "./CustomerGuide";
 import CustomerVehicle from "./CustomerVehicle";
-
+import AIAssistant from "./AIassistant";
+import PaymentIntegration from "./PaymentGateway";
 export default function PilgrimHome() {
   const [activePage, setActivePage] = useState("home");
 
@@ -17,6 +18,13 @@ export default function PilgrimHome() {
     return <CustomerVehicle onBack={() => setActivePage("home")} />;
   }
 
+  if (activePage === "ai") {
+    return <AIAssistant setPage={setActivePage} />;
+  }
+
+  if (activePage === "payment") {
+    return <PaymentIntegration setPage={setActivePage} />;
+  }
   return (
     <div className="pilgrim-page">
 
@@ -99,14 +107,14 @@ export default function PilgrimHome() {
             <span>Devotional</span>
           </div>
 
-          <div className="service-card">
+          <div className="service-card" onClick={() => setActivePage("ai")}>
             <div className="service-icon violet">
               <i className="ti ti-robot"></i>
             </div>
             <span>AI Assistant</span>
           </div>
 
-          <div className="service-card">
+          <div className="service-card" onClick={() => setActivePage("payment")}>
             <div className="service-icon gold">
               <i className="ti ti-wallet"></i>
             </div>
