@@ -15,6 +15,7 @@ export default function TourGuideRegistration({
   onBack,
   onLogin,
 }) {
+  const PROFILE_KEY = "tourist_guide_profile";
 
   const [form, setForm] = useState({
     guideName: "",
@@ -66,6 +67,23 @@ export default function TourGuideRegistration({
     setTimeout(() => {
 
       setLoading(false);
+      localStorage.setItem(
+        PROFILE_KEY,
+        JSON.stringify({
+          guideName: form.guideName,
+          mobile: form.mobile,
+          email: form.email,
+          languages: form.languages,
+          specialization: form.specialization,
+          experience: form.experience,
+          availability: form.availability,
+          ratings: form.ratings,
+          password: form.password,
+          role: "Tour Guide",
+          image:
+            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600",
+        })
+      );
       setDone(true);
 
     }, 1500);

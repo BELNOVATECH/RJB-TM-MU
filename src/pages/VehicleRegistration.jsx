@@ -15,6 +15,7 @@ export default function VehicleRegistration({
   onBack,
   onLogin,
 }) {
+  const PROFILE_KEY = "tourist_vehicle_profile";
 
   const [form, setForm] = useState({
     vehicleNo: "",
@@ -68,6 +69,25 @@ export default function VehicleRegistration({
     setTimeout(() => {
 
       setLoading(false);
+      localStorage.setItem(
+        PROFILE_KEY,
+        JSON.stringify({
+          vehicleNo: form.vehicleNo.trim(),
+          chassis: form.chassis,
+          type: form.type,
+          model: form.model,
+          capacity: form.capacity,
+          year: form.year,
+          insurance: form.insurance,
+          permit: form.permit,
+          pollution: form.pollution,
+          status: form.status,
+          password: form.password,
+          role: "Vehicle Service",
+          image:
+            "https://images.unsplash.com/photo-1549924231-f129b911e442?q=80&w=900",
+        })
+      );
       setDone(true);
 
     }, 1500);

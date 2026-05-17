@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./styles/AuthLayout.css";
 import "./styles/Login.css";
 
-const DRIVER_MOBILE = "9876543210";
-const DRIVER_PASSWORD = "1234";
+const PROFILE_KEY = "tourist_driver_profile";
 
 const SPARKS = Array.from({ length: 10 }, (_, i) => ({
   id: i,
@@ -24,6 +23,16 @@ export default function DriverLogin({
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
+  const [savedProfile, setSavedProfile] = useState(null);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(PROFILE_KEY);
+      if (raw) setSavedProfile(JSON.parse(raw));
+    } catch {
+      setSavedProfile(null);
+    }
+  }, []);
 
   const handleLogin = () => {
 
@@ -45,15 +54,27 @@ export default function DriverLogin({
 
       setLoading(false);
 
+      const profile = savedProfile;
+
+      if (!profile) {
+        setAlert({
+          type: "error",
+          msg: "⚠️ Please register the driver profile first.",
+        });
+        return;
+      }
+
       if (
-        mobile === DRIVER_MOBILE &&
-        password === DRIVER_PASSWORD
+        mobile.trim() === profile.mobile &&
+        password === profile.password
       ) {
 
         setAlert({
           type: "success",
           msg: "✅ Driver verified successfully.",
         });
+
+        localStorage.setItem("tourist_driver_current", JSON.stringify(profile));
 
         setTimeout(() => {
           onSuccess && onSuccess();
