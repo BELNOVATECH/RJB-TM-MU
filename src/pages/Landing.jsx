@@ -210,7 +210,7 @@ const servicesData = [
   className="dashboard-btn"
   onClick={onEnter}
 >
-  <i className="fas fa-tachometer-alt"></i> Go to Dashboard
+  <i className="fas fa-tachometer-alt"></i> Login/Register
 </button>
             </div>
             
