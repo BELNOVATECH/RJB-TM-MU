@@ -27,14 +27,14 @@
 
 .hero-top h1 {
   color: #fff;
-  font-size: 42px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .hero-top p {
   color: rgba(255,255,255,0.9);
   margin-top: 8px;
-  font-size: 20px;
+  font-size: 15px;
 }
 
 .hero-actions {
@@ -51,7 +51,7 @@
   background: rgba(255,255,255,0.15);
   backdrop-filter: blur(10px);
   color: #fff;
-  font-size: 24px;
+  font-size: 15px;
   cursor: pointer;
 }
 
@@ -63,7 +63,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 15px;
   font-weight: 700;
 }
 
@@ -80,15 +80,15 @@
 }
 
 .hero-search i {
-  font-size: 22px;
+  font-size: 10px;
   color: #666;
 }
 
 .hero-search input {
-  width: 100%;
+  width: 90%;
   border: none;
   outline: none;
-  font-size: 18px;
+  font-size: 15px;
 }
 
 /* CONTENT */
@@ -98,7 +98,7 @@
 }
 
 .section-title {
-  font-size: 24px;
+  font-size: 15px;
   font-weight: 700;
   margin-bottom: 22px;
 }
