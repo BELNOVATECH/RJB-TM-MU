@@ -13,7 +13,7 @@ import CustomerLogin from "./pages/CustomerLogin";
 import CustomerRegister from "./pages/CustomerRegister";
 import "./App.css";
 import CustomerDashboard from "./pages/CustomerLogin";
-import PilgrimHome from "./pages/styles/Customer_Dashboard";
+import PilgrimHome from "./pages/Customer_Dashboard";
 
 // ─── Navigation config ────────────────────────────────────────────────────────
 const NAV = [
@@ -83,7 +83,7 @@ if (screen === "customerLogin") {
   return (
   <CustomerLogin
   onSuccess={() => setScreen("customer_dashboard")}
-  onRegister={() => setScreen("customer_register")}
+  onRegister={() => setScreen("customerRegister")}
   onAdmin={() => setScreen("login")}
   onBack={() => setScreen("landing")}
 />

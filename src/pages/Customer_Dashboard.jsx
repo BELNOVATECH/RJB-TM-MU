@@ -1,8 +1,8 @@
 import { useState } from "react";
-import "./Customer_dashboard.css";
-import CustomerAccommodation from "../CustomerAccommodation";
-import CustomerGuide from "../CustomerGuide";
-import CustomerVehicle from "../CustomerVehicle";
+import "./styles/Customer_dashboard.css";
+import CustomerAccommodation from "./CustomerAccommodation";
+import CustomerGuide from "./CustomerGuide";
+import CustomerVehicle from "./CustomerVehicle";
 
 export default function PilgrimHome() {
   const [activePage, setActivePage] = useState("home");
@@ -68,7 +68,6 @@ export default function PilgrimHome() {
             <div className="service-icon blue">
               <i className="ti ti-user"></i>
             </div>
-
             <span>Book Guide</span>
           </div>
 
@@ -76,7 +75,6 @@ export default function PilgrimHome() {
             <div className="service-icon green">
               <i className="ti ti-car"></i>
             </div>
-
             <span>Book Vehicle</span>
           </div>
 
@@ -84,7 +82,6 @@ export default function PilgrimHome() {
             <div className="service-icon purple">
               <i className="ti ti-building"></i>
             </div>
-
             <span>Accommodation</span>
           </div>
 
@@ -92,7 +89,6 @@ export default function PilgrimHome() {
             <div className="service-icon red">
               <i className="ti ti-map"></i>
             </div>
-
             <span>Tourist Spots</span>
           </div>
 
@@ -100,7 +96,6 @@ export default function PilgrimHome() {
             <div className="service-icon orange">
               <i className="ti ti-music"></i>
             </div>
-
             <span>Devotional</span>
           </div>
 
@@ -108,7 +103,6 @@ export default function PilgrimHome() {
             <div className="service-icon violet">
               <i className="ti ti-robot"></i>
             </div>
-
             <span>AI Assistant</span>
           </div>
 
@@ -116,7 +110,6 @@ export default function PilgrimHome() {
             <div className="service-icon gold">
               <i className="ti ti-wallet"></i>
             </div>
-
             <span>Payments</span>
           </div>
 
@@ -124,7 +117,6 @@ export default function PilgrimHome() {
             <div className="service-icon gray">
               <i className="ti ti-history"></i>
             </div>
-
             <span>History</span>
           </div>
 
