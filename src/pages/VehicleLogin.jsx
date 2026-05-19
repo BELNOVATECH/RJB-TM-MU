@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./styles/AuthLayout.css";
 import "./styles/Login.css";
 
-const VEHICLE_NO = "TS01AB1234";
-const VEHICLE_PASSWORD = "1234";
+const PROFILE_KEY = "tourist_vehicle_profile";
 
 const SPARKS = Array.from({ length: 10 }, (_, i) => ({
   id: i,
@@ -24,6 +23,16 @@ export default function VehicleLogin({
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
+  const [savedProfile, setSavedProfile] = useState(null);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(PROFILE_KEY);
+      if (raw) setSavedProfile(JSON.parse(raw));
+    } catch {
+      setSavedProfile(null);
+    }
+  }, []);
 
   const handleLogin = () => {
 
@@ -45,15 +54,27 @@ export default function VehicleLogin({
 
       setLoading(false);
 
+      const profile = savedProfile;
+
+      if (!profile) {
+        setAlert({
+          type: "error",
+          msg: "⚠️ Please register the vehicle profile first.",
+        });
+        return;
+      }
+
       if (
-        vehicleNo === VEHICLE_NO &&
-        password === VEHICLE_PASSWORD
+        vehicleNo.trim().toLowerCase() === profile.vehicleNo?.toLowerCase() &&
+        password === profile.password
       ) {
 
         setAlert({
           type: "success",
           msg: "✅ Vehicle verified successfully.",
         });
+
+        localStorage.setItem("tourist_vehicle_current", JSON.stringify(profile));
 
         setTimeout(() => {
           onSuccess && onSuccess();
