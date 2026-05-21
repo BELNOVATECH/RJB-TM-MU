@@ -36,6 +36,13 @@ body {
   scroll-behavior: smooth;
 }
 
+html,
+body,
+#root {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 /* ── APP SHELL ── */
 .app-shell {
   display: flex;

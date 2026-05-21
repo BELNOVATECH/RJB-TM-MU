@@ -15,6 +15,7 @@ export default function DriverManagement({
   onBack,
   onLogin,
 }) {
+  const PROFILE_KEY = "tourist_driver_profile";
 
   const [form, setForm] = useState({
     name: "",
@@ -68,6 +69,25 @@ export default function DriverManagement({
     setTimeout(() => {
 
       setLoading(false);
+      localStorage.setItem(
+        PROFILE_KEY,
+        JSON.stringify({
+          name: form.name,
+          mobile: form.mobile,
+          address: form.address,
+          aadhaar: form.aadhaar,
+          license: form.license,
+          expiry: form.expiry,
+          vehicle: form.vehicle,
+          experience: form.experience,
+          languages: form.languages,
+          ratings: form.ratings,
+          password: form.password,
+          role: "Driver",
+          image:
+            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600",
+        })
+      );
       setDone(true);
 
     }, 1500);

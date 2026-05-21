@@ -17,6 +17,9 @@ import PilgrimHome from "./pages/Customer_Dashboard";
 import TourGuideLogin from "./pages/TourGuideLogin";
 import VehicleLogin from "./pages/VehicleLogin";
 import DriverLogin from "./pages/DriverLogin";
+import TouriestGuide from "./pages/TouriestGuide";
+import VahicleLoginDetails from "./pages/VahicleLoginDetails";
+import DriverLoginDetails from "./pages/DriverLoginDetails";
 
 import TourGuideRegistration from "./pages/TourGuideRegistration";
 import VehicleRegistration from "./pages/VehicleRegistration";
@@ -119,6 +122,10 @@ if (screen === "guideLogin") {
   );
 }
 
+if (screen === "guideDashboard") {
+  return <TouriestGuide onBack={() => setScreen("guideLogin")} />;
+}
+
 /* GUIDE REGISTER */
 
 if (screen === "guideRegister") {
@@ -147,6 +154,10 @@ if (screen === "vehicleLogin") {
   );
 }
 
+if (screen === "vehicleDashboard") {
+  return <VahicleLoginDetails onBack={() => setScreen("vehicleLogin")} />;
+}
+
 /* VEHICLE REGISTER */
 
 if (screen === "vehicleRegister") {
@@ -173,6 +184,10 @@ if (screen === "driverLogin") {
       onBack={() => setScreen("customerLogin")}
     />
   );
+}
+
+if (screen === "driverDashboard") {
+  return <DriverLoginDetails onBack={() => setScreen("driverLogin")} />;
 }
 
 /* DRIVER REGISTER */
