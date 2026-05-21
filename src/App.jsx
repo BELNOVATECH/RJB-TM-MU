@@ -24,6 +24,7 @@ import DriverLoginDetails from "./pages/DriverLoginDetails";
 import TourGuideRegistration from "./pages/TourGuideRegistration";
 import VehicleRegistration from "./pages/VehicleRegistration";
 import DriverManagement from "./pages/DriverManagement";
+import AIFeatures from "./pages/AIfeatures";
 
 // ─── Navigation config ────────────────────────────────────────────────────────
 const NAV = [
@@ -52,8 +53,10 @@ const NAV = [
     section: "System",
     items: [
       { key: "chargesPricing", label: "Charges & Pricing", icon: "ti-cash" },
+       { key: "AIFeatures", label: "AI Features", icon: "ti-cash" },
     ],
   },
+  
 ];
 
 const SCREEN_MAP = {
@@ -64,6 +67,7 @@ const SCREEN_MAP = {
   devotionalContent: <DevotionalContent />,
   touristSpots:      <TouristSpots />,
   chargesPricing:    <ChargesPricing />,
+  AIFeatures:    <AIFeatures />
 };
 
 const TITLES = {
@@ -73,7 +77,8 @@ const TITLES = {
   accommodation:     "Accommodation & Cottage Management",
   touristSpots:      "Tourist Spot Configuration",
   devotionalContent: "Devotional Content Management",
-  chargesPricing:    "Charges & Pricing Configuration",
+  chargesPricing:    "Charges & Pricing",
+  AIFeatures:    "AI/ML Features",
 };
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
