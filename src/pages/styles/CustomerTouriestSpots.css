@@ -1,27 +1,54 @@
 .customer-touristspots-page {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding-bottom: 18px;
+  gap: 14px;
+  padding-bottom: 14px;
+  padding-left: 10px;
+  padding-right: 10px;
+  max-width: 1400px;
+  margin: 0 auto;
   color: #1a0a00;
+}
+
+@media (min-width: 1101px) {
+  .customer-touristspots-hero,
+  .customer-touristspots-featured,
+  .customer-touristspots-section {
+    width: min(100%, 1280px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .customer-touristspots-feature-grid,
+  .customer-touristspots-card-grid {
+    justify-items: center;
+  }
+
+  .customer-touristspots-feature,
+  .customer-touristspots-card {
+    width: 100%;
+    max-width: 390px;
+  }
 }
 
 .customer-touristspots-hero {
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
-  gap: 18px;
-  padding: 18px;
+  gap: 14px;
+  padding: 14px;
   background:
     radial-gradient(circle at top left, rgba(245, 200, 66, 0.16), transparent 28%),
     linear-gradient(180deg, #ffffff, #fff9ef);
   border: 1px solid rgba(181, 134, 13, 0.16);
   box-shadow: 0 24px 48px rgba(26, 10, 0, 0.06);
+  min-width: 0;
 }
 
 .customer-touristspots-hero-copy {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+  min-width: 0;
 }
 
 .customer-touristspots-back {
@@ -50,15 +77,15 @@
 
 .customer-touristspots-hero-copy h1 {
   font-family: "Cormorant Garamond", serif;
-  font-size: 44px;
+  font-size: 38px;
   line-height: 0.95;
   color: #1a0a00;
   max-width: 760px;
 }
 
 .customer-touristspots-hero-copy > p {
-  font-size: 14px;
-  line-height: 1.8;
+  font-size: 13px;
+  line-height: 1.7;
   color: #6f6257;
   max-width: 720px;
 }
@@ -66,26 +93,27 @@
 .customer-touristspots-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  gap: 8px;
+  min-width: 0;
 }
 
 .customer-touristspots-stat {
-  padding: 12px 14px;
-  border-radius: 18px;
+  padding: 10px 12px;
+  border-radius: 16px;
   background: linear-gradient(180deg, #fff, #fff8ee);
   border: 1px solid rgba(181, 134, 13, 0.12);
 }
 
 .customer-touristspots-stat strong {
   display: block;
-  font-size: 22px;
+  font-size: 18px;
   color: #1a0a00;
   line-height: 1;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .customer-touristspots-stat span {
-  font-size: 11px;
+  font-size: 10px;
   color: #8b7c6d;
 }
 
@@ -93,9 +121,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 50px;
-  border-radius: 18px;
-  padding: 0 14px;
+  min-height: 44px;
+  border-radius: 16px;
+  padding: 0 12px;
   background: #fff;
   border: 1px solid rgba(181, 134, 13, 0.14);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
@@ -114,11 +142,11 @@
 .customer-touristspots-chip-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
 .customer-touristspots-chip {
-  padding: 8px 13px;
+  padding: 7px 12px;
   border-radius: 999px;
   border: 1px solid rgba(181, 134, 13, 0.14);
   background: #fff;
@@ -136,11 +164,12 @@
 }
 
 .customer-touristspots-featured {
-  border-radius: 28px;
+  border-radius: 24px;
   overflow: hidden;
   border: 1px solid rgba(181, 134, 13, 0.16);
   background: linear-gradient(180deg, #ffffff, #fff9ef);
   box-shadow: 0 20px 50px rgba(26, 10, 0, 0.06);
+  min-width: 0;
 }
 
 .customer-touristspots-featured-top {
@@ -148,7 +177,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 10px;
-  padding: 18px 18px 0;
+  padding: 14px 14px 0;
 }
 
 .customer-touristspots-featured-titleblock {
@@ -159,7 +188,7 @@
 
 .customer-touristspots-featured-titleblock h2 {
   font-family: "Cormorant Garamond", serif;
-  font-size: 30px;
+  font-size: 26px;
   line-height: 1;
   color: #1a0a00;
 }
@@ -179,9 +208,9 @@
 
 .customer-touristspots-featured-visual {
   position: relative;
-  min-height: 250px;
-  margin: 16px 18px 0;
-  border-radius: 26px;
+  min-height: 190px;
+  margin: 12px 14px 0;
+  border-radius: 20px;
   overflow: hidden;
   background:
     radial-gradient(circle at 50% 18%, rgba(255, 245, 214, 0.95), rgba(255, 205, 120, 0.56) 42%, rgba(255, 147, 0, 0.14) 75%),
@@ -191,10 +220,10 @@
 
 .customer-touristspots-sunrise {
   position: absolute;
-  right: 26px;
-  top: 24px;
-  width: 68px;
-  height: 68px;
+  right: 20px;
+  top: 18px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: radial-gradient(circle, #fff7b7 0%, #ffbe55 55%, rgba(255, 166, 0, 0.2) 100%);
   box-shadow: 0 0 0 18px rgba(255, 186, 72, 0.15);
@@ -203,10 +232,10 @@
 .customer-touristspots-mandir {
   position: absolute;
   left: 50%;
-  bottom: 20px;
+  bottom: 16px;
   transform: translateX(-50%);
-  width: min(92%, 380px);
-  height: 170px;
+  width: min(92%, 330px);
+  height: 146px;
   background: linear-gradient(180deg, #2c1706, #1a0a00);
   border-radius: 26px 26px 10px 10px;
 }
@@ -234,7 +263,7 @@
 
 .mandir-tower {
   width: 72px;
-  height: 135px;
+  height: 118px;
 }
 
 .mandir-tower::before,
@@ -254,8 +283,8 @@
 .mandir-core {
   left: 50%;
   transform: translateX(-50%);
-  width: 128px;
-  height: 160px;
+  width: 112px;
+  height: 138px;
 }
 
 .mandir-core::before {
@@ -268,10 +297,10 @@
 .mandir-dome {
   position: absolute;
   left: 50%;
-  top: 32px;
+  top: 24px;
   transform: translateX(-50%);
-  width: 86px;
-  height: 86px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #ffbe55, #ff9300 72%);
   box-shadow: 0 0 0 14px rgba(255, 186, 72, 0.18);
@@ -292,33 +321,34 @@
 .mandir-dome::after { right: -24px; }
 
 .customer-touristspots-featured-body {
-  padding: 18px;
+  padding: 12px;
+  min-width: 0;
 }
 
 .customer-touristspots-featured-body > p {
-  font-size: 14px;
-  line-height: 1.8;
+  font-size: 13px;
+  line-height: 1.7;
   color: #6f6257;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .customer-touristspots-featured-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-bottom: 14px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
 .customer-touristspots-featured-grid div {
-  border-radius: 18px;
-  padding: 12px;
+  border-radius: 14px;
+  padding: 10px 11px;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .customer-touristspots-featured-grid span {
   display: block;
-  font-size: 10px;
+  font-size: 9px;
   color: #8b7c6d;
   margin-bottom: 4px;
   text-transform: uppercase;
@@ -326,24 +356,24 @@
 }
 
 .customer-touristspots-featured-grid strong {
-  font-size: 13px;
+  font-size: 12px;
   color: #1a0a00;
 }
 
 .customer-touristspots-history {
   display: flex;
   gap: 10px;
-  padding: 12px;
-  border-radius: 18px;
+  padding: 10px;
+  border-radius: 14px;
   background: #fff9ef;
   border: 1px solid rgba(181, 134, 13, 0.12);
   margin-bottom: 14px;
 }
 
 .customer-touristspots-history i {
-  width: 34px;
-  height: 34px;
-  border-radius: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
   background: #fff1d5;
   color: #c97b00;
   display: flex;
@@ -362,8 +392,8 @@
 }
 
 .customer-touristspots-history p {
-  font-size: 12px;
-  line-height: 1.7;
+  font-size: 11px;
+  line-height: 1.6;
   color: #6f6257;
 }
 
@@ -379,11 +409,11 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 46px;
-  padding: 0 16px;
-  border-radius: 16px;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 14px;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   border: 1px solid transparent;
 }
@@ -404,7 +434,8 @@
 .customer-touristspots-section {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+  min-width: 0;
 }
 
 .customer-touristspots-section-head {
@@ -416,7 +447,7 @@
 
 .customer-touristspots-section-title {
   font-family: "Cormorant Garamond", serif;
-  font-size: 28px;
+  font-size: 26px;
   line-height: 1;
   margin-bottom: 6px;
   color: #1a0a00;
@@ -424,12 +455,12 @@
 
 .customer-touristspots-section-head p {
   color: #7c6c5e;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.6;
 }
 
 .customer-touristspots-count {
-  padding: 10px 14px;
+  padding: 9px 12px;
   border-radius: 999px;
   background: #fff;
   border: 1px solid rgba(181, 134, 13, 0.14);
@@ -441,18 +472,20 @@
 .customer-touristspots-feature-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 10px;
+  min-width: 0;
 }
 
 .customer-touristspots-feature {
-  padding: 18px;
+  padding: 12px;
   background: linear-gradient(180deg, #fff, #fffaf1);
+  min-width: 0;
 }
 
 .customer-touristspots-feature-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
   background: #fff1d5;
   color: #c97b00;
   display: flex;
@@ -463,33 +496,37 @@
 }
 
 .customer-touristspots-feature h3 {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   color: #1a0a00;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
+  word-break: break-word;
 }
 
 .customer-touristspots-feature p {
-  font-size: 12px;
-  line-height: 1.7;
+  font-size: 11px;
+  line-height: 1.6;
   color: #6f6257;
+  word-break: break-word;
 }
 
 .customer-touristspots-card-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: 12px;
+  min-width: 0;
 }
 
 .customer-touristspots-card {
   overflow: hidden;
   padding: 0;
   background: linear-gradient(180deg, #ffffff, #fffaf1);
+  min-width: 0;
 }
 
 .customer-touristspots-card-banner {
-  min-height: 156px;
-  padding: 18px;
+  min-height: 116px;
+  padding: 12px;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -506,7 +543,7 @@
 .customer-touristspots-card-category {
   display: inline-flex;
   align-items: center;
-  padding: 7px 10px;
+  padding: 6px 9px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.16);
   backdrop-filter: blur(4px);
@@ -515,7 +552,7 @@
 }
 
 .customer-touristspots-card-status {
-  padding: 7px 10px;
+  padding: 6px 9px;
   border-radius: 999px;
   font-size: 10px;
   font-weight: 700;
@@ -540,9 +577,9 @@
 }
 
 .customer-touristspots-card-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 16px;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(4px);
   display: flex;
@@ -554,18 +591,19 @@
 
 .customer-touristspots-card-banner-bottom strong {
   display: block;
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.2;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .customer-touristspots-card-banner-bottom span {
-  font-size: 12px;
+  font-size: 11px;
   opacity: 0.95;
 }
 
 .customer-touristspots-card-body {
-  padding: 18px;
+  padding: 12px;
+  min-width: 0;
 }
 
 .customer-touristspots-card-top {
@@ -576,17 +614,18 @@
 }
 
 .customer-touristspots-card-top > p {
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: 12px;
+  line-height: 1.6;
   color: #6f6257;
   flex: 1;
+  min-width: 0;
 }
 
 .customer-touristspots-card-rating {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 10px;
+  padding: 7px 9px;
   border-radius: 999px;
   background: #fef9c3;
   color: #a16207;
@@ -598,15 +637,15 @@
 .customer-touristspots-pill-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 6px;
+  margin-bottom: 8px;
 }
 
 .customer-touristspots-pill-row span {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 10px;
+  padding: 7px 9px;
   border-radius: 999px;
   background: #fff;
   border: 1px solid rgba(181, 134, 13, 0.12);
@@ -616,12 +655,12 @@
 }
 
 .customer-touristspots-history.mini {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .customer-touristspots-nearby {
-  padding: 12px;
-  border-radius: 16px;
+  padding: 9px;
+  border-radius: 14px;
   background: #fff9ef;
   border: 1px solid rgba(181, 134, 13, 0.1);
   margin-bottom: 12px;
@@ -637,34 +676,34 @@
 }
 
 .customer-touristspots-nearby p {
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: 11px;
+  line-height: 1.55;
   color: #6f6257;
 }
 
 .customer-touristspots-gps {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 14px;
+  gap: 6px;
+  margin-bottom: 12px;
 }
 
 .customer-touristspots-gps span {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 10px;
+  padding: 7px 9px;
   border-radius: 999px;
   border: 1px solid rgba(181, 134, 13, 0.12);
   background: #fff;
   color: #3f2b17;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
 }
 
 .customer-touristspots-actions {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
@@ -674,6 +713,12 @@
 }
 
 @media (max-width: 1100px) {
+  .customer-touristspots-page {
+    max-width: none;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
   .customer-touristspots-hero,
   .customer-touristspots-feature-grid,
   .customer-touristspots-card-grid {
@@ -687,29 +732,35 @@
 
 @media (max-width: 768px) {
   .customer-touristspots-page {
-    gap: 16px;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  .customer-touristspots-page {
+    gap: 12px;
   }
 
   .customer-touristspots-hero {
-    padding: 14px;
+    padding: 10px;
   }
 
   .customer-touristspots-hero-copy h1 {
-    font-size: 34px;
+    font-size: 28px;
   }
 
   .customer-touristspots-featured-visual {
-    min-height: 220px;
+    min-height: 165px;
   }
 
   .customer-touristspots-featured-titleblock h2 {
-    font-size: 26px;
+    font-size: 22px;
   }
 
   .customer-touristspots-stats,
   .customer-touristspots-featured-grid,
   .customer-touristspots-feature-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
   }
 
   .customer-touristspots-card-banner-top,
@@ -750,23 +801,58 @@
     align-items: flex-start;
     flex-direction: column;
   }
+
+  .customer-touristspots-feature,
+  .customer-touristspots-card {
+    border-radius: 18px;
+  }
+
+  .customer-touristspots-featured-top,
+  .customer-touristspots-card-banner {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .customer-touristspots-featured-body,
+  .customer-touristspots-card-body {
+    padding: 10px;
+  }
+
+  .customer-touristspots-card-banner {
+    min-height: 108px;
+  }
+
+  .customer-touristspots-card-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+
+  .customer-touristspots-card-banner-bottom strong {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 480px) {
+  .customer-touristspots-page {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
   .customer-touristspots-hero {
-    gap: 14px;
+    gap: 10px;
   }
 
   .customer-touristspots-hero-copy h1 {
-    font-size: 28px;
-  }
-
-  .customer-touristspots-section-title {
     font-size: 24px;
   }
 
+  .customer-touristspots-section-title {
+    font-size: 20px;
+  }
+
   .customer-touristspots-feature-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     gap: 10px;
   }
 
@@ -775,31 +861,31 @@
   }
 
   .customer-touristspots-stats {
-    gap: 8px;
+    gap: 6px;
   }
 
   .customer-touristspots-stat {
-    padding: 10px 11px;
+    padding: 8px 9px;
   }
 
   .customer-touristspots-stat strong {
-    font-size: 17px;
+    font-size: 15px;
   }
 
   .customer-touristspots-featured-top,
   .customer-touristspots-card-banner {
-    padding-left: 14px;
-    padding-right: 14px;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
   .customer-touristspots-featured-visual {
-    margin-left: 14px;
-    margin-right: 14px;
-    min-height: 200px;
+    margin-left: 12px;
+    margin-right: 12px;
+    min-height: 170px;
   }
 
   .customer-touristspots-featured-grid {
-    gap: 8px;
+    gap: 6px;
   }
 
   .customer-touristspots-featured-grid div,
@@ -811,26 +897,26 @@
   .customer-touristspots-feature,
   .customer-touristspots-card-body,
   .customer-touristspots-featured-body {
-    padding: 12px;
+    padding: 9px;
   }
 
   .customer-touristspots-feature-icon,
   .customer-touristspots-card-icon,
   .customer-touristspots-history i {
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
+    width: 34px;
+    height: 34px;
+    font-size: 14px;
   }
 
   .customer-touristspots-feature h3 {
-    font-size: 13px;
+    font-size: 11px;
   }
 
   .customer-touristspots-feature p,
   .customer-touristspots-card-top > p,
   .customer-touristspots-history p,
   .customer-touristspots-nearby p {
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .customer-touristspots-section {
@@ -847,11 +933,11 @@
   }
 
   .customer-touristspots-card-banner {
-    min-height: 140px;
+    min-height: 104px;
   }
 
   .customer-touristspots-card-banner-bottom strong {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .customer-touristspots-card-banner-bottom span,
@@ -863,7 +949,7 @@
   }
 
   .customer-touristspots-card-top {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .customer-touristspots-card-top > p {
@@ -879,8 +965,8 @@
 
   .customer-touristspots-action,
   .customer-touristspots-link {
-    min-height: 42px;
-    padding: 0 14px;
-    font-size: 12px;
+    min-height: 38px;
+    padding: 0 11px;
+    font-size: 10px;
   }
 }

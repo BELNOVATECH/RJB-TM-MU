@@ -3,6 +3,7 @@ import GuideBooking from "./BookGuide";
 import VehicleBooking from "./VehicleBooking";
 import DevotionalPrograms from "./DevotionalPrograms";
 import { useState } from "react";
+import CustomerTouriestSpots from "./CustomerTouriestSpots";
 import AIAssistant from "./AIassistant";
 import CustomerAccommodation from "./CustomerAccommodation";
 import CustomerGuide from "./CustomerGuide";
@@ -125,6 +126,7 @@ export default function PilgrimHome() {
     );
   };
 
+  
   const getBookingTypeLabel = (type) => {
     const labels = {
       guide: "Tour Guide",
@@ -238,6 +240,13 @@ export default function PilgrimHome() {
       />
     );
   }
+  if (activePage === "spots") {
+  return (
+    <CustomerTouriestSpots
+      onBack={() => setActivePage("home")}
+    />
+  );
+}
 
   if (activePage === "ai") {
     return <AIAssistant setPage={setActivePage} />;
@@ -572,12 +581,16 @@ export default function PilgrimHome() {
             <span>Accommodation</span>
           </div>
 
-          <div className="service-card" onClick={() => setActivePage("spots")}>
-            <div className="service-icon red">
-              <i className="ti ti-map"></i>
-            </div>
-            <span>Tourist Spots</span>
-          </div>
+     <div
+  className="service-card"
+  onClick={() => setActivePage("spots")}
+>
+  <div className="service-icon red">
+    <i className="ti ti-map"></i>
+  </div>
+
+  <span>Tourist Spots</span>
+</div>
 
           <div
   className="service-card"

@@ -12,7 +12,7 @@ const EVENTS_DATA = [
     image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1200&auto=format&fit=crop",
     category: "Daily Ritual",
     status: "Daily",
-    bookable: false
+    bookable: true
   },
 
   {
@@ -26,7 +26,7 @@ const EVENTS_DATA = [
     image: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?q=80&w=1200&auto=format&fit=crop",
     category: "Spiritual Talk",
     status: "Upcoming",
-    bookable: false
+    bookable: true
   },
 
   {
