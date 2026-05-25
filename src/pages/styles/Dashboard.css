@@ -331,3 +331,327 @@ body {
   font-size: 10px;
   color: #777;
 }
+
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+  body{
+    overflow-x: hidden;
+  }
+
+  .dashboard{
+    width: 100%;
+    overflow-x: hidden;
+
+    padding: 14px;
+  }
+
+  /* GREETING */
+
+  .page-greeting{
+    font-size: 22px;
+
+    line-height: 1.4;
+  }
+
+  .page-greeting-sub{
+    font-size: 12px;
+
+    margin-top: 6px;
+  }
+
+  /* KPI */
+
+  .kpi-row{
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+    margin-top: 18px;
+  }
+
+  .kpi-card{
+    width: 100%;
+
+    min-width: 100%;
+
+    padding: 18px;
+
+    border-radius: 20px;
+  }
+
+  .kpi-icon{
+    width: 48px;
+    height: 48px;
+
+    border-radius: 14px;
+  }
+
+  .kpi-icon i{
+    font-size: 20px;
+  }
+
+  .kpi-label{
+    font-size: 12px;
+  }
+
+  .kpi-value{
+    font-size: 24px;
+  }
+
+  .kpi-sub{
+    font-size: 11px;
+  }
+
+  /* GRID 2 */
+
+  .grid-2{
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+    margin-top: 18px;
+  }
+
+  /* GRID 3 */
+
+  .grid-3{
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+    margin-top: 18px;
+  }
+
+  /* CARD */
+
+  .card{
+    width: 100%;
+
+    min-width: 100%;
+
+    padding: 16px;
+
+    border-radius: 20px;
+  }
+
+  .card-title{
+    font-size: 16px;
+  }
+
+  /* CHART */
+
+  .chart-container{
+    height: 180px;
+
+    margin-top: 20px;
+  }
+
+  .chart-bar{
+    gap: 8px;
+  }
+
+  .bar-day{
+    font-size: 10px;
+  }
+
+  /* RESOURCE */
+
+  .bar-row{
+    gap: 10px;
+
+    margin-top: 14px;
+  }
+
+  .bar-label{
+    font-size: 11px;
+
+    min-width: 70px;
+  }
+
+  .bar-val{
+    font-size: 10px;
+  }
+
+  /* BOOKINGS */
+
+  .booking-item{
+    gap: 10px;
+
+    padding: 10px 0;
+  }
+
+  .avatar-circle{
+    width: 42px;
+    height: 42px;
+
+    font-size: 12px;
+  }
+
+  .booking-name{
+    font-size: 12px;
+  }
+
+  .booking-meta{
+    font-size: 10px;
+  }
+
+  /* VEHICLE */
+
+  .vehicle-item{
+    gap: 10px;
+
+    padding: 12px 0;
+  }
+
+  .vehicle-item i{
+    font-size: 18px;
+  }
+
+  .vehicle-item div{
+    font-size: 11px;
+  }
+
+  .vehicle-sub{
+    font-size: 10px;
+  }
+
+  /* BADGE */
+
+  .badge{
+    font-size: 9px;
+
+    padding: 5px 10px;
+
+    border-radius: 999px;
+  }
+
+  /* ALERT */
+
+  .alert-item{
+    gap: 10px;
+
+    padding: 12px 0;
+  }
+
+  .alert-dot{
+    width: 10px;
+    height: 10px;
+  }
+
+  .alert-text{
+    font-size: 10px;
+
+    line-height: 1.6;
+  }
+
+  .alert-time{
+    font-size: 9px;
+  }
+
+  /* STATS */
+
+  .stats-grid{
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+
+    margin-top: 18px;
+  }
+
+  .stat-item{
+    padding: 14px;
+
+    border-radius: 16px;
+  }
+
+  .stat-icon{
+    font-size: 22px;
+  }
+
+  .stat-value{
+    font-size: 16px;
+  }
+
+  .stat-label{
+    font-size: 10px;
+
+    line-height: 1.5;
+  }
+
+}
+
+
+/* =========================
+   320px EXTRA SMALL
+========================= */
+
+@media(max-width:320px){
+
+  .dashboard{
+    padding: 10px;
+  }
+
+  .page-greeting{
+    font-size: 18px;
+  }
+
+  .page-greeting-sub{
+    font-size: 10px;
+  }
+
+  .kpi-card{
+    padding: 14px;
+  }
+
+  .kpi-value{
+    font-size: 20px;
+  }
+
+  .card{
+    padding: 14px;
+  }
+
+  .card-title{
+    font-size: 14px;
+  }
+
+  .stats-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .chart-container{
+    height: 160px;
+  }
+
+  .booking-name,
+  .vehicle-item div,
+  .alert-text{
+    font-size: 10px;
+  }
+
+  .booking-meta,
+  .vehicle-sub,
+  .alert-time{
+    font-size: 8px;
+  }
+
+  .badge{
+    font-size: 8px;
+
+    padding: 4px 8px;
+  }
+
+}
