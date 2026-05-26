@@ -1,41 +1,56 @@
 import { useState } from "react";
 import "./styles/AIassistant.css";
 
-export default function AIAssistant({ setPage }) {
+export default function AIAssistant({
+  setActivePage,
+}) {
 
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] =
+    useState(false);
 
-  const [modalType, setModalType] = useState("");
+  const [modalType, setModalType] =
+    useState("");
 
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] =
+    useState(false);
 
   return (
 
     <div className="ai-page">
-        {/* BACK BUTTON */}
 
-      {/* HERO */}
+      {/* ================= HERO ================= */}
 
       <div className="ai-hero">
 
-        <div>
-            <div
+        <div className="ai-hero-left">
+
+          {/* BACK */}
+
+        <button
   className="ai-back-btn"
-  onClick={() => setPage("home")}
+  onClick={() =>
+    setActivePage("home")
+  }
 >
 
   <i className="ti ti-arrow-left"></i>
 
-</div>
+</button>
 
-          <h1>AI Travel Assistant</h1>
+          <h1>
+            AI Travel Assistant
+          </h1>
 
           <p>
-            Smart recommendations for travel,
-            rooms, vehicles, and pilgrimage planning.
+            Smart AI-powered recommendations
+            for travel planning, vehicle
+            allocation, room suggestions,
+            and spiritual pilgrimage journeys.
           </p>
 
         </div>
+
+        {/* BADGE */}
 
         <div className="ai-badge">
 
@@ -47,7 +62,7 @@ export default function AIAssistant({ setPage }) {
 
       </div>
 
-      {/* BUTTONS */}
+      {/* ================= TOP BUTTONS ================= */}
 
       <div className="ai-booking-grid">
 
@@ -70,7 +85,10 @@ export default function AIAssistant({ setPage }) {
         {/* VEHICLE */}
 
         <button
-          className="ai-booking-btn blue-btn"
+          className="
+            ai-booking-btn
+            blue-btn
+          "
           onClick={() => {
             setOpenModal(true);
             setModalType("vehicle");
@@ -86,7 +104,10 @@ export default function AIAssistant({ setPage }) {
         {/* ROOM */}
 
         <button
-          className="ai-booking-btn green-btn"
+          className="
+            ai-booking-btn
+            green-btn
+          "
           onClick={() => {
             setOpenModal(true);
             setModalType("room");
@@ -101,11 +122,11 @@ export default function AIAssistant({ setPage }) {
 
       </div>
 
-      {/* GRID */}
+      {/* ================= GRID ================= */}
 
       <div className="ai-grid">
 
-        {/* CARD 1 */}
+        {/* ================= CARD 1 ================= */}
 
         <div className="ai-card">
 
@@ -115,11 +136,17 @@ export default function AIAssistant({ setPage }) {
 
           </div>
 
-          <h2>AI-Based Travel Assistant</h2>
+          <h2>
+            AI-Based Travel Assistant
+          </h2>
 
           <p className="ai-desc">
-            The AI engine provides smart pilgrimage
-            planning and personalized travel assistance.
+
+            The AI engine provides
+            smart pilgrimage planning
+            and personalized travel
+            assistance for tourists.
+
           </p>
 
           <div className="ai-features">
@@ -136,7 +163,7 @@ export default function AIAssistant({ setPage }) {
 
             <div>
               <i className="ti ti-check"></i>
-              Smart room recommendations
+              Room recommendations
             </div>
 
             <div>
@@ -146,7 +173,7 @@ export default function AIAssistant({ setPage }) {
 
             <div>
               <i className="ti ti-check"></i>
-              Crowd analysis and best visiting times
+              Crowd prediction analysis
             </div>
 
             <div>
@@ -158,7 +185,7 @@ export default function AIAssistant({ setPage }) {
 
         </div>
 
-        {/* CARD 2 */}
+        {/* ================= CARD 2 ================= */}
 
         <div className="ai-card">
 
@@ -168,11 +195,17 @@ export default function AIAssistant({ setPage }) {
 
           </div>
 
-          <h2>AI-Based Vehicle Allocation</h2>
+          <h2>
+            AI-Based Vehicle Allocation
+          </h2>
 
           <p className="ai-desc">
-            AI automatically allocates suitable vehicles
-            based on tourist requirements.
+
+            AI automatically allocates
+            suitable vehicles based on
+            tourists, budget, and
+            travel distance.
+
           </p>
 
           <div className="ai-sub-title">
@@ -198,51 +231,62 @@ export default function AIAssistant({ setPage }) {
 
             <div>
               <i className="ti ti-map-pin"></i>
-              Distance and destinations
+              Distance & destination
             </div>
 
             <div>
               <i className="ti ti-heart"></i>
-              Senior citizen requirements
+              Senior citizen support
             </div>
 
             <div>
               <i className="ti ti-crown"></i>
-              Luxury or economy preference
-            </div>
-
-            <div>
-              <i className="ti ti-car"></i>
-              Availability of vehicles
+              Luxury preferences
             </div>
 
           </div>
 
+          {/* EXAMPLES */}
+
           <div className="ai-example-box">
 
-            <h4>AI Allocation Examples</h4>
+            <h4>
+              AI Allocation Examples
+            </h4>
 
             <div className="example-item">
 
-              <span>2–3 Members</span>
+              <span>
+                2–3 Members
+              </span>
 
-              <p>Auto / Small Car</p>
+              <p>
+                Auto / Small Car
+              </p>
 
             </div>
 
             <div className="example-item">
 
-              <span>4–6 Members</span>
+              <span>
+                4–6 Members
+              </span>
 
-              <p>SUV</p>
+              <p>
+                SUV
+              </p>
 
             </div>
 
             <div className="example-item">
 
-              <span>10–15 Members</span>
+              <span>
+                10–15 Members
+              </span>
 
-              <p>Mini Bus</p>
+              <p>
+                Mini Bus
+              </p>
 
             </div>
 
@@ -250,7 +294,7 @@ export default function AIAssistant({ setPage }) {
 
         </div>
 
-        {/* CARD 3 */}
+        {/* ================= CARD 3 ================= */}
 
         <div className="ai-card">
 
@@ -260,11 +304,16 @@ export default function AIAssistant({ setPage }) {
 
           </div>
 
-          <h2>AI-Based Room Recommendation</h2>
+          <h2>
+            AI-Based Room Recommendation
+          </h2>
 
           <p className="ai-desc">
-            AI recommends rooms based on comfort,
-            location, and travel preferences.
+
+            AI recommends rooms based
+            on comfort, budget, family
+            size, and temple distance.
+
           </p>
 
           <div className="ai-features">
@@ -296,29 +345,43 @@ export default function AIAssistant({ setPage }) {
 
           </div>
 
+          {/* ROOMS */}
+
           <div className="room-box">
 
             <div className="room-card">
 
-              <h5>Budget Room</h5>
+              <h5>
+                Budget Room
+              </h5>
 
-              <p>Affordable stay for pilgrims</p>
-
-            </div>
-
-            <div className="room-card">
-
-              <h5>Family Room</h5>
-
-              <p>Comfortable rooms for families</p>
+              <p>
+                Affordable stay for pilgrims
+              </p>
 
             </div>
 
             <div className="room-card">
 
-              <h5>Luxury Suite</h5>
+              <h5>
+                Family Room
+              </h5>
 
-              <p>Premium spiritual experience</p>
+              <p>
+                Comfortable stay for families
+              </p>
+
+            </div>
+
+            <div className="room-card">
+
+              <h5>
+                Luxury Suite
+              </h5>
+
+              <p>
+                Premium spiritual experience
+              </p>
 
             </div>
 
@@ -328,13 +391,15 @@ export default function AIAssistant({ setPage }) {
 
       </div>
 
-      {/* POPUP */}
+      {/* ================= MODAL ================= */}
 
       {openModal && (
 
         <div className="ai-overlay">
 
           <div className="ai-modal">
+
+            {/* CLOSE */}
 
             <button
               className="ai-close"
@@ -346,19 +411,21 @@ export default function AIAssistant({ setPage }) {
               ✕
             </button>
 
-            {/* =========================
-                TRAVEL FORM
-            ========================= */}
+            {/* ================= TRAVEL ================= */}
 
-            {!submitted && modalType === "travel" && (
+            {!submitted &&
+              modalType === "travel" && (
 
               <>
 
-                <h2>AI Travel Planning</h2>
+                <h2>
+                  AI Travel Planning
+                </h2>
 
                 <p>
-                  Enter your travel details for smart
-                  pilgrimage planning.
+                  Enter travel details
+                  for smart pilgrimage
+                  planning.
                 </p>
 
                 <div className="ai-form">
@@ -390,7 +457,9 @@ export default function AIAssistant({ setPage }) {
 
                   <button
                     className="ai-submit-btn"
-                    onClick={() => setSubmitted(true)}
+                    onClick={() =>
+                      setSubmitted(true)
+                    }
                   >
                     Generate Travel Plan
                   </button>
@@ -401,19 +470,21 @@ export default function AIAssistant({ setPage }) {
 
             )}
 
-            {/* =========================
-                VEHICLE FORM
-            ========================= */}
+            {/* ================= VEHICLE ================= */}
 
-            {!submitted && modalType === "vehicle" && (
+            {!submitted &&
+              modalType === "vehicle" && (
 
               <>
 
-                <h2>AI Vehicle Allocation</h2>
+                <h2>
+                  AI Vehicle Allocation
+                </h2>
 
                 <p>
-                  AI automatically allocates suitable
-                  vehicles based on your requirements.
+                  AI allocates suitable
+                  vehicles based on
+                  your requirements.
                 </p>
 
                 <div className="ai-form">
@@ -472,7 +543,9 @@ export default function AIAssistant({ setPage }) {
 
                   <button
                     className="ai-submit-btn"
-                    onClick={() => setSubmitted(true)}
+                    onClick={() =>
+                      setSubmitted(true)
+                    }
                   >
                     Allocate Vehicle
                   </button>
@@ -483,19 +556,21 @@ export default function AIAssistant({ setPage }) {
 
             )}
 
-            {/* =========================
-                ROOM FORM
-            ========================= */}
+            {/* ================= ROOM ================= */}
 
-            {!submitted && modalType === "room" && (
+            {!submitted &&
+              modalType === "room" && (
 
               <>
 
-                <h2>AI Room Recommendation</h2>
+                <h2>
+                  AI Room Recommendation
+                </h2>
 
                 <p>
-                  Get AI-powered room recommendations
-                  based on comfort and budget.
+                  Get AI-powered room
+                  recommendations based
+                  on comfort & budget.
                 </p>
 
                 <div className="ai-form">
@@ -562,7 +637,9 @@ export default function AIAssistant({ setPage }) {
 
                   <button
                     className="ai-submit-btn"
-                    onClick={() => setSubmitted(true)}
+                    onClick={() =>
+                      setSubmitted(true)
+                    }
                   >
                     Recommend Room
                   </button>
@@ -573,7 +650,7 @@ export default function AIAssistant({ setPage }) {
 
             )}
 
-            {/* SUCCESS */}
+            {/* ================= SUCCESS ================= */}
 
             {submitted && (
 
@@ -590,8 +667,9 @@ export default function AIAssistant({ setPage }) {
                 </h2>
 
                 <p>
-                  AI generated smart recommendations
-                  for your pilgrimage journey.
+                  AI generated smart
+                  recommendations for
+                  your spiritual journey.
                 </p>
 
                 {/* TRAVEL */}
@@ -601,18 +679,39 @@ export default function AIAssistant({ setPage }) {
                   <div className="recommend-box">
 
                     <div>
-                      <span>Recommended Visit Time</span>
-                      <h4>6 AM - 9 AM</h4>
+
+                      <span>
+                        Recommended Visit Time
+                      </span>
+
+                      <h4>
+                        6 AM - 9 AM
+                      </h4>
+
                     </div>
 
                     <div>
-                      <span>Suggested Duration</span>
-                      <h4>3 Days Pilgrimage</h4>
+
+                      <span>
+                        Suggested Duration
+                      </span>
+
+                      <h4>
+                        3 Days Pilgrimage
+                      </h4>
+
                     </div>
 
                     <div>
-                      <span>Best Crowd-Free Day</span>
-                      <h4>Tuesday</h4>
+
+                      <span>
+                        Best Crowd-Free Day
+                      </span>
+
+                      <h4>
+                        Tuesday
+                      </h4>
+
                     </div>
 
                   </div>
@@ -626,18 +725,39 @@ export default function AIAssistant({ setPage }) {
                   <div className="recommend-box">
 
                     <div>
-                      <span>Recommended Vehicle</span>
-                      <h4>SUV</h4>
+
+                      <span>
+                        Recommended Vehicle
+                      </span>
+
+                      <h4>
+                        SUV
+                      </h4>
+
                     </div>
 
                     <div>
-                      <span>Vehicle Category</span>
-                      <h4>Luxury Travel</h4>
+
+                      <span>
+                        Vehicle Category
+                      </span>
+
+                      <h4>
+                        Luxury Travel
+                      </h4>
+
                     </div>
 
                     <div>
-                      <span>Estimated Cost</span>
-                      <h4>₹12,000</h4>
+
+                      <span>
+                        Estimated Cost
+                      </span>
+
+                      <h4>
+                        ₹12,000
+                      </h4>
+
                     </div>
 
                   </div>
@@ -651,18 +771,39 @@ export default function AIAssistant({ setPage }) {
                   <div className="recommend-box">
 
                     <div>
-                      <span>Recommended Room</span>
-                      <h4>Luxury Suite</h4>
+
+                      <span>
+                        Recommended Room
+                      </span>
+
+                      <h4>
+                        Luxury Suite
+                      </h4>
+
                     </div>
 
                     <div>
-                      <span>Distance from Temple</span>
-                      <h4>500 Meters</h4>
+
+                      <span>
+                        Distance from Temple
+                      </span>
+
+                      <h4>
+                        500 Meters
+                      </h4>
+
                     </div>
 
                     <div>
-                      <span>Estimated Stay Cost</span>
-                      <h4>₹8,500</h4>
+
+                      <span>
+                        Estimated Stay Cost
+                      </span>
+
+                      <h4>
+                        ₹8,500
+                      </h4>
+
                     </div>
 
                   </div>
@@ -690,5 +831,6 @@ export default function AIAssistant({ setPage }) {
       )}
 
     </div>
+
   );
 }

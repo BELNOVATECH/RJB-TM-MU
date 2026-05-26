@@ -20,7 +20,7 @@ import DriverLogin from "./pages/DriverLogin";
 import TouriestGuide from "./pages/TouriestGuide";
 import VahicleLoginDetails from "./pages/VahicleLoginDetails";
 import DriverLoginDetails from "./pages/DriverLoginDetails";
-
+import AIAssistant from "./pages/AIassistant";
 import TourGuideRegistration from "./pages/TourGuideRegistration";
 import VehicleRegistration from "./pages/VehicleRegistration";
 import DriverManagement from "./pages/DriverManagement";
@@ -112,6 +112,18 @@ if (screen === "customerLogin") {
 if (screen === "customer_dashboard") {
   return <PilgrimHome />;
 }
+
+if (screen === "aiassistant") {
+
+  return (
+
+    <AIAssistant
+      setActivePage={setScreen}
+    />
+
+  );
+
+}
 /* GUIDE LOGIN */
 /* GUIDE LOGIN */
 
@@ -126,6 +138,7 @@ if (screen === "guideLogin") {
     />
   );
 }
+
 
 if (screen === "guideDashboard") {
   return <TouriestGuide onBack={() => setScreen("guideLogin")} />;

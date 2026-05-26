@@ -248,10 +248,17 @@ export default function PilgrimHome() {
   );
 }
 
-  if (activePage === "ai") {
-    return <AIAssistant setPage={setActivePage} />;
-  }
+if (activePage === "ai") {
 
+  return (
+
+    <AIAssistant
+      setActivePage={setActivePage}
+    />
+
+  );
+
+}
   if (activePage === "bookings") {
     return (
       <div className="pilgrim-page">
