@@ -128,6 +128,11 @@ export default function CustomerVehicle({ onBack }) {
     return getHourlyRate(item) * bookingHours;
   };
 
+  const getComplimentaryKm = (hours) => {
+    const bookingHours = Math.max(1, Math.min(Number(hours) || 1, WORKING_HOURS_PER_DAY));
+    return bookingHours * 10;
+  };
+
   const filteredData = vehicles.filter((item) => {
     const matchesTab = activeTab === "All" || item.type === activeTab;
     const matchesSearch =
@@ -179,6 +184,12 @@ export default function CustomerVehicle({ onBack }) {
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="cp-content">
+        <div className="cp-list-header">
+          <span>{filteredData.length} vehicles available</span>
+        </div>
 
         <div className="cp-booking-filters">
           <div className="cp-filter-item">
@@ -226,23 +237,15 @@ export default function CustomerVehicle({ onBack }) {
             </select>
           </div>
         </div>
-      </div>
 
-      <div className="cp-content">
-        <div className="cp-list-header">
-          <span>{filteredData.length} vehicles available</span>
-          <button className="cp-filter-btn">
-            <i className="ti ti-filter"></i> Filters
-          </button>
-        </div>
-
-        {filteredData.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "40px", color: "#6b7280" }}>
-            No vehicles found.
-          </div>
-        ) : (
-          filteredData.map((item) => (
-            <div className="cp-card" key={item.id}>
+        <div className="cp-vehicle-grid">
+          {filteredData.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "40px", color: "#6b7280", gridColumn: "1 / -1" }}>
+              No vehicles found.
+            </div>
+          ) : (
+            filteredData.map((item) => (
+              <div className="cp-card" key={item.id}>
               <div className="cp-card-img" style={{ height: "220px" }}>
                 <img
                   src={item.image}
@@ -312,8 +315,14 @@ export default function CustomerVehicle({ onBack }) {
                   </div>
                 </div>
 
-                <div className="cp-price-note">
-                  Estimated for {filters.hours} hrs: <strong>₹{getEstimatedPrice(item, filters.hours)}</strong>
+                <div className="cp-price-notes">
+                  <div className="cp-price-note">
+                    Estimated for {filters.hours} hrs: <strong>₹{getEstimatedPrice(item, filters.hours)}</strong>
+                  </div>
+
+                  <div className="cp-price-note cp-price-note-soft">
+                    Complimentary distance: <strong>{getComplimentaryKm(filters.hours)} km</strong> free
+                  </div>
                 </div>
 
                 <div className="cp-actions" style={{ marginTop: "20px" }}>
@@ -324,7 +333,8 @@ export default function CustomerVehicle({ onBack }) {
               </div>
             </div>
           ))
-        )}
+          )}
+        </div>
       </div>
 
       {selectedItem && (
@@ -348,8 +358,8 @@ export default function CustomerVehicle({ onBack }) {
                   <strong>{WORKING_HOURS_PER_DAY} hrs/day</strong>
                 </div>
                 <div>
-                  <span>Vehicle Class</span>
-                  <strong>{bookingForm.vehicleClass}</strong>
+                  <span>Complimentary Km</span>
+                  <strong>{getComplimentaryKm(bookingForm.hours)} km</strong>
                 </div>
               </div>
 

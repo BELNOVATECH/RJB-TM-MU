@@ -416,7 +416,17 @@ const servicesData = [
           <h3>Health Seva</h3>
           <p>Support healthcare camps</p>
           <h4>₹5001</h4>
-          <button>Donate</button>
+            <button
+  onClick={() => {
+    setShowDonateSuccess(true);
+
+    setTimeout(() => {
+      setShowDonateSuccess(false);
+    }, 2500);
+  }}
+>
+  Donate
+</button>
         </div>
 
       </div>
