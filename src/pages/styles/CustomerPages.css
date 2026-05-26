@@ -106,6 +106,37 @@
   opacity: 1;
 }
 
+/* FILTERS */
+.cp-booking-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.cp-filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cp-filter-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.cp-filter-select {
+  height: 42px;
+  border: none;
+  border-radius: 10px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #374151;
+  font-size: 14px;
+  outline: none;
+}
+
 /* CONTENT */
 .cp-content {
   padding: 24px;
@@ -329,6 +360,20 @@
   color: #9ca3af;
 }
 
+.cp-price-note {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #7c2d12;
+  font-size: 13px;
+}
+
+.cp-price-note strong {
+  color: #f57c00;
+}
+
 /* ACTIONS */
 .cp-actions {
   display: flex;
@@ -364,10 +409,19 @@
   text-align: center;
 }
 
+.cp-btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 /* MEDIA QUERIES */
 @media (max-width: 768px) {
   .cp-header {
     padding: 16px;
+  }
+  .cp-booking-filters {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
   .cp-content {
     padding: 16px;
@@ -377,6 +431,10 @@
   }
   .cp-card-img {
     height: 160px;
+  }
+  .cp-price-summary,
+  .cp-modal-grid {
+    grid-template-columns: 1fr;
   }
   .cp-room-item {
     flex-direction: column;
@@ -389,6 +447,12 @@
   }
   .cp-actions {
     flex-direction: column;
+  }
+  .cp-modal-header,
+  .cp-modal-body,
+  .cp-modal-footer {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
 
@@ -452,6 +516,34 @@
   padding: 24px;
 }
 
+.cp-price-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.cp-price-summary div {
+  border-radius: 12px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  padding: 12px;
+}
+
+.cp-price-summary span {
+  display: block;
+  font-size: 11px;
+  color: #9a3412;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cp-price-summary strong {
+  font-size: 16px;
+  color: #1f1f1f;
+}
+
 .cp-form-group {
   margin-bottom: 16px;
 }
@@ -478,6 +570,17 @@
 .cp-form-input:focus {
   border-color: #f07b00;
   box-shadow: 0 0 0 2px rgba(240, 123, 0, 0.1);
+}
+
+.cp-form-textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.cp-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .cp-modal-footer {
