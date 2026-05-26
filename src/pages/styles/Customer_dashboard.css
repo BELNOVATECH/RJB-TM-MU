@@ -1130,3 +1130,36 @@
     font-size: 12px;
   }
 }
+.booking-refund-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  color: #9a3412;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 18px;
+  margin-bottom: 18px;
+  font-size: 13px;
+}
+
+.refund-details-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 14px;
+  border-radius: 12px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.refund-details-box p {
+  margin-bottom: 8px;
+  color: #334155;
+  font-size: 14px;
+}
+
+.refund-processing {
+  background: #f59e0b !important;
+  color: white !important;
+}

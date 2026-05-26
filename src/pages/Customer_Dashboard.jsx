@@ -104,7 +104,10 @@ export default function PilgrimHome() {
         booking.id === id
           ? {
               ...booking,
-              status: "Cancelled",
+              status: "Refund Processing",
+refund: "50% Refund Initiated",
+refundAmount: "₹4000",
+refundTime: "5-7 Working Days",
               details: booking.details,
               person: booking.person
                 ? { ...booking.person, status: "Cancelled" }
@@ -117,7 +120,10 @@ export default function PilgrimHome() {
       prev && prev.id === id
         ? {
             ...prev,
-            status: "Cancelled",
+         status: "Refund Processing",
+refund: "50% Refund Initiated",
+refundAmount: "₹4000",
+refundTime: "5-7 Working Days",
             person: prev.person
               ? { ...prev.person, status: "Cancelled" }
               : prev.person,
@@ -283,9 +289,19 @@ export default function PilgrimHome() {
                   <p className="text-muted">{booking.details}</p>
                 </div>
               </div>
-              <span className={`status-badge ${booking.status === "Pending" ? "pending" : booking.status === "Confirmed" ? "confirmed" : "cancelled"}`}>
-                {booking.status}
-              </span>
+            <span
+  className={`status-badge ${
+    booking.status === "Pending"
+      ? "pending"
+      : booking.status === "Confirmed"
+      ? "confirmed"
+      : booking.status === "Refund Processing"
+      ? "refund"
+      : "cancelled"
+  }`}
+>
+  {booking.status}
+</span>
             </div>
           ))}
 
@@ -311,6 +327,13 @@ export default function PilgrimHome() {
                   </div>
                 </div>
                 <p className="booking-note">{selectedBooking.hint}</p>
+                {selectedBooking.status === "Refund Processing" && (
+  <div className="refund-details-box">
+    <p><strong>Refund Status:</strong> Processing</p>
+    <p><strong>Refund Amount:</strong> {selectedBooking.refundAmount}</p>
+    <p><strong>Expected Refund:</strong> {selectedBooking.refundTime}</p>
+  </div>
+)}
                 {selectedBooking.person && (
                   <div className="profile-card">
                     <h4>{selectedBooking.person.role} Details</h4>
@@ -324,14 +347,18 @@ export default function PilgrimHome() {
                   </div>
                 )}
                 <div className="modal-actions">
-                  {selectedBooking.status !== "Cancelled" ? (
+                  <div className="booking-refund-note">
+  <i className="ti ti-info-circle"></i>
+  50% refund applicable on cancellation before check-in time.
+</div>
+                 {selectedBooking.status !== "Refund Processing" ? (
                     <button className="view-all-btn cancel" onClick={() => cancelBooking(selectedBooking.id)}>
                       Cancel {getBookingActionLabel(selectedBooking.type)}
                     </button>
                   ) : (
-                    <button className="view-all-btn" disabled>
-                      Booking Cancelled
-                    </button>
+                   <button className="view-all-btn refund-processing" disabled>
+  Refund Processing
+</button>
                   )}
                   <button className="view-all-btn" onClick={closeBookingDetails}>Close</button>
                 </div>
