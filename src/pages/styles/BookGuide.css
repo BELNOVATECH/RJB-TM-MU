@@ -1,568 +1,1044 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
 }
 
-.guide-page {
-  min-height: 100vh;
-  background: #f7f0df;
-  font-family: "DM Sans", sans-serif;
+body{
+  background:#fffaf7;
+  overflow-x:hidden;
 }
 
-/* HEADER */
+/* =========================
+   PAGE
+========================= */
 
-.guide-header {
-  background: linear-gradient(180deg, #ff8c00, #f56600);
-  padding: 24px;
+.guide-page{
+  min-height:100vh;
+
+  background:
+    radial-gradient(circle at top left,#fff1e8 0%,transparent 28%),
+    radial-gradient(circle at bottom right,#ffe7d1 0%,transparent 25%),
+    linear-gradient(135deg,#fffaf7,#fffdfb);
 }
 
-.guide-top {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
+/* =========================
+   HEADER
+========================= */
+
+.guide-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+
+  padding:20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff9b52,
+      #ea580c
+    );
+
+  border-radius:0 0 28px 28px;
+
+  box-shadow:
+    0 10px 30px rgba(234,88,12,.18);
 }
 
-.guide-back {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  background: transparent;
-  color: #fff;
-  font-size: 24px;
-  cursor: pointer;
+.guide-top{
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  margin-bottom:18px;
 }
 
-.guide-top h2 {
-  color: #fff;
-  font-size: 34px;
-  font-weight: 700;
+.guide-back{
+  width:42px;
+  height:42px;
+
+  border:none;
+  border-radius:50%;
+
+  background:rgba(255,255,255,.16);
+
+  color:white;
+
+  font-size:20px;
+
+  cursor:pointer;
+
+  transition:.3s;
 }
 
-.guide-top p {
-  color: rgba(255,255,255,0.9);
-  margin-top: 4px;
-  font-size: 16px;
+.guide-back:hover{
+  transform:scale(1.06);
 }
 
-/* SEARCH */
+.guide-top h2{
+  color:white;
 
-.guide-search {
-  height: 58px;
-  background: #fff;
-  border-radius: 18px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 0 18px;
-  margin-bottom: 24px;
+  font-size:28px;
+  font-weight:700;
 }
 
-.guide-search i {
-  font-size: 22px;
-  color: #666;
+.guide-top p{
+  color:rgba(255,255,255,.9);
+
+  font-size:13px;
+
+  margin-top:2px;
 }
 
-.guide-search input {
-  width: 100%;
-  border: none;
-  outline: none;
-  font-size: 16px;
+/* =========================
+   SEARCH
+========================= */
+
+.guide-search{
+  height:52px;
+
+  background:white;
+
+  border-radius:16px;
+
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:0 16px;
+
+  margin-bottom:18px;
+
+  box-shadow:
+    0 8px 22px rgba(0,0,0,.05);
 }
 
-/* TABS */
-
-.guide-tabs {
-  display: flex;
-  gap: 14px;
-  overflow-x: auto;
-  scrollbar-width: none;
+.guide-search i{
+  font-size:18px;
+  color:#777;
 }
 
-.guide-tabs::-webkit-scrollbar {
-  display: none;
+.guide-search input{
+  width:100%;
+
+  border:none;
+  outline:none;
+
+  background:transparent;
+
+  font-size:13px;
 }
 
-.guide-tab {
-  border: none;
-  background: transparent;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 12px 18px;
-  border-radius: 14px;
-  cursor: pointer;
-  white-space: nowrap;
+/* =========================
+   TABS
+========================= */
+
+.guide-tabs{
+  display:flex;
+  gap:10px;
+
+  overflow-x:auto;
+
+  scrollbar-width:none;
 }
 
-.guide-tab.active {
-  background: #ffe100;
-  color: #111;
+.guide-tabs::-webkit-scrollbar{
+  display:none;
 }
 
-/* BODY */
+.guide-tab{
+  border:none;
 
-.guide-body {
-  padding: 24px;
+  background:rgba(255,255,255,.15);
+
+  color:white;
+
+  padding:10px 16px;
+
+  border-radius:12px;
+
+  font-size:12px;
+  font-weight:600;
+
+  cursor:pointer;
+
+  white-space:nowrap;
+
+  transition:.3s;
 }
 
-.guide-top-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
+.guide-tab.active{
+  background:white;
+  color:#ea580c;
 }
 
-.guide-count {
-  font-size: 20px;
-  color: #666;
+/* =========================
+   BODY
+========================= */
+
+.guide-body{
+  padding:20px;
 }
 
-.filter-btn {
-  height: 48px;
-  padding: 0 20px;
-  border-radius: 14px;
-  border: 1px solid #ddd2b7;
-  background: #f8f1e1;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  cursor: pointer;
+/* =========================
+   GUIDE LIST
+========================= */
+
+.guide-list{
+  display:grid;
+
+  grid-template-columns:repeat(2,1fr);
+
+  gap:18px;
 }
 
-/* CARD */
+/* =========================
+   CARD
+========================= */
 
-.guide-list {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.guide-card{
+  background:
+    rgba(255,255,255,.94);
+
+  backdrop-filter:blur(12px);
+
+  border-radius:22px;
+
+  overflow:hidden;
+
+  border:1px solid rgba(255,140,0,.06);
+
+  box-shadow:
+    0 8px 24px rgba(0,0,0,.05);
+
+  transition:.35s;
 }
 
-.guide-card {
-  background: #fff;
-  border-radius: 28px;
-  overflow: hidden;
-  border: 1px solid #eadfc6;
+.guide-card:hover{
+  transform:
+    translateY(-4px);
+
+  box-shadow:
+    0 16px 34px rgba(0,0,0,.08);
 }
 
-.guide-main {
-  padding: 24px;
-  display: flex;
-  justify-content: space-between;
+.guide-main{
+  padding:16px;
+
+  display:flex;
+  justify-content:space-between;
+
+  gap:14px;
 }
 
-.guide-left {
-  display: flex;
-  gap: 20px;
+.guide-left{
+  display:flex;
+
+  align-items:flex-start;
+
+  gap:14px;
 }
 
-/* IMAGE */
+/* =========================
+   IMAGE
+========================= */
 
-.guide-image-wrap {
-  position: relative;
+.guide-image{
+  width:96px;
+  height:96px;
+
+  object-fit:cover;
+
+  border-radius:18px;
+
+  border:2px solid rgba(255,140,0,.1);
+
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.06);
+
+  flex-shrink:0;
 }
 
-.guide-image {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 20px;
+/* =========================
+   INFO
+========================= */
+
+.guide-info h3{
+  font-size:18px;
+  font-weight:700;
+
+  color:#7c2d12;
+
+  margin-bottom:2px;
+
+  line-height:1.3;
 }
 
-.available-badge {
-  position: absolute;
-  left: 50%;
-  bottom: -12px;
-  transform: translateX(-50%);
-  background: #12c44b;
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 700;
-  white-space: nowrap;
+.guide-role{
+  color:#777;
+
+  font-size:12px;
+
+  margin-bottom:10px;
 }
 
-/* INFO */
+.guide-tags{
+  display:flex;
+  flex-wrap:wrap;
 
-.guide-info h3 {
-  font-size: 34px;
-  margin-bottom: 8px;
+  gap:8px;
+
+  margin-bottom:12px;
 }
 
-.guide-role {
-  color: #777;
-  font-size: 22px;
-  margin-bottom: 18px;
+.guide-tag{
+  background:#fff4ec;
+
+  color:#ea580c;
+
+  padding:6px 10px;
+
+  border-radius:18px;
+
+  font-size:10px;
+  font-weight:600;
 }
 
-.guide-tags {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 22px;
+.guide-desc{
+  color:#666;
+
+  font-size:11px;
+
+  line-height:1.7;
+
+  max-width:95%;
 }
 
-.guide-tag {
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 14px;
-  border: 1px solid #ececec;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 16px;
-  font-weight: 600;
+/* =========================
+   RATING
+========================= */
+
+.guide-rating{
+  min-width:52px;
+  height:52px;
+
+  border-radius:16px;
+
+  background:#fff7dc;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  font-size:12px;
+  font-weight:700;
+
+  color:#444;
+
+  padding:4px;
+
+  flex-shrink:0;
 }
 
-.guide-desc {
-  color: #666;
-  font-size: 20px;
-  line-height: 1.7;
+/* =========================
+   STATS
+========================= */
+
+.guide-stats{
+  display:grid;
+
+  grid-template-columns:repeat(3,1fr);
+
+  border-top:1px solid #f5e9dc;
+  border-bottom:1px solid #f5e9dc;
+
+  padding:2px 0;
 }
 
-/* RATING */
+.guide-stat{
+  padding:12px 8px;
 
-.guide-rating {
-  height: 48px;
-  padding: 0 14px;
-  border-radius: 14px;
-  background: #fff7dc;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 700;
-  font-size: 20px;
+  text-align:center;
 }
 
-.guide-rating i {
-  color: #facc15;
+.guide-stat h4{
+  font-size:16px;
+  font-weight:700;
+
+  color:#ea580c;
+
+  margin-bottom:2px;
 }
 
-/* STATS */
+.guide-stat p{
+  color:#888;
 
-.guide-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid #ececec;
-  border-bottom: 1px solid #ececec;
+  font-size:10px;
 }
 
-.guide-stat {
-  padding: 24px;
-  text-align: center;
+/* =========================
+   ACTIONS
+========================= */
+
+.guide-actions{
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:10px;
+
+  padding:14px;
 }
-
-.guide-stat h4 {
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-
-.guide-stat p {
-  color: #777;
-  font-size: 18px;
-}
-
-.price {
-  color: #ff8c00;
-}
-
-/* ACTIONS */
-
-.guide-actions {
-  padding: 24px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
 .call-btn,
-.book-btn {
-  height: 60px;
-  border: none;
-  border-radius: 18px;
-  font-size: 20px;
-  font-weight: 700;
-  cursor: pointer;
+.book-btn{
+  height:42px;
+
+  width:100%;
+
+  border:none;
+
+  border-radius:12px;
+
+  font-size:13px;
+  font-weight:500;
+
+  cursor:pointer;
+
+  transition:.3s;
 }
 
-.call-btn {
-  background: #f5eedb;
+.call-btn{
+  background:#f8efe9;
+
+  color:#ea580c;
 }
 
-.book-btn {
-  background: linear-gradient(180deg, #ff9800, #ff8800);
-  color: #fff;
+.call-btn:hover{
+  background:#ffe7d6;
 }
 
-/* TABLET */
+.book-btn{
+  background:
+    linear-gradient(
+      135deg,
+      #ff8a3d,
+      #ea580c
+    );
 
-@media (max-width: 1024px) {
+  color:white;
 
-  .guide-info h3 {
-    font-size: 28px;
-  }
+  box-shadow:
+    0 8px 20px rgba(234,88,12,.18);
+}
 
-  .guide-role {
-    font-size: 18px;
-  }
+.book-btn:hover{
+  transform:
+    translateY(-2px);
+}
 
-  .guide-desc {
-    font-size: 16px;
-  }
+/* =========================
+   MODAL OVERLAY
+========================= */
 
-  .guide-stat h4 {
-    font-size: 24px;
-  }
+.booking-overlay{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.55);
+
+  backdrop-filter:blur(6px);
+
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+
+  overflow-y:auto;
+
+  padding:30px 14px;
+
+  z-index:99999;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.booking-modal{
+  width:100%;
+  max-width:520px;
+
+  background:rgba(255,255,255,.96);
+
+  backdrop-filter:blur(20px);
+
+  border-radius:30px;
+
+  padding:24px;
+
+  position:relative;
+
+  margin:auto;
+
+  max-height:95vh;
+
+  overflow-y:auto;
+
+  overflow-x:hidden;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.18);
+}
+
+.booking-modal::-webkit-scrollbar{
+  width:6px;
+}
+
+.booking-modal::-webkit-scrollbar-thumb{
+  background:#f59e0b;
+  border-radius:20px;
+}
+
+/* =========================
+   BOOKING TOP
+========================= */
+
+.booking-top{
+  display:flex;
+  align-items:center;
+  gap:16px;
+
+  margin-bottom:24px;
+}
+
+.booking-image{
+  width:90px;
+  height:90px;
+
+  border-radius:20px;
+
+  object-fit:cover;
+}
+
+.booking-top h2{
+  font-size:22px;
+  color:#7c2d12;
+}
+
+.booking-top p{
+  font-size:13px;
+  color:#777;
+
+  margin-top:4px;
+}
+
+.booking-price{
+  margin-top:10px;
+
+  display:inline-block;
+
+  background:#fff4ec;
+
+  color:#ea580c;
+
+  padding:7px 12px;
+
+  border-radius:20px;
+
+  font-size:12px;
+  font-weight:700;
+}
+
+/* =========================
+   CLOSE BTN
+========================= */
+
+.close-btn{
+  position:absolute;
+  top:16px;
+  right:16px;
+
+  width:38px;
+  height:38px;
+
+  border:none;
+  border-radius:50%;
+
+  background:#fff4ec;
+
+  color:#ea580c;
+
+  font-size:16px;
+
+  cursor:pointer;
+}
+
+.guide-filters{
+  display:flex;
+
+  gap:12px;
+
+  margin-top:16px;
+}
+.guide-filters select{
+  flex:1;
+
+  height:48px;
+
+  border:none;
+
+  border-radius:14px;
+
+  padding:0 16px;
+
+  background:white;
+
+  color:#7c2d12;
+
+  font-size:13px;
+  font-weight:600;
+
+  outline:none;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 8px 22px rgba(0,0,0,.06);
+}
+/* OPTION TEXT */
+
+
+.guide-filters select option{
+  background:white;
+  color:#222;
+}
+
+/* PLACEHOLDER STYLE */
+
+.guide-filters select:focus{
+  border-color:white;
 }
 
 /* MOBILE */
 
-@media (max-width: 768px) {
+@media(max-width:320px){
 
-  .guide-header {
-    padding: 18px 16px 22px;
+  .guide-header{
+    padding:14px 10px;
   }
 
-  .guide-top h2 {
-    font-size: 24px;
+  .guide-top h2{
+    font-size:18px;
   }
 
-  .guide-top p {
-    font-size: 14px;
+  .guide-search{
+    height:42px;
   }
 
-  .guide-search {
-    height: 52px;
+  .guide-tab{
+    font-size:10px;
+
+    padding:8px 12px;
   }
 
-  .guide-search input {
-    font-size: 14px;
+  .guide-image{
+    height:190px;
   }
 
-  .guide-body {
-    padding: 16px;
+  .guide-info h3{
+    font-size:17px;
   }
 
-  .guide-top-row {
-    margin-bottom: 18px;
+  .guide-desc{
+    font-size:10px;
   }
 
-  .guide-count {
-    font-size: 15px;
+  .guide-stat h4{
+    font-size:13px;
   }
 
-  .filter-btn {
-    height: 42px;
-    padding: 0 14px;
-    font-size: 13px;
-  }
-
-  .guide-main {
-    flex-direction: column;
-    gap: 18px;
-    padding: 18px;
-  }
-
-  .guide-left {
-    flex-direction: column;
-  }
-
-  .guide-image {
-    width: 100%;
-    height: 240px;
-  }
-
-  .guide-info h3 {
-    font-size: 24px;
-  }
-
-  .guide-role {
-    font-size: 15px;
-  }
-
-  .guide-tag {
-    height: 36px;
-    font-size: 13px;
-  }
-
-  .guide-desc {
-    font-size: 14px;
-  }
-
-  .guide-rating {
-    align-self: flex-start;
-    font-size: 14px;
-    height: 40px;
-  }
-
-  .guide-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .guide-stat {
-    padding: 18px;
-  }
-
-  .guide-stat h4 {
-    font-size: 20px;
-  }
-
-  .guide-stat p {
-    font-size: 14px;
-  }
-
-  .guide-actions {
-    grid-template-columns: 1fr;
-    padding: 18px;
+  .guide-actions{
+    grid-template-columns:1fr;
   }
 
   .call-btn,
-  .book-btn {
-    height: 52px;
-    font-size: 16px;
+  .book-btn{
+    height:38px;
+
+    font-size:11px;
+  }
+
+  .booking-modal{
+    padding:14px;
+  }
+
+  .booking-form input,
+  .trip-selection select{
+    height:42px;
+
+    font-size:11px;
+  }
+
+  .confirm-booking-btn{
+    height:42px;
+
+    font-size:12px;
   }
 }
 
-/* SMALL MOBILE */
-
-@media (max-width: 480px) {
-
-  .guide-tabs {
-    gap: 10px;
-  }
-
-  .guide-tab {
-    font-size: 13px;
-    padding: 10px 14px;
-  }
-
-  .guide-image {
-    height: 200px;
-  }
-
-  .guide-info h3 {
-    font-size: 22px;
-  }
-
-  .guide-role {
-    font-size: 14px;
-  }
-
-  .guide-desc {
-    font-size: 13px;
-  }
-}
-
-.guide-actions{
-  position: relative;
-  z-index: 1000;
-}
-
-.book-btn{
-  position: relative;
-  z-index: 1000;
-  cursor: pointer;
-}
-
-.guide-card{
-  overflow: visible;
-}
-
-.booking-overlay{
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0,0,0,0.6);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  z-index: 99999;
-}
-
-.booking-modal{
-  width: 450px;
-  background: #fff;
-  border-radius: 24px;
-  padding: 24px;
-  position: relative;
-
-  animation: popup .3s ease;
-}
-
-@keyframes popup{
-  from{
-    transform: scale(.8);
-    opacity: 0;
-  }
-
-  to{
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.close-btn{
-  position: absolute;
-  top: 15px;
-  right: 15px;
-
-  width: 35px;
-  height: 35px;
-
-  border: none;
-  border-radius: 50%;
-
-  background: #f3f4f6;
-  cursor: pointer;
-}
-
-.booking-top{
-  display: flex;
-  gap: 16px;
-  align-items: center;
-
-  margin-bottom: 20px;
-}
-
-.booking-image{
-  width: 90px;
-  height: 90px;
-  border-radius: 18px;
-  object-fit: cover;
-}
+/* =========================
+   FORM
+========================= */
 
 .booking-form{
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
 }
 
-.booking-form input{
-  height: 50px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 0 14px;
-  outline: none;
+.booking-form input,
+.trip-selection select{
+  width:100%;
+
+  height:52px;
+
+  border:1px solid #eadccf;
+
+  border-radius:14px;
+
+  padding:0 16px;
+
+  outline:none;
+
+  background:white;
+
+  font-size:13px;
 }
+
+.booking-form input:focus,
+.trip-selection select:focus{
+  border-color:#ea580c;
+}
+
+/* =========================
+   TRIP
+========================= */
+
+.trip-selection label{
+  display:block;
+
+  margin-bottom:10px;
+
+  font-size:13px;
+  font-weight:600;
+
+  color:#7c2d12;
+}
+
+.price-box{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.price-amount{
+  display:flex;
+  align-items:flex-start;
+  gap:2px;
+
+  color:#ea580c;
+}
+
+.currency{
+  font-size:14px;
+  font-weight:700;
+
+  margin-top:3px;
+}
+
+.amount{
+  font-size:26px;
+  font-weight:800;
+
+  line-height:1;
+}
+
+.price-type{
+  margin-top:4px;
+
+  font-size:11px;
+  font-weight:500;
+
+  color:#888;
+
+  letter-spacing:.4px;
+
+  text-transform:uppercase;
+}
+/* =========================
+   CHIPS
+========================= */
+
+.selected-place-list{
+  display:flex;
+  flex-wrap:wrap;
+
+  gap:8px;
+
+  margin-top:14px;
+
+  max-height:120px;
+
+  overflow-y:auto;
+}
+
+.selected-place-chip{
+  background:
+    linear-gradient(
+      135deg,
+      #fff4ec,
+      #ffe7d6
+    );
+
+  color:#ea580c;
+
+  padding:7px 12px;
+
+  border-radius:20px;
+
+  font-size:11px;
+  font-weight:600;
+
+  border:1px solid #ffd7bf;
+
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.selected-place-chip button{
+  border:none;
+  background:none;
+
+  color:#c2410c;
+
+  cursor:pointer;
+
+  font-size:12px;
+}
+
+/* =========================
+   WARNING
+========================= */
+
+.trip-warning-box{
+  margin-top:14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff7ed,
+      #ffedd5
+    );
+
+  border:1px solid #fdba74;
+
+  padding:12px;
+
+  border-radius:14px;
+
+  color:#c2410c;
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  font-size:12px;
+  font-weight:600;
+}
+
+/* =========================
+   CONFIRM BUTTON
+========================= */
 
 .confirm-booking-btn{
-  height: 52px;
-  border: none;
-  border-radius: 14px;
+  height:50px;
 
-  background: orange;
-  color: white;
+  border:none;
 
-  font-size: 16px;
-  font-weight: 600;
+  border-radius:14px;
 
-  cursor: pointer;
+  background:
+    linear-gradient(
+      135deg,
+      #ff8a3d,
+      #ea580c
+    );
+
+  color:white;
+
+  font-size:14px;
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.3s;
+
+  margin-top:4px;
+}
+
+.confirm-booking-btn:hover{
+  transform:
+    translateY(-2px);
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media(max-width:992px){
+
+  .guide-list{
+    grid-template-columns:1fr;
+  }
+
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+  .guide-body{
+    padding:16px;
+  }
+
+  .guide-main{
+    flex-direction:column;
+  }
+
+  .guide-left{
+    flex-direction:column;
+  }
+
+  .guide-image{
+    width:100%;
+    height:220px;
+  }
+
+  .guide-info h3{
+    font-size:20px;
+  }
+
+  .guide-actions{
+    grid-template-columns:1fr;
+  }
+
+  .booking-top{
+    flex-direction:column;
+    text-align:center;
+  }
+
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media(max-width:480px){
+
+  .guide-top h2{
+    font-size:22px;
+  }
+
+  .guide-image{
+    height:200px;
+  }
+
+}
+
+/* =========================
+   320px
+========================= */
+
+@media(max-width:320px){
+
+  .guide-header{
+    padding:16px 12px;
+  }
+
+  .guide-top h2{
+    font-size:18px;
+  }
+
+  .guide-card{
+    border-radius:18px;
+  }
+
+  .guide-main{
+    padding:14px;
+  }
+
+  .guide-info h3{
+    font-size:16px;
+  }
+
+  .guide-desc{
+    font-size:10px;
+  }
+
+  .guide-stat h4{
+    font-size:14px;
+  }
+
+ 
+.guide-actions{
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:10px;
+
+  padding:14px;
+}
+.call-btn,
+.book-btn{
+  height:42px;
+
+  width:100%;
+
+  border:none;
+
+  border-radius:12px;
+
+  font-size:13px;
+  font-weight:500;
+
+  cursor:pointer;
+
+  transition:.3s;
+}
+
+
+  .booking-modal{
+    padding:16px;
+  }
+
+  .booking-form input,
+  .trip-selection select{
+    height:46px;
+    font-size:12px;
+  }
+
+  .confirm-booking-btn{
+    height:46px;
+    font-size:12px;
+  }
+
 }
