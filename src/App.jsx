@@ -87,8 +87,7 @@ export default function App() {
   const [screen, setScreen] = useState("landing");
   const [active, setActive] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
- const [activePage, setActivePage] =
+const [activePage, setActivePage] =
   useState("home");
 
 useEffect(() => {
