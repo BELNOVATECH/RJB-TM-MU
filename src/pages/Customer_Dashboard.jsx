@@ -12,6 +12,7 @@ import PaymentIntegration from "./PaymentGateway";
 export default function PilgrimHome() {
   const [activePage, setActivePage] = useState("home");
   const [selectedBooking, setSelectedBooking] = useState(null);
+  
   const [bookings, setBookings] = useState([
     {
       id: 1,
@@ -96,6 +97,7 @@ export default function PilgrimHome() {
     },
   ]);
 
+  
   const openBookingDetails = (booking) => setSelectedBooking(booking);
   const closeBookingDetails = () => setSelectedBooking(null);
   const cancelBooking = (id) => {
@@ -254,10 +256,17 @@ refundTime: "5-7 Working Days",
   );
 }
 
-  if (activePage === "ai") {
-    return <AIAssistant setPage={setActivePage} />;
-  }
+if (activePage === "ai") {
 
+  return (
+
+    <AIAssistant
+      setActivePage={setActivePage}
+    />
+
+  );
+
+}
   if (activePage === "bookings") {
     return (
       <div className="pilgrim-page">

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./styles/CustomerPages.css";
-
 const accommodations = [
   {
     id: 1,
@@ -13,29 +12,31 @@ const accommodations = [
     desc: "Peaceful accommodation with spiritual ambiance, perfect for pilgrims seeking comfort and tranquility.",
     amenities: ["Free WiFi", "AC Rooms", "Restaurant", "24/7 Water", "Prayer Room", "+1 more"],
     rooms: [
-  { name: "Premium", price: 8000, left: 2 },
-  { name: "Medium", price: 4000, left: 4 },
-  { name: "Standard", price: 2000, left: 6 },
-  { name: "Homestay", price: 1500, left: 8 }
-]
+      { name: "Premium", price: 8000, left: 2 },
+      { name: "Medium", price: 4000, left: 4 },
+      { name: "Standard", price: 2000, left: 6 },
+      { name: "Homestay", price: 1500, left: 8 }
+    ]
   },
+
   {
     id: 2,
     name: "Rama Darshan Hotel",
     type: "Hotel",
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=1200",
     rating: 4.5,
     reviews: 156,
     distance: "1.2 km",
     desc: "Modern hotel providing all basic amenities with a beautiful view of the temple.",
     amenities: ["Free WiFi", "AC Rooms", "Room Service", "Parking"],
-   rooms: [
-  { name: "Premium", price: 8000, left: 2 },
-  { name: "Medium", price: 4000, left: 4 },
-  { name: "Standard", price: 2000, left: 6 },
-  { name: "Homestay", price: 1500, left: 8 }
-]
+    rooms: [
+      { name: "Premium", price: 8500, left: 3 },
+      { name: "Medium", price: 4500, left: 5 },
+      { name: "Standard", price: 2200, left: 7 },
+      { name: "Homestay", price: 1600, left: 9 }
+    ]
   },
+
   {
     id: 3,
     name: "Sita Ram Dharamshala",
@@ -46,12 +47,138 @@ const accommodations = [
     distance: "0.2 km",
     desc: "Traditional stay with free meals provided daily. Very close to the main temple complex.",
     amenities: ["Free Meals", "Locker", "Shared Bathroom", "24/7 Water"],
-   rooms: [
-  { name: "Premium", price: 8000, left: 2 },
-  { name: "Medium", price: 4000, left: 4 },
-  { name: "Standard", price: 2000, left: 6 },
-  { name: "Homestay", price: 1500, left: 8 }
-]
+    rooms: [
+      { name: "Premium", price: 7000, left: 2 },
+      { name: "Medium", price: 3500, left: 4 },
+      { name: "Standard", price: 1800, left: 8 },
+      { name: "Homestay", price: 1200, left: 10 }
+    ]
+  },
+
+  {
+    id: 4,
+    name: "Ayodhya Residency",
+    type: "Hotel",
+    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1200",
+    rating: 4.7,
+    reviews: 310,
+    distance: "0.8 km",
+    desc: "Luxury stay with spacious rooms and peaceful surroundings.",
+    amenities: ["Swimming Pool", "Restaurant", "Gym", "Free Parking"],
+    rooms: [
+      { name: "Premium", price: 9000, left: 3 },
+      { name: "Medium", price: 5000, left: 5 },
+      { name: "Standard", price: 2500, left: 6 },
+      { name: "Homestay", price: 1700, left: 7 }
+    ]
+  },
+
+  {
+    id: 5,
+    name: "Bhakti Inn",
+    type: "Guest House",
+    image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200",
+    rating: 4.4,
+    reviews: 198,
+    distance: "1 km",
+    desc: "Affordable and comfortable rooms ideal for families and pilgrims.",
+    amenities: ["WiFi", "AC", "Temple View", "Hot Water"],
+    rooms: [
+      { name: "Premium", price: 7500, left: 2 },
+      { name: "Medium", price: 3800, left: 4 },
+      { name: "Standard", price: 1900, left: 5 },
+      { name: "Homestay", price: 1400, left: 8 }
+    ]
+  },
+
+  {
+    id: 6,
+    name: "Temple View Stay",
+    type: "Hotel",
+    image: "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?q=80&w=1200",
+    rating: 4.6,
+    reviews: 275,
+    distance: "0.4 km",
+    desc: "Beautiful rooms with direct temple-facing balconies.",
+    amenities: ["Temple View", "Breakfast", "Free WiFi", "Parking"],
+    rooms: [
+      { name: "Premium", price: 9500, left: 1 },
+      { name: "Medium", price: 4800, left: 4 },
+      { name: "Standard", price: 2400, left: 5 },
+      { name: "Homestay", price: 1800, left: 6 }
+    ]
+  },
+
+  {
+    id: 7,
+    name: "Divine Comfort Lodge",
+    type: "Lodge",
+    image: "https://images.unsplash.com/photo-1455587734955-081b22074882?q=80&w=1200",
+    rating: 4.1,
+    reviews: 145,
+    distance: "1.5 km",
+    desc: "Simple and budget-friendly lodge for short spiritual trips.",
+    amenities: ["Free Water", "Fan Rooms", "Parking", "24/7 Check-in"],
+    rooms: [
+      { name: "Premium", price: 6000, left: 2 },
+      { name: "Medium", price: 3200, left: 5 },
+      { name: "Standard", price: 1500, left: 7 },
+      { name: "Homestay", price: 1000, left: 10 }
+    ]
+  },
+
+  {
+    id: 8,
+    name: "Shree Ram Palace",
+    type: "Resort",
+    image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200",
+    rating: 4.9,
+    reviews: 540,
+    distance: "2 km",
+    desc: "Premium resort with luxury amenities and devotional atmosphere.",
+    amenities: ["Spa", "Pool", "Luxury Dining", "Free WiFi"],
+    rooms: [
+      { name: "Premium", price: 12000, left: 2 },
+      { name: "Medium", price: 6500, left: 4 },
+      { name: "Standard", price: 3200, left: 5 },
+      { name: "Homestay", price: 2500, left: 6 }
+    ]
+  },
+
+  {
+    id: 9,
+    name: "Pilgrim Rest House",
+    type: "Guest House",
+    image: "https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?q=80&w=1200",
+    rating: 4.0,
+    reviews: 112,
+    distance: "0.7 km",
+    desc: "Clean and economical accommodation for temple visitors.",
+    amenities: ["Shared Kitchen", "Free WiFi", "Laundry", "Hot Water"],
+    rooms: [
+      { name: "Premium", price: 6800, left: 2 },
+      { name: "Medium", price: 3400, left: 5 },
+      { name: "Standard", price: 1700, left: 7 },
+      { name: "Homestay", price: 1200, left: 9 }
+    ]
+  },
+
+  {
+    id: 10,
+    name: "Sacred Stay Homes",
+    type: "Homestay",
+    image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200",
+    rating: 4.3,
+    reviews: 187,
+    distance: "1.8 km",
+    desc: "Warm family-style homestay with homemade food and peaceful rooms.",
+    amenities: ["Homely Food", "WiFi", "Garden", "Family Rooms"],
+    rooms: [
+      { name: "Premium", price: 7200, left: 2 },
+      { name: "Medium", price: 3600, left: 4 },
+      { name: "Standard", price: 1800, left: 6 },
+      { name: "Homestay", price: 1300, left: 8 }
+    ]
   }
 ];
 
@@ -116,13 +243,14 @@ export default function CustomerAccommodation({ onBack }) {
           </button>
         </div>
 
-        {filteredData.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "40px", color: "#6b7280" }}>
-            No accommodations found.
-          </div>
-        ) : (
-          filteredData.map((item) => (
-            <div className="cp-card" key={item.id}>
+       {filteredData.length === 0 ? (
+  <div style={{ textAlign: "center", padding: "40px", color: "#6b7280" }}>
+    No accommodations found.
+  </div>
+) : (
+  <div className="cp-vehicle-grid">
+    {filteredData.map((item) => (
+      <div className="cp-card" key={item.id}>
               <div className="cp-card-img">
                 <img
                   src={item.image}
@@ -186,7 +314,9 @@ export default function CustomerAccommodation({ onBack }) {
                 </div>
               </div>
             </div>
-          ))
+          ))}
+  </div>
+          
         )}
 
       </div>

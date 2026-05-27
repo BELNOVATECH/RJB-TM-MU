@@ -13,6 +13,7 @@ const VEHICLE_CLASS_FILTERS = ["All", "Standard", "Luxury"];
 const BOOKING_HOUR_OPTIONS = [2, 4, 6, 8, 10, 12, 16];
 
 const vehicles = [
+
   {
     id: 1,
     name: "Toyota Innova Crysta",
@@ -21,16 +22,23 @@ const vehicles = [
     capacity: 7,
     driver: "Ramesh Kumar",
     experience: "15 yrs exp",
-    image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200",
+    image:
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200",
     rating: 4.8,
     seats: "7 Seater",
     fuel: "Diesel",
     transmission: "Automatic",
-    amenities: ["AC", "Music System", "GPS", "First Aid"],
+    amenities: [
+      "AC",
+      "Music System",
+      "GPS",
+      "First Aid"
+    ],
     pricePerDay: 3500,
     pricePerKm: 15,
     available: true
   },
+
   {
     id: 2,
     name: "Maruti Suzuki Dzire",
@@ -39,16 +47,21 @@ const vehicles = [
     capacity: 4,
     driver: "Suresh Das",
     experience: "8 yrs exp",
-    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1200",
+    image:
+      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1200",
     rating: 4.6,
     seats: "4 Seater",
     fuel: "Petrol",
     transmission: "Manual",
-    amenities: ["AC", "Music System"],
+    amenities: [
+      "AC",
+      "Music System"
+    ],
     pricePerDay: 2000,
     pricePerKm: 10,
     available: true
   },
+
   {
     id: 3,
     name: "Force Traveller",
@@ -57,14 +70,193 @@ const vehicles = [
     capacity: 15,
     driver: "Vikram Singh",
     experience: "12 yrs exp",
-    image: "https://images.unsplash.com/photo-1557223562-6c77ef16210f?q=80&w=1200",
+    image:
+      "https://images.unsplash.com/photo-1557223562-6c77ef16210f?q=80&w=1200",
     rating: 4.7,
     seats: "15 Seater",
     fuel: "Diesel",
     transmission: "Manual",
-    amenities: ["AC", "Music System", "Pushback Seats", "First Aid"],
+    amenities: [
+      "AC",
+      "Music System",
+      "Pushback Seats",
+      "First Aid"
+    ],
     pricePerDay: 6000,
     pricePerKm: 22,
+    available: false
+  },
+
+  {
+    id: 4,
+    name: "Kia Carens",
+    type: "MUV",
+    vehicleClass: "Luxury",
+    capacity: 6,
+    driver: "Anil Sharma",
+    experience: "10 yrs exp",
+    image:
+      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1200",
+    rating: 4.9,
+    seats: "6 Seater",
+    fuel: "Petrol",
+    transmission: "Automatic",
+    amenities: [
+      "AC",
+      "GPS",
+      "Music System",
+      "Charging Port"
+    ],
+    pricePerDay: 4200,
+    pricePerKm: 18,
+    available: true
+  },
+
+  {
+    id: 5,
+    name: "Mahindra Scorpio N",
+    type: "SUV",
+    vehicleClass: "Luxury",
+    capacity: 7,
+    driver: "Rahul Verma",
+    experience: "14 yrs exp",
+    image:
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200",
+    rating: 4.8,
+    seats: "7 Seater",
+    fuel: "Diesel",
+    transmission: "Automatic",
+    amenities: [
+      "AC",
+      "Music System",
+      "GPS",
+      "First Aid"
+    ],
+    pricePerDay: 4800,
+    pricePerKm: 19,
+    available: true
+  },
+
+  {
+    id: 6,
+    name: "Hyundai Verna",
+    type: "Sedan",
+    vehicleClass: "Standard",
+    capacity: 4,
+    driver: "Kiran Patel",
+    experience: "7 yrs exp",
+    image:
+      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1200",
+    rating: 4.5,
+    seats: "5 Seater",
+    fuel: "Petrol",
+    transmission: "Manual",
+    amenities: [
+      "AC",
+      "Music System",
+      "USB Charger"
+    ],
+    pricePerDay: 2500,
+    pricePerKm: 12,
+    available: true
+  },
+
+  {
+    id: 7,
+    name: "Tempo Traveller Deluxe",
+    type: "Luxury Van",
+    vehicleClass: "Luxury",
+    capacity: 18,
+    driver: "Manoj Yadav",
+    experience: "18 yrs exp",
+    image:
+      "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?q=80&w=1200",
+    rating: 4.9,
+    seats: "18 Seater",
+    fuel: "Diesel",
+    transmission: "Manual",
+    amenities: [
+      "AC",
+      "LED TV",
+      "Pushback Seats",
+      "WiFi"
+    ],
+    pricePerDay: 8500,
+    pricePerKm: 28,
+    available: true
+  },
+
+  {
+    id: 8,
+    name: "Toyota Fortuner",
+    type: "SUV",
+    vehicleClass: "Luxury",
+    capacity: 7,
+    driver: "Ajay Singh",
+    experience: "16 yrs exp",
+    image:
+      "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1200",
+    rating: 5.0,
+    seats: "7 Seater",
+    fuel: "Diesel",
+    transmission: "Automatic",
+    amenities: [
+      "AC",
+      "GPS",
+      "Music System",
+      "Luxury Seats"
+    ],
+    pricePerDay: 7000,
+    pricePerKm: 25,
+    available: true
+  },
+
+  {
+    id: 9,
+    name: "Maruti Ertiga",
+    type: "MUV",
+    vehicleClass: "Standard",
+    capacity: 7,
+    driver: "Ravi Teja",
+    experience: "9 yrs exp",
+    image:
+      "https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200",
+    rating: 4.4,
+    seats: "7 Seater",
+    fuel: "Petrol",
+    transmission: "Manual",
+    amenities: [
+      "AC",
+      "Music System",
+      "Charging Port"
+    ],
+    pricePerDay: 3200,
+    pricePerKm: 14,
+    available: true
+  },
+
+  {
+    id: 10,
+    name: "Ashok Leyland Mini Bus",
+    type: "Mini Bus",
+    vehicleClass: "Standard",
+    capacity: 20,
+    driver: "Naveen Reddy",
+    experience: "20 yrs exp",
+    image:
+      "https://images.unsplash.com/photo-1489824904134-891ab64532f1?q=80&w=1200",
+    rating: 4.7,
+    seats: "20 Seater",
+    fuel: "Diesel",
+    transmission: "Manual",
+    amenities: [
+      "AC",
+      "Pushback Seats",
+      "First Aid",
+      "WiFi"
+    ],
+    pricePerDay: 9500,
+    pricePerKm: 30,
     available: false
   }
 ];
