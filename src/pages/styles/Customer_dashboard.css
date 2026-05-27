@@ -198,11 +198,11 @@
 .temple-card {
   background: var(--temple-bg);
   border-radius: 16px;
-  padding: 24px;
+  padding: 12px;
   border: 1px solid #f5dbb8;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 32px;
+  margin-bottom: 12px;
   align-items: flex-start;
 }
 
@@ -244,7 +244,7 @@
 .temple-right {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 4px;
   align-items: flex-end;
 }
 
