@@ -43,51 +43,132 @@ export default function TourGuideRegistration({
     setAlert(null);
   };
 
-  const handleRegister = () => {
+const handleRegister = () => {
 
-    setAlert(null);
+  setAlert(null);
 
-    if (
-      !form.guideName ||
-      !form.mobile ||
-      !form.email ||
-      !form.password
-    ) {
+  if (
+    !form.guideName ||
+    !form.mobile ||
+    !form.email ||
+    !form.password
+  ) {
 
-      setAlert({
-        type: "error",
-        msg: "⚠️ Please fill all required fields.",
-      });
+    setAlert({
+      type: "error",
+      msg: "⚠️ Please fill all required fields.",
+    });
 
-      return;
-    }
+    return;
+  }
 
-    setLoading(true);
+  setLoading(true);
 
-    setTimeout(() => {
+  setTimeout(() => {
 
-      setLoading(false);
-      localStorage.setItem(
-        PROFILE_KEY,
-        JSON.stringify({
-          guideName: form.guideName,
-          mobile: form.mobile,
-          email: form.email,
-          languages: form.languages,
-          specialization: form.specialization,
-          experience: form.experience,
-          availability: form.availability,
-          ratings: form.ratings,
-          password: form.password,
-          role: "Tour Guide",
-          image:
-            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600",
-        })
-      );
-      setDone(true);
+    setLoading(false);
 
-    }, 1500);
-  };
+    /* =========================
+       GET OLD GUIDES
+    ========================= */
+
+    const existingGuides =
+      JSON.parse(
+        localStorage.getItem(
+          "tour_guides"
+        )
+      ) || [];
+
+    /* =========================
+       NEW GUIDE OBJECT
+    ========================= */
+
+    const newGuide = {
+
+      id: Date.now(),
+
+      name: form.guideName,
+
+      role:
+        form.specialization ||
+        "Spiritual Tour Guide",
+
+      image:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600",
+
+      languages:
+        form.languages
+          ? form.languages
+              .split(",")
+              .map((lang) =>
+                lang.trim()
+              )
+          : ["English"],
+
+      people: "1-10 people",
+
+      desc:
+        "Registered spiritual tourism guide for Ayodhya pilgrims.",
+
+      exp:
+        form.experience ||
+        "1 year",
+
+      reviews: "0",
+
+      price: "₹500/hr",
+
+      rating:
+        form.ratings || "4.5",
+
+      mobile: form.mobile,
+
+      email: form.email,
+
+      availability:
+        form.availability,
+
+      password: form.password,
+
+    };
+
+    /* =========================
+       SAVE ALL GUIDES
+    ========================= */
+
+    localStorage.setItem(
+
+      "tour_guides",
+
+      JSON.stringify([
+        ...existingGuides,
+        newGuide,
+      ])
+
+    );
+
+    /* OPTIONAL LOGIN PROFILE */
+
+    localStorage.setItem(
+
+      PROFILE_KEY,
+
+      JSON.stringify(newGuide)
+
+    );
+
+    console.log(
+      "Saved Guides:",
+      [
+        ...existingGuides,
+        newGuide,
+      ]
+    );
+
+    setDone(true);
+
+  }, 1500);
+};
 
   return (
 

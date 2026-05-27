@@ -24,9 +24,9 @@ export default function AIAssistant({
 
         <div className="ai-hero-left">
 
-         <div className="ai-top-row">
+          {/* BACK */}
 
-  <button
+        <button
     className="ai-back-btn"
     onClick={() =>
       setActivePage("home")
@@ -35,11 +35,9 @@ export default function AIAssistant({
     <i className="ti ti-arrow-left"></i>
   </button>
 
-  <h1>
-    AI Travel Assistant
-  </h1>
-
-</div>
+          <h1>
+            AI Travel Assistant
+          </h1>
 
           <p>
             Smart AI-powered recommendations
