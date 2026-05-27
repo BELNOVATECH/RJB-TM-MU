@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Dashboard from "./pages/Dashboard";
 import Tourists from "./pages/Tourists";
 import Vehicles from "./pages/Vehicles";
@@ -88,6 +88,14 @@ export default function App() {
   const [active, setActive] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const [activePage, setActivePage] =
+  useState("home");
+
+useEffect(() => {
+
+  window.scrollTo(0,0);
+
+}, [activePage]);
   // ── Landing ───────────────────────────────────────────────────────────────
   if (screen === "landing") {
     // return <Landing onEnter={() => setScreen("login")} />;

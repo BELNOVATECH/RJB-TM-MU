@@ -13,10 +13,11 @@ const accommodations = [
     desc: "Peaceful accommodation with spiritual ambiance, perfect for pilgrims seeking comfort and tranquility.",
     amenities: ["Free WiFi", "AC Rooms", "Restaurant", "24/7 Water", "Prayer Room", "+1 more"],
     rooms: [
-      { name: "Standard", price: 1200, left: 5 },
-      { name: "Deluxe", price: 1800, left: 3 },
-      { name: "Family Suite", price: 3000, left: 2 }
-    ]
+  { name: "Premium", price: 8000, left: 2 },
+  { name: "Medium", price: 4000, left: 4 },
+  { name: "Standard", price: 2000, left: 6 },
+  { name: "Homestay", price: 1500, left: 8 }
+]
   },
   {
     id: 2,
@@ -28,10 +29,12 @@ const accommodations = [
     distance: "1.2 km",
     desc: "Modern hotel providing all basic amenities with a beautiful view of the temple.",
     amenities: ["Free WiFi", "AC Rooms", "Room Service", "Parking"],
-    rooms: [
-      { name: "Standard", price: 1500, left: 10 },
-      { name: "Premium", price: 2500, left: 4 }
-    ]
+   rooms: [
+  { name: "Premium", price: 8000, left: 2 },
+  { name: "Medium", price: 4000, left: 4 },
+  { name: "Standard", price: 2000, left: 6 },
+  { name: "Homestay", price: 1500, left: 8 }
+]
   },
   {
     id: 3,
@@ -43,10 +46,12 @@ const accommodations = [
     distance: "0.2 km",
     desc: "Traditional stay with free meals provided daily. Very close to the main temple complex.",
     amenities: ["Free Meals", "Locker", "Shared Bathroom", "24/7 Water"],
-    rooms: [
-      { name: "Dormitory", price: 200, left: 15 },
-      { name: "Private Room", price: 500, left: 5 }
-    ]
+   rooms: [
+  { name: "Premium", price: 8000, left: 2 },
+  { name: "Medium", price: 4000, left: 4 },
+  { name: "Standard", price: 2000, left: 6 },
+  { name: "Homestay", price: 1500, left: 8 }
+]
   }
 ];
 
@@ -217,6 +222,15 @@ export default function CustomerAccommodation({ onBack }) {
                 <label className="cp-form-label">Guests</label>
                 <input type="number" min="1" className="cp-form-input" placeholder="E.g. 2" />
               </div>
+              <div className="cp-cancel-policy">
+  <strong>Cancellation Policy:</strong><br />
+  50% refund will be provided if the booking is cancelled before check-in time.
+</div>
+
+<label className="cp-checkbox">
+  <input type="checkbox" required />
+  I agree to the 50% refundable cancellation policy.
+</label>
             </div>
             <div className="cp-modal-footer">
               <button className="cp-btn-outline" onClick={closeBookingModal}>Cancel</button>

@@ -487,3 +487,22 @@
   justify-content: flex-end;
   gap: 12px;
 }
+.cp-cancel-policy {
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: #9a3412;
+  line-height: 1.6;
+}
+
+.cp-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: #444;
+}
