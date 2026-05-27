@@ -106,6 +106,53 @@
   opacity: 1;
 }
 
+/* FILTERS */
+.cp-booking-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 12px 0 18px;
+  padding: 14px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid #f0dfc8;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.04);
+}
+
+.cp-filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cp-filter-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #7c6c5e;
+}
+
+.cp-filter-select {
+  height: 42px;
+  border: 1px solid #ead9c0;
+  border-radius: 10px;
+  padding: 0 14px;
+  background: #fff;
+  color: #374151;
+  font-size: 14px;
+  outline: none;
+}
+
+.cp-vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+
+.cp-card {
+  width: 100%;
+  min-width: 0;
+}
 /* CONTENT */
 .cp-content {
   padding: 24px;
@@ -142,7 +189,6 @@
   border-radius: 12px;
   border: 1px solid #e5e7eb;
   overflow: hidden;
-  margin-bottom: 24px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
 
@@ -329,6 +375,36 @@
   color: #9ca3af;
 }
 
+.cp-price-note {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #7c2d12;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.cp-price-note strong {
+  color: #f57c00;
+}
+
+.cp-price-note-soft {
+  background: #fffaf1;
+}
+
+.cp-price-notes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cp-price-notes .cp-price-note {
+  margin-top: 0;
+}
+
 /* ACTIONS */
 .cp-actions {
   display: flex;
@@ -364,19 +440,37 @@
   text-align: center;
 }
 
+.cp-btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 /* MEDIA QUERIES */
 @media (max-width: 768px) {
   .cp-header {
     padding: 16px;
   }
+  .cp-booking-filters {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 12px;
+  }
   .cp-content {
     padding: 16px;
+  }
+  .cp-vehicle-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
   .cp-card-title {
     font-size: 16px;
   }
   .cp-card-img {
     height: 160px;
+  }
+  .cp-price-summary,
+  .cp-modal-grid {
+    grid-template-columns: 1fr;
   }
   .cp-room-item {
     flex-direction: column;
@@ -389,6 +483,21 @@
   }
   .cp-actions {
     flex-direction: column;
+  }
+  .cp-price-notes {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .cp-price-note {
+    margin-top: 0;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  .cp-modal-header,
+  .cp-modal-body,
+  .cp-modal-footer {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
 
@@ -452,6 +561,34 @@
   padding: 24px;
 }
 
+.cp-price-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.cp-price-summary div {
+  border-radius: 12px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  padding: 12px;
+}
+
+.cp-price-summary span {
+  display: block;
+  font-size: 11px;
+  color: #9a3412;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cp-price-summary strong {
+  font-size: 16px;
+  color: #1f1f1f;
+}
+
 .cp-form-group {
   margin-bottom: 16px;
 }
@@ -478,6 +615,17 @@
 .cp-form-input:focus {
   border-color: #f07b00;
   box-shadow: 0 0 0 2px rgba(240, 123, 0, 0.1);
+}
+
+.cp-form-textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.cp-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .cp-modal-footer {

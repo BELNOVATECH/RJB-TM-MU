@@ -88,12 +88,15 @@ export default function App() {
   const [active, setActive] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const [activePage, setActivePage] =
+ const [activePage, setActivePage] =
   useState("home");
 
 useEffect(() => {
 
-  window.scrollTo(0,0);
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }, [activePage]);
   // ── Landing ───────────────────────────────────────────────────────────────
