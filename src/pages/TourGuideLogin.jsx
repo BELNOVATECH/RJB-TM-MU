@@ -1,38 +1,73 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
 import "./styles/AuthLayout.css";
 import "./styles/Login.css";
 
-const PROFILE_KEY = "tourist_guide_profile";
+/* =========================
+   SPARKS
+========================= */
 
-const SPARKS = Array.from({ length: 10 }, (_, i) => ({
-  id: i,
-  left: `${8 + i * 9}%`,
-  size: i % 3 === 0 ? 4 : i % 3 === 1 ? 2 : 3,
-  duration: 8 + (i % 5) * 2,
-  delay: i * 1.1,
-  color: i % 3 === 0 ? "#ffb347" : i % 3 === 1 ? "#ffd060" : "#ff8c00",
-}));
+const SPARKS = Array.from(
+  { length: 10 },
+  (_, i) => ({
+
+    id: i,
+
+    left: `${8 + i * 9}%`,
+
+    size:
+      i % 3 === 0
+        ? 4
+        : i % 3 === 1
+        ? 2
+        : 3,
+
+    duration:
+      8 + (i % 5) * 2,
+
+    delay: i * 1.1,
+
+    color:
+      i % 3 === 0
+        ? "#ffb347"
+        : i % 3 === 1
+        ? "#ffd060"
+        : "#ff8c00",
+
+  })
+);
+
+/* =========================
+   COMPONENT
+========================= */
 
 export default function TourGuideLogin({
+
   onSuccess,
   onRegister,
   onBack,
+
 }) {
 
-  const [mobile, setMobile] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [alert, setAlert] = useState(null);
-  const [savedProfile, setSavedProfile] = useState(null);
+  /* =========================
+     STATES
+  ========================= */
 
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(PROFILE_KEY);
-      if (raw) setSavedProfile(JSON.parse(raw));
-    } catch {
-      setSavedProfile(null);
-    }
-  }, []);
+  const [mobile, setMobile] =
+    useState("");
+
+  const [password, setPassword] =
+    useState("");
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [alert, setAlert] =
+    useState(null);
+
+  /* =========================
+     LOGIN
+  ========================= */
 
   const handleLogin = () => {
 
@@ -42,7 +77,8 @@ export default function TourGuideLogin({
 
       setAlert({
         type: "error",
-        msg: "⚠️ Please enter mobile number and password.",
+        msg:
+          "⚠️ Please enter mobile number and password.",
       });
 
       return;
@@ -54,42 +90,83 @@ export default function TourGuideLogin({
 
       setLoading(false);
 
-      const profile = savedProfile;
+      /* =========================
+         ALL REGISTERED GUIDES
+      ========================= */
 
-      if (!profile) {
-        setAlert({
-          type: "error",
-          msg: "⚠️ Please register the guide profile first.",
-        });
-        return;
-      }
+      const guides =
+        JSON.parse(
+          localStorage.getItem(
+            "tour_guides"
+          )
+        ) || [];
 
-      if (
-        mobile === profile.mobile &&
-        password === profile.password
-      ) {
+      /* =========================
+         FIND MATCH
+      ========================= */
+
+      const matchedGuide =
+        guides.find(
+
+          (guide) =>
+
+            guide.mobile === mobile &&
+            guide.password === password
+
+        );
+
+      /* =========================
+         SUCCESS
+      ========================= */
+
+      if (matchedGuide) {
 
         setAlert({
           type: "success",
-          msg: "✅ Welcome Tour Guide!",
+          msg:
+            "✅ Welcome Tour Guide!",
         });
-        localStorage.setItem("tourist_guide_current", JSON.stringify(profile));
+
+        localStorage.setItem(
+
+          "tourist_guide_current",
+
+          JSON.stringify(
+            matchedGuide
+          )
+
+        );
 
         setTimeout(() => {
-          onSuccess && onSuccess();
+
+          onSuccess &&
+            onSuccess();
+
         }, 1000);
 
-      } else {
+      }
+
+      /* =========================
+         FAILED
+      ========================= */
+
+      else {
 
         setAlert({
           type: "error",
-          msg: "❌ Invalid guide credentials.",
+          msg:
+            "❌ Invalid guide credentials.",
         });
 
       }
 
     }, 1200);
+
   };
+
+  /* =========================
+     JSX
+  ========================= */
 
   return (
 
@@ -97,12 +174,21 @@ export default function TourGuideLogin({
 
       <div className="auth-gold-bar" />
 
-      {/* LEFT */}
+      {/* =========================
+          LEFT
+      ========================= */}
+
       <div className="auth-left">
 
         <div className="auth-left-bg" />
+
         <div className="auth-arch" />
-        <div className="auth-om-bg">ॐ</div>
+
+        <div className="auth-om-bg">
+          ॐ
+        </div>
+
+        {/* SPARKS */}
 
         <div className="auth-sparks">
 
@@ -112,13 +198,25 @@ export default function TourGuideLogin({
               key={s.id}
               className="auth-spark"
               style={{
+
                 left: s.left,
+
                 width: s.size,
+
                 height: s.size,
-                background: s.color,
-                boxShadow: `0 0 ${s.size * 3}px ${s.color}`,
-                animationDuration: `${s.duration}s`,
-                animationDelay: `${s.delay}s`,
+
+                background:
+                  s.color,
+
+                boxShadow:
+                  `0 0 ${s.size * 3}px ${s.color}`,
+
+                animationDuration:
+                  `${s.duration}s`,
+
+                animationDelay:
+                  `${s.delay}s`,
+
               }}
             />
 
@@ -126,9 +224,16 @@ export default function TourGuideLogin({
 
         </div>
 
+        {/* SIDE TEXT */}
+
         <div className="auth-left-vert">
-          Ayodhya Tourism · Guide Services · 2026
+
+          Ayodhya Tourism ·
+          Guide Services · 2026
+
         </div>
+
+        {/* CONTENT */}
 
         <div className="auth-left-content">
 
@@ -137,15 +242,22 @@ export default function TourGuideLogin({
           </div>
 
           <h1 className="auth-left-title">
+
             Tour Guide
             <br />
             <em>Portal</em>
+
           </h1>
 
           <p className="auth-left-desc">
-            Secure multilingual guide management
-            and tourism assistance services portal.
+
+            Secure multilingual guide
+            management and tourism
+            assistance services portal.
+
           </p>
+
+          {/* STEPS */}
 
           <div className="auth-steps">
 
@@ -153,21 +265,30 @@ export default function TourGuideLogin({
               {
                 n: "1",
                 t: "Guide Access",
-                d: "Login securely with credentials",
+                d:
+                  "Login securely with credentials",
               },
+
               {
                 n: "2",
                 t: "Tour Management",
-                d: "Handle tourist bookings & tours",
+                d:
+                  "Handle tourist bookings & tours",
               },
+
               {
                 n: "3",
                 t: "Pilgrim Support",
-                d: "Provide spiritual tourism guidance",
+                d:
+                  "Provide spiritual tourism guidance",
               },
+
             ].map((s) => (
 
-              <div key={s.n} className="auth-step">
+              <div
+                key={s.n}
+                className="auth-step"
+              >
 
                 <div className="auth-step-num">
                   {s.n}
@@ -195,7 +316,10 @@ export default function TourGuideLogin({
 
       </div>
 
-      {/* RIGHT */}
+      {/* =========================
+          RIGHT
+      ========================= */}
+
       <div className="auth-right">
 
         <button
@@ -207,7 +331,11 @@ export default function TourGuideLogin({
 
         <div className="auth-mandala" />
 
+        {/* CARD */}
+
         <div className="auth-form-card">
+
+          {/* LOGO */}
 
           <div className="auth-logo-row">
 
@@ -229,6 +357,8 @@ export default function TourGuideLogin({
 
           </div>
 
+          {/* HEADING */}
+
           <div className="auth-heading">
             Tour Guide Login
           </div>
@@ -236,6 +366,8 @@ export default function TourGuideLogin({
           <div className="auth-subheading">
             Login for guide tourism services
           </div>
+
+          {/* TABS */}
 
           <div className="auth-tabs">
 
@@ -252,13 +384,23 @@ export default function TourGuideLogin({
 
           </div>
 
+          {/* FIELDS */}
+
           <div className="auth-fields">
 
+            {/* ALERT */}
+
             {alert && (
-              <div className={`auth-alert ${alert.type}`}>
+
+              <div
+                className={`auth-alert ${alert.type}`}
+              >
                 {alert.msg}
               </div>
+
             )}
+
+            {/* MOBILE */}
 
             <div className="auth-field">
 
@@ -276,12 +418,18 @@ export default function TourGuideLogin({
                   className="auth-field-input"
                   placeholder="Enter mobile number"
                   value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
+                  onChange={(e) =>
+                    setMobile(
+                      e.target.value
+                    )
+                  }
                 />
 
               </div>
 
             </div>
+
+            {/* PASSWORD */}
 
             <div className="auth-field">
 
@@ -300,25 +448,46 @@ export default function TourGuideLogin({
                   type="password"
                   placeholder="Enter password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) =>
+                    setPassword(
+                      e.target.value
+                    )
+                  }
                 />
 
               </div>
 
             </div>
 
+            {/* BUTTON */}
+
             <button
               className="auth-btn"
               onClick={handleLogin}
               disabled={loading}
             >
-              {loading
-                ? <><span className="auth-spinner" />Verifying…</>
-                : <>🧭 &nbsp; ENTER GUIDE PORTAL</>
-              }
+
+              {loading ? (
+
+                <>
+                  <span className="auth-spinner" />
+                  Verifying…
+                </>
+
+              ) : (
+
+                <>
+                  🧭 &nbsp;
+                  ENTER GUIDE PORTAL
+                </>
+
+              )}
+
             </button>
 
           </div>
+
+          {/* SWITCH */}
 
           <div className="auth-switch">
 
@@ -335,5 +504,7 @@ export default function TourGuideLogin({
       </div>
 
     </div>
+
   );
+
 }

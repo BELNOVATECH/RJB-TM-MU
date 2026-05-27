@@ -27,15 +27,13 @@ export default function AIAssistant({
           {/* BACK */}
 
         <button
-  className="ai-back-btn"
-  onClick={() =>
-    setActivePage("home")
-  }
->
-
-  <i className="ti ti-arrow-left"></i>
-
-</button>
+    className="ai-back-btn"
+    onClick={() =>
+      setActivePage("home")
+    }
+  >
+    <i className="ti ti-arrow-left"></i>
+  </button>
 
           <h1>
             AI Travel Assistant

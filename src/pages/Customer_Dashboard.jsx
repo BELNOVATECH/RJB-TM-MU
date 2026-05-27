@@ -651,13 +651,13 @@ if (activePage === "ai") {
             </div>
             <span>Payments</span>
           </div>
-
+{/* 
           <div className="service-card">
             <div className="service-icon gray">
               <i className="ti ti-history"></i>
             </div>
             <span>History</span>
-          </div>
+          </div> */}
 
         </div>
 
