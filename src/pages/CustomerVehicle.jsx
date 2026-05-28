@@ -86,180 +86,56 @@ const vehicles = [
     pricePerKm: 22,
     available: false
   },
-
-  {
-    id: 4,
-    name: "Kia Carens",
-    type: "MUV",
-    vehicleClass: "Luxury",
-    capacity: 6,
-    driver: "Anil Sharma",
-    experience: "10 yrs exp",
-    image:
-      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1200",
-    rating: 4.9,
-    seats: "6 Seater",
-    fuel: "Petrol",
-    transmission: "Automatic",
-    amenities: [
-      "AC",
-      "GPS",
-      "Music System",
-      "Charging Port"
-    ],
-    pricePerDay: 4200,
-    pricePerKm: 18,
-    available: true
-  },
-
-  {
-    id: 5,
-    name: "Mahindra Scorpio N",
-    type: "SUV",
-    vehicleClass: "Luxury",
-    capacity: 7,
-    driver: "Rahul Verma",
-    experience: "14 yrs exp",
-    image:
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200",
-    rating: 4.8,
-    seats: "7 Seater",
-    fuel: "Diesel",
-    transmission: "Automatic",
-    amenities: [
-      "AC",
-      "Music System",
-      "GPS",
-      "First Aid"
-    ],
-    pricePerDay: 4800,
-    pricePerKm: 19,
-    available: true
-  },
-
-  {
-    id: 6,
-    name: "Hyundai Verna",
-    type: "Sedan",
-    vehicleClass: "Standard",
-    capacity: 4,
-    driver: "Kiran Patel",
-    experience: "7 yrs exp",
-    image:
-      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1200",
-    rating: 4.5,
-    seats: "5 Seater",
-    fuel: "Petrol",
-    transmission: "Manual",
-    amenities: [
-      "AC",
-      "Music System",
-      "USB Charger"
-    ],
-    pricePerDay: 2500,
-    pricePerKm: 12,
-    available: true
-  },
-
-  {
-    id: 7,
-    name: "Tempo Traveller Deluxe",
-    type: "Luxury Van",
-    vehicleClass: "Luxury",
-    capacity: 18,
-    driver: "Manoj Yadav",
-    experience: "18 yrs exp",
-    image:
-      "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?q=80&w=1200",
-    rating: 4.9,
-    seats: "18 Seater",
-    fuel: "Diesel",
-    transmission: "Manual",
-    amenities: [
-      "AC",
-      "LED TV",
-      "Pushback Seats",
-      "WiFi"
-    ],
-    pricePerDay: 8500,
-    pricePerKm: 28,
-    available: true
-  },
-
-  {
-    id: 8,
-    name: "Toyota Fortuner",
-    type: "SUV",
-    vehicleClass: "Luxury",
-    capacity: 7,
-    driver: "Ajay Singh",
-    experience: "16 yrs exp",
-    image:
-      "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1200",
-    rating: 5.0,
-    seats: "7 Seater",
-    fuel: "Diesel",
-    transmission: "Automatic",
-    amenities: [
-      "AC",
-      "GPS",
-      "Music System",
-      "Luxury Seats"
-    ],
-    pricePerDay: 7000,
-    pricePerKm: 25,
-    available: true
-  },
-
-  {
-    id: 9,
-    name: "Maruti Ertiga",
-    type: "MUV",
-    vehicleClass: "Standard",
-    capacity: 7,
-    driver: "Ravi Teja",
-    experience: "9 yrs exp",
-    image:
-      "https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200",
-    rating: 4.4,
-    seats: "7 Seater",
-    fuel: "Petrol",
-    transmission: "Manual",
-    amenities: [
-      "AC",
-      "Music System",
-      "Charging Port"
-    ],
-    pricePerDay: 3200,
-    pricePerKm: 14,
-    available: true
-  },
-
-  {
-    id: 10,
-    name: "Ashok Leyland Mini Bus",
-    type: "Mini Bus",
-    vehicleClass: "Standard",
-    capacity: 20,
-    driver: "Naveen Reddy",
-    experience: "20 yrs exp",
-    image:
-      "https://images.unsplash.com/photo-1489824904134-891ab64532f1?q=80&w=1200",
-    rating: 4.7,
-    seats: "20 Seater",
-    fuel: "Diesel",
-    transmission: "Manual",
-    amenities: [
-      "AC",
-      "Pushback Seats",
-      "First Aid",
-      "WiFi"
-    ],
-    pricePerDay: 9500,
-    pricePerKm: 30,
-    available: false
-  }
 ];
+
+const PROFILE_KEY = "tourist_vehicle_profile";
+const REGISTRY_KEY = "tourist_vehicle_registry";
+
+function mapRegisteredVehicle(profile) {
+  if (!profile) return null;
+
+  return {
+    id: `reg-${profile.vehicleNo || profile.reg || "vehicle"}`,
+    name: profile.model?.split("·")[0]?.trim() || profile.vehicleNo || "Registered Vehicle",
+    type: profile.type || "SUV",
+    vehicleClass: profile.type === "Mini Bus" ? "Standard" : "Luxury",
+    capacity: Number(profile.capacity) || 4,
+    driver: profile.driverName || profile.role || "Vehicle Service",
+    experience: `${profile.year || "2024"} registered`,
+    image:
+      profile.image || "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200",
+    rating: 4.8,
+    seats: `${profile.capacity || "4"} Seater`,
+    fuel: "Diesel",
+    transmission: "Manual",
+    amenities: ["Registered", "GPS", "First Aid"],
+    pricePerDay: Math.max(1800, Number(profile.capacity || 4) * 450),
+    pricePerKm: 14,
+    available: (profile.status || "Available") !== "Maintenance",
+  };
+}
+
+function loadRegisteredVehicles() {
+  try {
+    const registryRaw = localStorage.getItem(REGISTRY_KEY);
+    if (registryRaw) {
+      const registry = JSON.parse(registryRaw);
+      if (Array.isArray(registry)) {
+        return registry.map(mapRegisteredVehicle).filter(Boolean);
+      }
+    }
+
+    const singleProfile = localStorage.getItem(PROFILE_KEY);
+    if (singleProfile) {
+      const mapped = mapRegisteredVehicle(JSON.parse(singleProfile));
+      return mapped ? [mapped] : [];
+    }
+  } catch {
+    return [];
+  }
+
+  return [];
+}
 
 export default function CustomerVehicle({ onBack }) {
   const tabs = ["All", "Sedan", "SUV", "MUV", "Mini Bus", "Luxury Van"];
@@ -282,6 +158,10 @@ export default function CustomerVehicle({ onBack }) {
     luggage: "0",
     notes: ""
   });
+  const registeredVehicles = loadRegisteredVehicles();
+  const allVehicles = [...registeredVehicles, ...vehicles].filter(
+    (item, index, list) => index === list.findIndex((other) => other.id === item.id)
+  );
 
   const openBookingModal = (item) => {
     setSelectedItem(item);
@@ -325,7 +205,7 @@ export default function CustomerVehicle({ onBack }) {
     return bookingHours * 10;
   };
 
-  const filteredData = vehicles.filter((item) => {
+  const filteredData = allVehicles.filter((item) => {
     const matchesTab = activeTab === "All" || item.type === activeTab;
     const matchesSearch =
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

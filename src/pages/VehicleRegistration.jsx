@@ -21,6 +21,7 @@ export default function VehicleRegistration({
     vehicleNo: "",
     chassis: "",
     type: "",
+    driverName: "",
     model: "",
     capacity: "",
     year: "",
@@ -53,6 +54,7 @@ export default function VehicleRegistration({
       !form.vehicleNo ||
       !form.chassis ||
       !form.type ||
+      !form.driverName ||
       !form.password
     ) {
 
@@ -69,12 +71,13 @@ export default function VehicleRegistration({
     setTimeout(() => {
 
       setLoading(false);
-      localStorage.setItem(
+          localStorage.setItem(
         PROFILE_KEY,
         JSON.stringify({
           vehicleNo: form.vehicleNo.trim(),
           chassis: form.chassis,
           type: form.type,
+          driverName: form.driverName.trim(),
           model: form.model,
           capacity: form.capacity,
           year: form.year,
@@ -85,7 +88,7 @@ export default function VehicleRegistration({
           password: form.password,
           role: "Vehicle Service",
           image:
-            "https://images.unsplash.com/photo-1549924231-f129b911e442?q=80&w=900",
+            "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=900",
         })
       );
       setDone(true);
@@ -320,6 +323,30 @@ export default function VehicleRegistration({
                       />
 
                     </div>
+
+                  </div>
+
+                </div>
+
+                {/* DRIVER NAME */}
+                <div className="auth-field">
+
+                  <div className="auth-field-label">
+                    Driver Name *
+                  </div>
+
+                  <div className="auth-field-wrap">
+
+                    <span className="auth-field-icon">
+                      👤
+                    </span>
+
+                    <input
+                      className="auth-field-input"
+                      placeholder="Enter driver name"
+                      value={form.driverName}
+                      onChange={update("driverName")}
+                    />
 
                   </div>
 

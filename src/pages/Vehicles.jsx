@@ -6,8 +6,6 @@ const INITIAL_FLEET = [
   { reg: "UP-32 AB 1234", model: "Toyota Innova · 2022", type: "SUV", typeCls: "badge-blue", driver: "Ram Prasad", capacity: "7 pax", status: "On Trip", statusCls: "badge-green" },
   { reg: "UP-32 CD 5678", model: "Maruti Dzire · 2023", type: "Sedan", typeCls: "badge-gold", driver: "Suresh Yadav", capacity: "4 pax", status: "Available", statusCls: "badge-green" },
   { reg: "UP-32 EF 9012", model: "Force Traveller · 2021", type: "Mini Bus", typeCls: "badge-purple", driver: "Ganesh Tiwari", capacity: "14 pax", status: "On Trip", statusCls: "badge-green" },
-  { reg: "UP-32 GH 3456", model: "Bajaj Auto · 2024", type: "Auto", typeCls: "badge-amber", driver: "Mohan Gupta", capacity: "3 pax", status: "Maintenance", statusCls: "badge-red" },
-  { reg: "UP-32 IJ 7890", model: "Toyota Etios · 2023", type: "EV", typeCls: "badge-green", driver: "Raju Sharma", capacity: "4 pax", status: "Permit Due", statusCls: "badge-red" },
 ];
  const DRIVERS_DATA = [
   {
@@ -94,6 +92,126 @@ const STATUS_CLS_MAP = {
   Maintenance: "badge-red",
   "Permit Due": "badge-red",
 };
+
+const PROFILE_KEY = "tourist_vehicle_profile";
+const REGISTRY_KEY = "tourist_vehicle_registry";
+
+function mapRegisteredVehicle(profile) {
+  if (!profile) return null;
+
+  return {
+    reg: profile.vehicleNo || profile.reg || "REG-NEW",
+    model: `${profile.model || "Registered Vehicle"} Â· ${profile.year || "2024"}`,
+    type: profile.type || "SUV",
+    typeCls: TYPE_CLS_MAP[profile.type] || "badge-blue",
+    driver: profile.driverName || profile.role || "Vehicle Service",
+    capacity: `${profile.capacity || "4"} pax`,
+    status: profile.status || "Available",
+    statusCls: STATUS_CLS_MAP[profile.status] || "badge-green",
+  };
+}
+
+function loadFleetData() {
+  try {
+    const rawRegistry = localStorage.getItem(REGISTRY_KEY);
+    const registry = rawRegistry ? JSON.parse(rawRegistry) : null;
+    const registeredItems = Array.isArray(registry)
+      ? registry.map(mapRegisteredVehicle).filter(Boolean)
+      : [];
+
+    if (registeredItems.length > 0) {
+      return [
+        ...registeredItems,
+        ...INITIAL_FLEET.filter(
+          (vehicle) => !registeredItems.some((item) => item.reg === vehicle.reg)
+        ),
+      ];
+    }
+
+    const rawProfile = localStorage.getItem(PROFILE_KEY);
+    if (rawProfile) {
+      const mapped = mapRegisteredVehicle(JSON.parse(rawProfile));
+      if (mapped) {
+        return [
+          mapped,
+          ...INITIAL_FLEET.filter((vehicle) => vehicle.reg !== mapped.reg),
+        ];
+      }
+    }
+  } catch {
+    return INITIAL_FLEET;
+  }
+
+  return INITIAL_FLEET;
+}
+
+function loadRegisteredRows() {
+  try {
+    const rawRegistry = localStorage.getItem(REGISTRY_KEY);
+    const registry = rawRegistry ? JSON.parse(rawRegistry) : null;
+    const source = Array.isArray(registry)
+      ? registry
+      : localStorage.getItem(PROFILE_KEY)
+        ? [JSON.parse(localStorage.getItem(PROFILE_KEY))]
+        : [];
+
+    const mapped = source
+      .filter(Boolean)
+      .map((profile, index) => {
+        const reg = profile.vehicleNo || profile.reg;
+        const model = profile.model || "Registered Vehicle";
+        const type = profile.type || "SUV";
+        const status = profile.status || "Available";
+        const baseVehicle = {
+          reg: reg || `REG-${index + 1}`,
+          model: `${model} · ${profile.year || "2024"}`,
+          type,
+          typeCls: TYPE_CLS_MAP[type] || "badge-blue",
+          driver: profile.driverName || profile.role || "Vehicle Service",
+          capacity: `${profile.capacity || "4"} pax`,
+          status,
+          statusCls: STATUS_CLS_MAP[status] || "badge-green",
+        };
+
+        return {
+          driverRow: {
+            name: profile.driverName || profile.role || "Vehicle Service",
+            phone: profile.phone || `+91 ${String(index + 1).padStart(10, "0")}`,
+            vehicle: reg || "Registered Vehicle",
+            status: status === "Maintenance" ? "On Break" : "Available",
+          },
+          bookingRow: {
+            bookingId: `RB-${String(index + 1).padStart(3, "0")}`,
+            customer: "Registered Vehicle",
+            vehicle: model,
+            date: profile.year || "2024",
+            status: status === "Maintenance" ? "Pending" : "Confirmed",
+          },
+          trackingRow: {
+            vehicle: reg || "Registered Vehicle",
+            location: profile.type || "Ayodhya",
+            speed: status === "On Trip" ? "Moving" : "0 km/h",
+            status: status === "On Trip" ? "Moving" : "Stopped",
+          },
+          fleetRow: baseVehicle,
+        };
+      });
+
+    return {
+      fleetRows: mapped.map((item) => item.fleetRow),
+      driverRows: mapped.map((item) => item.driverRow),
+      bookingRows: mapped.map((item) => item.bookingRow),
+      trackingRows: mapped.map((item) => item.trackingRow),
+    };
+  } catch {
+    return {
+      fleetRows: [],
+      driverRows: [],
+      bookingRows: [],
+      trackingRows: [],
+    };
+  }
+}
  
 const EMPTY_FORM = {
   reg: "",
@@ -632,15 +750,22 @@ function TrackingEditModal({
 export default function Vehicles() {
   const [activeTab, setActiveTab] = useState(0);
   const [editType, setEditType] = useState("");
-  const [fleet, setFleet] = useState(INITIAL_FLEET);
-  const [driversData, setDriversData] =
-  useState(DRIVERS_DATA);
+  const [fleet, setFleet] = useState(() => loadFleetData());
+  const registeredRows = loadRegisteredRows();
+  const [driversData, setDriversData] = useState([
+    ...registeredRows.driverRows,
+    ...DRIVERS_DATA,
+  ]);
 
-const [bookingsData, setBookingsData] =
-  useState(BOOKINGS_DATA);
+  const [bookingsData, setBookingsData] = useState([
+    ...registeredRows.bookingRows,
+    ...BOOKINGS_DATA,
+  ]);
 
-const [trackingData, setTrackingData] =
-  useState(TRACKING_DATA);
+  const [trackingData, setTrackingData] = useState([
+    ...registeredRows.trackingRows,
+    ...TRACKING_DATA,
+  ]);
   const [showModal, setShowModal] = useState(false);
   const [editVehicle, setEditVehicle] = useState(null);
 const [editIndex, setEditIndex] = useState(null);

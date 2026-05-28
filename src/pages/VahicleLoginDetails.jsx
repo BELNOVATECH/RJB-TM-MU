@@ -4,6 +4,7 @@ import "./styles/VahicleLoginDetails.css";
 const PROFILE_KEY = "tourist_vehicle_profile";
 const CURRENT_KEY = "tourist_vehicle_current";
 const REQUESTS_KEY = "tourist_vehicle_requests";
+const REGISTRY_KEY = "tourist_vehicle_registry";
 
 const DEFAULT_REQUESTS = [
   {
@@ -60,6 +61,46 @@ function loadRequests() {
   return DEFAULT_REQUESTS;
 }
 
+function mapProfileToRegistry(profile) {
+  if (!profile) return null;
+
+  return {
+    id: profile.vehicleNo || profile.reg || "registered-vehicle",
+    vehicleNo: profile.vehicleNo || profile.reg || "-",
+    chassis: profile.chassis || "",
+    type: profile.type || "SUV",
+    driverName: profile.driverName || profile.role || "Vehicle Service",
+    model: profile.model || "",
+    capacity: profile.capacity || "",
+    year: profile.year || "",
+    insurance: profile.insurance || "",
+    permit: profile.permit || "",
+    pollution: profile.pollution || "",
+    status: profile.status || "Available",
+    role: profile.role || "Vehicle Service",
+    image: profile.image || "",
+  };
+}
+
+function upsertRegistry(profile) {
+  try {
+    const mapped = mapProfileToRegistry(profile);
+    if (!mapped) return;
+
+    const raw = localStorage.getItem(REGISTRY_KEY);
+    const current = raw ? JSON.parse(raw) : [];
+    const list = Array.isArray(current) ? current : [];
+    const next = [
+      mapped,
+      ...list.filter((item) => item.vehicleNo !== mapped.vehicleNo),
+    ];
+
+    localStorage.setItem(REGISTRY_KEY, JSON.stringify(next));
+  } catch {
+    // Ignore registry sync failures and keep the dashboard functional.
+  }
+}
+
 export default function VahicleLoginDetails({ onBack }) {
   const [profile, setProfile] = useState(null);
   const [requests, setRequests] = useState(DEFAULT_REQUESTS);
@@ -69,6 +110,12 @@ export default function VahicleLoginDetails({ onBack }) {
     setProfile(loadProfile());
     setRequests(loadRequests());
   }, []);
+
+  useEffect(() => {
+    if (profile) {
+      upsertRegistry(profile);
+    }
+  }, [profile]);
 
   useEffect(() => {
     localStorage.setItem(REQUESTS_KEY, JSON.stringify(requests));
@@ -97,6 +144,7 @@ export default function VahicleLoginDetails({ onBack }) {
     vehicleNo: "AP09AB1234",
     type: "Tour Vehicle",
     model: "Toyota Traveller",
+    driverName: "Vehicle Service",
     capacity: "24 Seats",
     status: "Available",
     year: "2024",
@@ -105,7 +153,7 @@ export default function VahicleLoginDetails({ onBack }) {
     pollution: "Valid",
     role: "Vehicle Service",
     image:
-      "https://images.unsplash.com/photo-1549924231-f129b911e442?q=80&w=900",
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=900",
   };
 
   return (
@@ -128,7 +176,9 @@ export default function VahicleLoginDetails({ onBack }) {
             }}
           />
           <div className="vehicle-name">{safeProfile.vehicleNo}</div>
-          <div className="vehicle-role">{safeProfile.role}</div>
+          <div className="vehicle-role">
+            {safeProfile.driverName || safeProfile.role}
+          </div>
 
           <div className="vehicle-mini-grid">
             <div className="vehicle-mini">
