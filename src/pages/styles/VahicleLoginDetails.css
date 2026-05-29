@@ -186,6 +186,72 @@
   margin-top: 16px;
 }
 
+.vehicle-recent-card {
+  margin-top: 16px;
+  border: 1px solid rgba(170, 124, 40, 0.14);
+  border-radius: 24px;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 249, 238, 0.94));
+  box-shadow: 0 16px 38px rgba(132, 92, 27, 0.08);
+}
+
+.vehicle-recent-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.vehicle-recent-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #b27409;
+  margin-bottom: 6px;
+}
+
+.vehicle-recent-head h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #2a1708;
+}
+
+.vehicle-recent-head p {
+  margin: 6px 0 0;
+  color: #755e45;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.vehicle-recent-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.vehicle-recent-pill {
+  border: 1px solid rgba(170, 124, 40, 0.14);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 12px 14px;
+}
+
+.vehicle-recent-pill span {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8c6b49;
+  margin-bottom: 6px;
+}
+
+.vehicle-recent-pill strong {
+  font-size: 13px;
+  color: #261507;
+}
+
 .vehicle-section-head h2 {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
@@ -197,6 +263,26 @@
   margin: 6px 0 0;
   font-size: 12px;
   color: #755e45;
+}
+
+.vehicle-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.vehicle-section-chip {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(255, 161, 0, 0.18), rgba(255, 194, 87, 0.22));
+  border: 1px solid rgba(170, 124, 40, 0.18);
+  color: #8a5a12;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .vehicle-request-list {
@@ -262,6 +348,13 @@
   gap: 10px;
 }
 
+.vehicle-payment-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .vehicle-request-pill {
   border-radius: 14px;
   padding: 10px 12px;
@@ -289,6 +382,8 @@
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .vehicle-action {
@@ -311,6 +406,164 @@
   background: linear-gradient(135deg, #ff8f00, #ffb22e);
   color: #fff;
   box-shadow: 0 16px 28px rgba(255, 145, 0, 0.28);
+}
+
+.vehicle-otp-row {
+  margin-top: 14px;
+}
+
+.vehicle-otp-label {
+  font-size: 12px;
+  color: #7a5e40;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.vehicle-otp-label span {
+  font-weight: 500;
+  color: #9a7d61;
+  margin-left: 6px;
+}
+
+.vehicle-otp-shell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.vehicle-otp-input {
+  flex: 1 1 180px;
+  min-width: 0;
+  border-radius: 14px;
+  border: 1px solid rgba(170, 124, 40, 0.18);
+  background: #fffaf3;
+  padding: 12px 14px;
+  font-size: 14px;
+  color: #2c1808;
+  outline: none;
+}
+
+.vehicle-otp-input:focus {
+  border-color: rgba(255, 145, 0, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 145, 0, 0.08);
+}
+
+.vehicle-payment-settled {
+  border-radius: 14px;
+  background: #ecfdf3;
+  color: #15803d;
+  padding: 10px 14px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.vehicle-payment-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 15, 2, 0.55);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.vehicle-payment-modal {
+  width: min(100%, 620px);
+  background: #fffaf1;
+  border: 1px solid rgba(170, 124, 40, 0.18);
+  border-radius: 24px;
+  box-shadow: 0 24px 80px rgba(26, 15, 2, 0.25);
+  padding: 22px;
+}
+
+.vehicle-payment-modal-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.vehicle-payment-modal-eyebrow {
+  color: #c27c00;
+  letter-spacing: 0.22em;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.vehicle-payment-modal-head h3 {
+  margin: 0;
+  font-size: 24px;
+  color: #2c1808;
+}
+
+.vehicle-payment-modal-head p {
+  margin: 6px 0 0;
+  color: #7d6348;
+  font-size: 14px;
+}
+
+.vehicle-payment-close {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(170, 124, 40, 0.18);
+  background: #fff;
+  color: #7d6348;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.vehicle-payment-summary,
+.vehicle-payment-badges {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.vehicle-payment-badges {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.vehicle-payment-summary > div,
+.vehicle-payment-badges > div {
+  background: #fff;
+  border: 1px solid rgba(170, 124, 40, 0.14);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.vehicle-payment-summary span,
+.vehicle-payment-badges span {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9a7d61;
+  margin-bottom: 4px;
+}
+
+.vehicle-payment-summary strong,
+.vehicle-payment-badges strong {
+  display: block;
+  font-size: 16px;
+  color: #261507;
+}
+
+.vehicle-payment-note {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fff3df, #fff);
+  border: 1px solid rgba(255, 161, 0, 0.18);
+  color: #7a5e40;
+  font-size: 13px;
+  line-height: 1.65;
 }
 
 @media (max-width: 1100px) {
@@ -401,6 +654,10 @@
   .vehicle-request-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .vehicle-payment-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 640px) {
@@ -415,6 +672,14 @@
 
   .vehicle-hero p {
     font-size: 11px;
+  }
+
+  .vehicle-recent-head {
+    flex-direction: column;
+  }
+
+  .vehicle-recent-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .vehicle-request-top {
@@ -433,5 +698,20 @@
 
   .vehicle-action {
     width: 100%;
+  }
+
+  .vehicle-otp-shell {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .vehicle-otp-input,
+  .vehicle-payment-close {
+    width: 100%;
+  }
+
+  .vehicle-payment-summary,
+  .vehicle-payment-badges {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
