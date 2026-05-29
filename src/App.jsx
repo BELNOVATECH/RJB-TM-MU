@@ -25,6 +25,8 @@ import TourGuideRegistration from "./pages/TourGuideRegistration";
 import VehicleRegistration from "./pages/VehicleRegistration";
 import DriverManagement from "./pages/DriverManagement";
 import AIFeatures from "./pages/AIfeatures";
+import AccommodationLogin from "./pages/AccommodationLogin";
+import AccommodationRegistration from "./pages/AccommodationRegistration";
 
 // ─── Navigation config ────────────────────────────────────────────────────────
 const NAV = [
@@ -114,7 +116,9 @@ if (screen === "customerLogin") {
       onGuide={() => setScreen("guideLogin")}
       onVehicle={() => setScreen("vehicleLogin")}
       onDriver={() => setScreen("driverLogin")}
-
+       onAccommodation={() =>
+    setScreen("accommodationLogin")
+  }
       onBack={() => setScreen("landing")}
     />
   );
@@ -198,7 +202,54 @@ if (screen === "vehicleRegister") {
     />
   );
 }
+/* ACCOMMODATION LOGIN */
 
+if (screen === "accommodationLogin") {
+
+  return (
+
+    <AccommodationLogin
+
+      onSuccess={() =>
+        setScreen("accommodationDashboard")
+      }
+
+      onRegister={() =>
+        setScreen("accommodationRegister")
+      }
+
+      onBack={() =>
+        setScreen("customerLogin")
+      }
+
+    />
+
+  );
+
+}
+
+
+/* ACCOMMODATION REGISTER */
+
+if (screen === "accommodationRegister") {
+
+  return (
+
+    <AccommodationRegistration
+
+      onLogin={() =>
+        setScreen("accommodationLogin")
+      }
+
+      onBack={() =>
+        setScreen("customerLogin")
+      }
+
+    />
+
+  );
+
+}
 /* DRIVER LOGIN */
 
 if (screen === "driverLogin") {
