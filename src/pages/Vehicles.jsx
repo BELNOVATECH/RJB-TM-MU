@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import "./styles/Vehicles.css";
  
@@ -73,7 +73,7 @@ const ALERTS = [
   { dot: "#f5c842", text: "UP-32 MN 3344 — PUC due 31 May", sub: "17 days left" },
 ];
  
-const TABS = ["All Vehicles", "Drivers", "Bookings", "Tracking"];
+const TABS = ["All Vehicles", "Drivers", "Bookings", "Tracking", "Payment Details"];
 const TYPE_OPTIONS = ["SUV", "Sedan", "Mini Bus", "Auto", "EV", "Luxury"];
 const STATUS_OPTIONS = ["Available", "On Trip", "Maintenance", "Permit Due"];
  
@@ -95,6 +95,10 @@ const STATUS_CLS_MAP = {
 
 const PROFILE_KEY = "tourist_vehicle_profile";
 const REGISTRY_KEY = "tourist_vehicle_registry";
+const RIDE_KEY = "tourist_vehicle_rides";
+const PLATFORM_FEE_PERCENT = 15;
+const DIESEL_RATE_PER_KM = 8;
+const KM_PER_HOUR = 10;
 
 function mapRegisteredVehicle(profile) {
   if (!profile) return null;
@@ -210,6 +214,60 @@ function loadRegisteredRows() {
       bookingRows: [],
       trackingRows: [],
     };
+  }
+}
+
+function loadRidePayments() {
+  try {
+    const raw = localStorage.getItem(RIDE_KEY);
+    const list = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(list)) return [];
+
+    return list.map((ride, index) => {
+      const hours = Number(ride.hours) || 8;
+      const distanceKm = Number(ride.distanceKm) || hours * KM_PER_HOUR;
+      const totalFare =
+        Number(ride.totalFare || ride.estimatedPrice || ride.fare) ||
+        Math.max(1800, hours * 400);
+      const platformCharge =
+        Number(ride.platformCharge) ||
+        Math.round(totalFare * (PLATFORM_FEE_PERCENT / 100));
+      const driverEarning =
+        Number(ride.driverEarning) || Math.max(totalFare - platformCharge, 0);
+      const dieselCost = Number(ride.dieselCost) || Math.round(distanceKm * DIESEL_RATE_PER_KM);
+
+      return {
+        id: ride.id || ride.rideId || `ride-${index + 1}`,
+        rideId: ride.rideId || ride.id || `ride-${index + 1}`,
+        driverName: ride.driverName || ride.driver || "Vehicle Service",
+        vehicle: ride.vehicleNo || ride.vehicleName || ride.vehicle || "Registered Vehicle",
+        tourist: ride.tourist || ride.customerName || "Tourist Booking",
+        route:
+          ride.route ||
+          `${ride.pickupLocation || "Pickup"} -> ${ride.dropLocation || "Drop"}`,
+        date: ride.date || ride.travelDate || "-",
+        time: ride.time || ride.pickupTime || "-",
+        status: ride.status || "Pending",
+        paymentStatus:
+          ride.paymentStatus || (ride.status === "Completed" ? "Settled" : "Pending"),
+        paymentMode: ride.paymentMode || "advance",
+        advancePercent: Number(ride.advancePercent) || 50,
+        advanceAmount:
+          Number(ride.advanceAmount) ||
+          Math.round(totalFare * 0.5),
+        balanceDue:
+          Number(ride.balanceDue) ||
+          Math.max(totalFare - Math.round(totalFare * 0.5), 0),
+        distanceKm,
+        totalFare,
+        platformCharge,
+        driverEarning,
+        dieselCost,
+        otp: ride.otp || "----",
+      };
+    });
+  } catch {
+    return [];
   }
 }
  
@@ -770,6 +828,25 @@ export default function Vehicles() {
   const [editVehicle, setEditVehicle] = useState(null);
 const [editIndex, setEditIndex] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [ridePayments, setRidePayments] = useState(() => loadRidePayments());
+
+  useEffect(() => {
+    const syncPayments = () => setRidePayments(loadRidePayments());
+    syncPayments();
+
+    const handleStorage = (event) => {
+      if (event.key === RIDE_KEY) {
+        syncPayments();
+      }
+    };
+
+    window.addEventListener("storage", handleStorage);
+    window.addEventListener("focus", syncPayments);
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+      window.removeEventListener("focus", syncPayments);
+    };
+  }, []);
  
 const handleSave = (vehicleData) => {
 
@@ -971,6 +1048,7 @@ const filteredTracking = trackingData.filter((t) =>
       {activeTab === 1 && "Drivers List"}
       {activeTab === 2 && "Bookings List"}
       {activeTab === 3 && "Vehicle Tracking"}
+      {activeTab === 4 && "Payment Details"}
 
     </div>
 
@@ -1198,6 +1276,63 @@ const filteredTracking = trackingData.filter((t) =>
         ))}
       </tbody>
     </table>
+  )}
+
+  {/* PAYMENT DETAILS */}
+  {activeTab === 4 && (
+    <div className="vehicle-payment-table-wrap">
+    <table className="data-table">
+      <thead>
+        <tr>
+          <th>Ride ID</th>
+          <th>Driver</th>
+          <th>Tourist</th>
+          <th>Route</th>
+          <th>Mode</th>
+          <th>Advance</th>
+          <th>Balance</th>
+          <th>Total Fare</th>
+          <th>Platform 15%</th>
+          <th>Driver Share</th>
+          <th>Distance</th>
+          <th>Diesel</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {ridePayments.length === 0 ? (
+          <tr>
+            <td colSpan="13" style={{ textAlign: "center", padding: 18, color: "#8a6c4a" }}>
+              No payment records available yet.
+            </td>
+          </tr>
+        ) : (
+          ridePayments.map((ride) => (
+            <tr key={ride.rideId}>
+              <td>{ride.rideId}</td>
+              <td>{ride.driverName}</td>
+              <td>{ride.tourist}</td>
+              <td>{ride.route}</td>
+              <td>{ride.paymentMode === "full" ? "Full" : "Advance"}</td>
+              <td>₹{ride.advanceAmount}</td>
+              <td>₹{ride.balanceDue}</td>
+              <td>₹{ride.totalFare}</td>
+              <td>₹{ride.platformCharge}</td>
+              <td>₹{ride.driverEarning}</td>
+              <td>{ride.distanceKm} km</td>
+              <td>₹{ride.dieselCost}</td>
+              <td>
+                <span className="badge badge-green">
+                  {ride.paymentStatus}
+                </span>
+              </td>
+            </tr>
+          ))
+        )}
+      </tbody>
+    </table>
+    </div>
   )}
 
 </div>

@@ -312,6 +312,20 @@
   min-width: 0;
 }
 
+.vehicle-payment-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.vehicle-payment-table-wrap .data-table {
+  min-width: 1180px;
+}
+
+.vehicle-payment-table-wrap .data-table th,
+.vehicle-payment-table-wrap .data-table td {
+  white-space: nowrap;
+}
+
 .vehicle-search-wrap {
   display: flex;
   align-items: center;
@@ -397,9 +411,10 @@
   }
 
   .vehicle-modal-footer button,
-  .common-footer button {
-    width: 100%;
-  }
+.common-footer button {
+  width: 100%;
+}
+
 
   .vehicle-page table {
     width: 100%;
