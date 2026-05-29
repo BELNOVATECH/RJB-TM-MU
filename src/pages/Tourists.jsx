@@ -1,6 +1,6 @@
 // src/pages/Tourists.jsx
 //This file contains the main component for managing tourists, tour guides, and group bookings. It includes data tables with search and filter functionality, as well as modals for adding and editing records.
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import "./styles/Tourists.css";
 
@@ -67,45 +67,45 @@ const INITIAL_TOURISTS = [
   statusCls: "badge-amber",
 },
 ];
-const TOUR_GUIDES_DATA = [
-  {
-    name: "Arjun Das",
-    phone: "+91 9000011111",
-    language: "Hindi, English",
-    experience: "5 Years",
-    status: "Active",
-  },
-  {
-  name: "Kiran Joshi",
-  phone: "+91 9000033333",
-  language: "Hindi, Telugu",
-  experience: "4 Years",
-  status: "Active",
-},
+// const TOUR_GUIDES_DATA = [
+//   {
+//     name: "Arjun Das",
+//     phone: "+91 9000011111",
+//     language: "Hindi, English",
+//     experience: "5 Years",
+//     status: "Active",
+//   },
+//   {
+//   name: "Kiran Joshi",
+//   phone: "+91 9000033333",
+//   language: "Hindi, Telugu",
+//   experience: "4 Years",
+//   status: "Active",
+// },
 
-{
-  name: "Mahesh Rao",
-  phone: "+91 9000044444",
-  language: "English, Kannada",
-  experience: "6 Years",
-  status: "Busy",
-},
+// {
+//   name: "Mahesh Rao",
+//   phone: "+91 9000044444",
+//   language: "English, Kannada",
+//   experience: "6 Years",
+//   status: "Busy",
+// },
 
-{
-  name: "Sneha Iyer",
-  phone: "+91 9000055555",
-  language: "Tamil, Hindi",
-  experience: "2 Years",
-  status: "Available",
-},
-  {
-    name: "Ravi Kumar",
-    phone: "+91 9000022222",
-    language: "Tamil, English",
-    experience: "3 Years",
-    status: "Busy",
-  },
-];
+// {
+//   name: "Sneha Iyer",
+//   phone: "+91 9000055555",
+//   language: "Tamil, Hindi",
+//   experience: "2 Years",
+//   status: "Available",
+// },
+//   {
+//     name: "Ravi Kumar",
+//     phone: "+91 9000022222",
+//     language: "Tamil, English",
+//     experience: "3 Years",
+//     status: "Busy",
+//   },
+// ];
 
 const GROUP_BOOKINGS_DATA = [
   {
@@ -176,7 +176,6 @@ const EMPTY_FORM = {
 function AddTouristModal({ onClose, onSave }) {
   const [form, setForm] = useState(EMPTY_FORM);
   const [, setErrors] = useState({});
-
 
   const handleChange = (e) => {
     setForm((prev) => ({
@@ -789,9 +788,76 @@ function GroupBookingEditModal({
   );
 }
 export default function Tourists() {
+  useEffect(() => {
+
+  const registeredGuides =
+    JSON.parse(
+      
+      localStorage.getItem(
+        "tourGuideRegistrations"
+      )
+    ) || [];
+
+  const defaultGuides = [
+
+    {
+      name: "Arjun Das",
+      phone: "+91 9000011111",
+      language: "Hindi, English",
+      experience: "5 Years",
+      status: "Active",
+    },
+
+    {
+      name: "Kiran Joshi",
+      phone: "+91 9000033333",
+      language: "Hindi, Telugu",
+      experience: "4 Years",
+      status: "Active",
+    },
+
+  ];
+
+  const finalGuides = [
+
+    ...defaultGuides,
+
+    ...registeredGuides.map(
+      (guide) => ({
+
+        name:
+          guide.fullName ||
+          guide.name ||
+          "Guide",
+
+        phone:
+          guide.phone ||
+          "+91",
+
+        language:
+          guide.languages ||
+          "Hindi",
+
+        experience:
+          guide.experience ||
+          "1 Year",
+
+        status: "Active",
+
+      })
+    ),
+
+  ];
+
+  setTourGuides(finalGuides);
+
+}, []);
+
   const [activeTab, setActiveTab] = useState(0);
+  
   const [tourists, setTourists] = useState(INITIAL_TOURISTS);
-  const [tourGuides, setTourGuides] = useState(TOUR_GUIDES_DATA);
+  const [tourGuides, setTourGuides] =useState([]);
+  // const [tourGuides, setTourGuides] = useState(TOUR_GUIDES_DATA);
   const [editData, setEditData] = useState(null);
 
 const [editType, setEditType] = useState("");
@@ -809,6 +875,7 @@ const handleSave = (newTourist) => {
 
   setShowModal(false);
 };
+
 const handleDelete = (phone) => {
   setTourists((prev) =>
     prev.filter((t) => t.phone !== phone)
