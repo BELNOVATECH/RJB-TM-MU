@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./styles/AuthLayout.css";
 import "./styles/Login.css";
 
-const USER_MOBILE = "9876543210";
-const USER_OTP = "1234";
+const PROFILE_KEY = "tourist_accommodation_profile";
 
 const SPARKS = Array.from({ length: 10 }, (_, i) => ({
   id: i,
@@ -14,31 +13,47 @@ const SPARKS = Array.from({ length: 10 }, (_, i) => ({
   color: i % 3 === 0 ? "#ffb347" : i % 3 === 1 ? "#ffd060" : "#ff8c00",
 }));
 
-export default function CustomerLogin({
+export default function AccommodationLogin({
   onSuccess,
   onRegister,
-  onAdmin,
-  onGuide,
-  onVehicle,
-  onDriver,
   onBack,
-   onAccommodation,
 }) {
 
-  const [mobile, setMobile] = useState("");
-  const [otp, setOtp] = useState("");
-  const [alert, setAlert] = useState(null);
+  const [propertyName, setPropertyName] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState(null);
+  const [savedProfile, setSavedProfile] = useState(null);
+
+  useEffect(() => {
+
+    try {
+
+      const raw = localStorage.getItem(PROFILE_KEY);
+
+      if (raw) {
+        setSavedProfile(JSON.parse(raw));
+      }
+
+    } catch {
+
+      setSavedProfile(null);
+
+    }
+
+  }, []);
 
   const handleLogin = () => {
 
     setAlert(null);
 
-    if (!mobile || !otp) {
+    if (!propertyName || !password) {
+
       setAlert({
         type: "error",
-        msg: "⚠️ Please enter mobile number and OTP.",
+        msg: "⚠️ Enter property name and password.",
       });
+
       return;
     }
 
@@ -48,12 +63,33 @@ export default function CustomerLogin({
 
       setLoading(false);
 
-      if (mobile === USER_MOBILE && otp === USER_OTP) {
+      const profile = savedProfile;
+
+      if (!profile) {
+
+        setAlert({
+          type: "error",
+          msg: "⚠️ Please register accommodation first.",
+        });
+
+        return;
+      }
+
+      if (
+        propertyName.trim().toLowerCase() ===
+          profile.propertyName?.toLowerCase() &&
+        password === profile.password
+      ) {
 
         setAlert({
           type: "success",
-          msg: "🙏 Welcome Pilgrim! Redirecting...",
+          msg: "🏨 Accommodation verified successfully.",
         });
+
+        localStorage.setItem(
+          "tourist_accommodation_current",
+          JSON.stringify(profile)
+        );
 
         setTimeout(() => {
           onSuccess && onSuccess();
@@ -63,7 +99,7 @@ export default function CustomerLogin({
 
         setAlert({
           type: "error",
-          msg: "❌ Invalid OTP verification.",
+          msg: "❌ Invalid accommodation credentials.",
         });
 
       }
@@ -71,16 +107,13 @@ export default function CustomerLogin({
     }, 1200);
   };
 
-  const handleKey = (e) => {
-    if (e.key === "Enter") handleLogin();
-  };
-
   return (
+
     <div className="auth-layout">
 
       <div className="auth-gold-bar" />
 
-      {/* LEFT PANEL */}
+      {/* LEFT */}
       <div className="auth-left">
 
         <div className="auth-left-bg" />
@@ -88,7 +121,9 @@ export default function CustomerLogin({
         <div className="auth-om-bg">ॐ</div>
 
         <div className="auth-sparks">
+
           {SPARKS.map((s) => (
+
             <div
               key={s.id}
               className="auth-spark"
@@ -102,69 +137,88 @@ export default function CustomerLogin({
                 animationDelay: `${s.delay}s`,
               }}
             />
+
           ))}
+
         </div>
 
-        <svg
-          className="auth-temple-svg"
-          viewBox="0 0 900 280"
-          preserveAspectRatio="xMidYMax meet"
-        >
-          <polygon
-            points="450,20 420,80 380,110 360,160 340,200 320,240 280,280 620,280 580,240 560,200 540,160 520,110 480,80"
-            fill="rgba(255,140,30,1)"
-          />
-        </svg>
-
         <div className="auth-left-vert">
-          Ayodhya Dham · Pilgrim Portal · 2026
+          Ayodhya Hospitality · Accommodation Services · 2026
         </div>
 
         <div className="auth-left-content">
 
           <div className="auth-eyebrow">
-            Government of Uttar Pradesh
+            Ayodhya Tourism Department
           </div>
 
           <h1 className="auth-left-title">
-            Ayodhya
-            <br />
-            Pilgrim
+            Accommodation
             <br />
             <em>Portal</em>
           </h1>
 
           <p className="auth-left-desc">
-            Welcome to the sacred tourist portal of Ayodhya Dham.
-            Register your pilgrimage journey, family visit and
-            spiritual travel experience.
+            Manage hotel bookings, pilgrim stays,
+            room availability, pricing and hospitality
+            services through the Ayodhya Tourism Portal.
           </p>
 
-          <div className="auth-stats">
+          <div className="auth-steps">
 
-            <div>
-              <div className="auth-stat-num">140+</div>
-              <div className="auth-stat-lbl">Temples</div>
-            </div>
+            {[
+              {
+                n: "1",
+                t: "Property Login",
+                d: "Secure hospitality access",
+              },
+              {
+                n: "2",
+                t: "Room Management",
+                d: "Manage rooms and bookings",
+              },
+              {
+                n: "3",
+                t: "Tourist Services",
+                d: "Provide pilgrim stay services",
+              },
+            ].map((s) => (
 
-            <div>
-              <div className="auth-stat-num">30k+</div>
-              <div className="auth-stat-lbl">Daily Visitors</div>
-            </div>
+              <div key={s.n} className="auth-step">
 
-            <div>
-              <div className="auth-stat-num">8</div>
-              <div className="auth-stat-lbl">Sacred Ghats</div>
-            </div>
+                <div className="auth-step-num">
+                  {s.n}
+                </div>
+
+                <div>
+
+                  <div className="auth-step-title">
+                    {s.t}
+                  </div>
+
+                  <div className="auth-step-desc">
+                    {s.d}
+                  </div>
+
+                </div>
+
+              </div>
+
+            ))}
 
           </div>
+
         </div>
+
       </div>
 
-      {/* RIGHT PANEL */}
+      {/* RIGHT */}
       <div className="auth-right">
 
-        <button className="auth-back-btn" onClick={onBack}>
+        <button
+          className="auth-back-btn"
+          onClick={onBack}
+        >
           ← Home
         </button>
 
@@ -174,26 +228,30 @@ export default function CustomerLogin({
 
           <div className="auth-logo-row">
 
-            <div className="auth-logo-icon">🛕</div>
+            <div className="auth-logo-icon">
+              🏨
+            </div>
 
             <div>
+
               <div className="auth-logo-name">
-                Ayodhya Dham
+                Accommodation Services
               </div>
 
               <div className="auth-logo-sub">
-                Tourist Portal · Pilgrim Services
+                Pilgrim Hospitality Portal
               </div>
+
             </div>
 
           </div>
 
           <div className="auth-heading">
-            Tourist Login
+            Accommodation Login
           </div>
 
           <div className="auth-subheading">
-            Login with Mobile OTP Verification
+            Login for hotel and property management
           </div>
 
           <div className="auth-tabs">
@@ -219,36 +277,33 @@ export default function CustomerLogin({
               </div>
             )}
 
-            {/* MOBILE */}
             <div className="auth-field">
 
               <div className="auth-field-label">
-                Mobile Number
+                Property Name / Hotel Name
               </div>
 
               <div className="auth-field-wrap">
 
                 <span className="auth-field-icon">
-                  📞
+                  🏨
                 </span>
 
                 <input
                   className="auth-field-input"
-                  type="text"
-                  placeholder="+91 98765 43210"
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
-                  onKeyDown={handleKey}
+                  placeholder="Enter property name"
+                  value={propertyName}
+                  onChange={(e) => setPropertyName(e.target.value)}
                 />
 
               </div>
+
             </div>
 
-            {/* OTP */}
             <div className="auth-field">
 
               <div className="auth-field-label">
-                OTP Verification
+                Password
               </div>
 
               <div className="auth-field-wrap">
@@ -258,15 +313,15 @@ export default function CustomerLogin({
                 </span>
 
                 <input
+                  type="password"
                   className="auth-field-input"
-                  type="text"
-                  placeholder="Enter OTP"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  onKeyDown={handleKey}
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
 
               </div>
+
             </div>
 
             <button
@@ -276,84 +331,26 @@ export default function CustomerLogin({
             >
               {loading
                 ? <><span className="auth-spinner" />Verifying…</>
-                : <>🙏 &nbsp; ENTER PILGRIM PORTAL</>
+                : <>🏨 &nbsp; ENTER ACCOMMODATION PORTAL</>
               }
             </button>
 
-            <div className="auth-divider-or">
-
-              <div className="auth-divider-line" />
-
-              <div className="auth-divider-txt">
-                ✦ ॐ ✦
-              </div>
-
-              <div className="auth-divider-line" />
-
-            </div>
-
-            <div className="auth-note-box">
-
-              <div className="auth-note-icon">
-                🛡️
-              </div>
-
-              <div className="auth-note-text">
-                <strong>Tourist Safety.</strong>
-                {" "}
-                Your mobile verification helps maintain
-                secure pilgrimage and travel assistance services.
-              </div>
-
-            </div>
-
           </div>
 
-        <div className="auth-switch">
+          <div className="auth-switch">
 
-  <div className="auth-register-line">
+            New Property? &nbsp;
 
-    New pilgrim? &nbsp;
-
-    <span onClick={onRegister}>
-      Register now →
-    </span>
-
-  </div>
-
-  <div className="auth-portal-links">
-
-    <span onClick={onAdmin}>
-      Admin Login →
-    </span>
-
-    <span onClick={onGuide}>
-      Tour Guide →
-    </span>
-
-    <span onClick={onVehicle}>
-      Vehicle Login →
-    </span>
-
-    <span onClick={onDriver}>
-      Driver Login →
-    </span>
-     <span onClick={onAccommodation}>
-    Accommodation →
-  </span>
-
-  </div>
-
-</div>
-
-    
-
-
+            <span onClick={onRegister}>
+              Register now →
+            </span>
 
           </div>
 
         </div>
+
       </div>
-    
+
+    </div>
   );
 }
