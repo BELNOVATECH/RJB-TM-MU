@@ -23,7 +23,7 @@ import DriverLoginDetails from "./pages/DriverComponent/DriverLoginDetails";
 import AIAssistant from "./pages/CustomerComponent/AIassistant";
 import TourGuideRegistration from "./pages/TourGuideComponent/TourGuideRegistration";
 import VehicleRegistration from "./pages/VehicleComponent/VehicleRegistration";
-import DriverManagement from "./pages/DriverManagement";
+import DriverManagement from "./pages/DriverComponent/DriverManagement";
 // import AIFeatures from "./pages/AIfeatures";
 import AccommodationLogin from "./pages/AccomendationComponent/AccommodationLogin";
 import AccommodationRegistration from "./pages/AccomendationComponent/AccommodationRegistration";
