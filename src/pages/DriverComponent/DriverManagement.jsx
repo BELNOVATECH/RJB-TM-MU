@@ -1,6 +1,6 @@
 import { useState } from "react";
-import "./styles/AuthLayout.css";
-import "./styles/Register.css";
+import "../styles/AuthLayout.css";
+import "../styles/Register.css";
 
 const SPARKS = Array.from({ length: 10 }, (_, i) => ({
   id: i,

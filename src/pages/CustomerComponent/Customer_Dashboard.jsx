@@ -1,5 +1,5 @@
 import "../styles/Customer_dashboard.css";
-import GuideBooking from "../BookGuide";
+import GuideBooking from "./BookGuide";
 import VehicleBooking from "./VehicleBooking";
 import DevotionalPrograms from "./DevotionalPrograms";
 import { useState } from "react";
