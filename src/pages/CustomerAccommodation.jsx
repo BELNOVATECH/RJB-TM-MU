@@ -1,6 +1,101 @@
 import React, { useState } from "react";
 import "./styles/CustomerPages.css";
+
+const ACCOMMODATION_PAYMENTS_KEY = "accommodation_payment_details";
+const ADVANCE_PERCENT = 30;
+
+function getSelectedRoom(item, roomName) {
+  return item?.rooms?.find((room) => room.name === roomName) || null;
+}
+
+function getPaymentSummary(item, booking) {
+  const selectedRoom = getSelectedRoom(item, booking.room);
+  const totalAmount = Number(selectedRoom?.price) || 5000;
+  const advanceAmount = Math.round(totalAmount * (ADVANCE_PERCENT / 100));
+  return {
+    selectedRoom,
+    totalAmount,
+    advanceAmount,
+    remainingAmount: Math.max(totalAmount - advanceAmount, 0),
+  };
+}
+
+function saveAccommodationPayment(payment) {
+  const existing =
+    JSON.parse(localStorage.getItem(ACCOMMODATION_PAYMENTS_KEY)) || [];
+  const list = Array.isArray(existing) ? existing : [];
+  localStorage.setItem(
+    ACCOMMODATION_PAYMENTS_KEY,
+    JSON.stringify([payment, ...list])
+  );
+}
+
+const hotelDetails =
+  JSON.parse(
+    localStorage.getItem(
+      "accommodation_hotel_details"
+    )
+  ) || {};
+
+const savedRooms =
+  JSON.parse(
+    localStorage.getItem(
+      "accommodation_rooms"
+    )
+  ) || [];
+
+const currentHotel =
+  JSON.parse(
+    localStorage.getItem(
+      "tourist_accommodation_current"
+    )
+  ) || {};
+
+  const dynamicAccommodation = {
+
+  id: 999,
+
+  name:
+    currentHotel.propertyName ||
+    "Spiritual Stay",
+
+  type:
+    currentHotel.accommodationType ||
+    "Hotel",
+
+  image:
+    hotelDetails.image ||
+    "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200",
+
+  rating: 4.8,
+
+  reviews: 124,
+
+  distance:
+    hotelDetails.distance ||
+    "0.5 km",
+
+  desc:
+    hotelDetails.description ||
+    "Comfortable spiritual stay near temple area.",
+
+  amenities:
+    hotelDetails.amenities
+      ? hotelDetails.amenities.split(",")
+      : ["Free WiFi", "AC Rooms"],
+
+  rooms: savedRooms.map((room) => ({
+    name: room.roomType,
+    price: room.price,
+    left: room.beds || 1
+  }))
+
+};
+
 const accommodations = [
+
+  dynamicAccommodation,
+
   {
     id: 1,
     name: "Spiritual Guest House",
@@ -186,10 +281,29 @@ export default function CustomerAccommodation({ onBack }) {
   const tabs = ["All", "Hotel", "Guest House", "Dharamshala", "Cottage"];
   const [activeTab, setActiveTab] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+
+const [showPayment, setShowPayment] = useState(false);
+
+const [bookingData, setBookingData] = useState({
+  room: "",
+  checkIn: "",
+  checkOut: "",
+  guests: 1,
+  guestName: "",
+  mobile: "",
+});
+
   const [selectedItem, setSelectedItem] = useState(null);
+  const paymentSummary = getPaymentSummary(selectedItem, bookingData);
 
   const openBookingModal = (item) => setSelectedItem(item);
-  const closeBookingModal = () => setSelectedItem(null);
+  const closeBookingModal = () => {
+
+  setSelectedItem(null);
+
+  setShowPayment(false);
+
+};
 
   const filteredData = accommodations.filter(item => {
     const matchesTab = activeTab === "All" || item.type === activeTab;
@@ -322,6 +436,11 @@ export default function CustomerAccommodation({ onBack }) {
       </div>
 
       {/* Booking Modal */}
+
+       
+
+    
+
       {selectedItem && (
         <div className="cp-modal-overlay">
           <div className="cp-modal-content">
@@ -334,24 +453,124 @@ export default function CustomerAccommodation({ onBack }) {
             <div className="cp-modal-body">
               <div className="cp-form-group">
                 <label className="cp-form-label">Select Room</label>
-                <select className="cp-form-input">
-                  {selectedItem.rooms.map(room => (
-                    <option key={room.name} value={room.name}>{room.name} - ₹{room.price}/night</option>
-                  ))}
-                </select>
+                <select
+  className="cp-form-input"
+  value={bookingData.room}
+  onChange={(e) =>
+    setBookingData({
+      ...bookingData,
+      room: e.target.value,
+    })
+  }
+>
+
+  <option value="">
+    Select Room
+  </option>
+
+  {selectedItem.rooms.map((room) => (
+
+    <option
+      key={room.name}
+      value={room.name}
+    >
+      {room.name} - ₹{room.price}/night
+    </option>
+
+  ))}
+
+</select>
+
+                  
               </div>
               <div className="cp-form-group">
                 <label className="cp-form-label">Check-in Date</label>
-                <input type="date" className="cp-form-input" />
+                <input
+  type="date"
+  className="cp-form-input"
+  value={bookingData.checkIn}
+  onChange={(e) =>
+    setBookingData({
+      ...bookingData,
+      checkIn: e.target.value,
+    })
+  }
+/>
               </div>
               <div className="cp-form-group">
                 <label className="cp-form-label">Check-out Date</label>
-                <input type="date" className="cp-form-input" />
+                <input
+  type="date"
+  className="cp-form-input"
+  value={bookingData.checkOut}
+  onChange={(e) =>
+    setBookingData({
+      ...bookingData,
+      checkOut: e.target.value,
+    })
+  }
+/>
               </div>
               <div className="cp-form-group">
-                <label className="cp-form-label">Guests</label>
-                <input type="number" min="1" className="cp-form-input" placeholder="E.g. 2" />
-              </div>
+               
+  <label className="cp-form-label">
+    Guest Name
+  </label>
+
+  <input
+    type="text"
+    className="cp-form-input"
+    placeholder="Enter full name"
+    value={bookingData.guestName}
+    onChange={(e) =>
+      setBookingData({
+        ...bookingData,
+        guestName: e.target.value,
+      })
+    }
+  />
+</div>
+
+<div className="cp-form-group">
+  <label className="cp-form-label">
+    Mobile Number
+  </label>
+
+  <input
+    type="text"
+    className="cp-form-input"
+    placeholder="Enter mobile number"
+    value={bookingData.mobile}
+    onChange={(e) =>
+      setBookingData({
+        ...bookingData,
+        mobile: e.target.value,
+      })
+    }
+  />
+</div>
+
+<div className="cp-form-group">
+  <label className="cp-form-label">
+    Guests
+  </label>
+
+  <input
+  type="number"
+  min="1"
+  className="cp-form-input"
+  placeholder="E.g. 2"
+  value={bookingData.guests}
+  onChange={(e) =>
+    setBookingData({
+      ...bookingData,
+      guests: e.target.value,
+    })
+  }
+/>
+</div>
+                {/* <input type="number" min="1" className="cp-form-input" placeholder="E.g. 2" /> */}
+              
               <div className="cp-cancel-policy">
   <strong>Cancellation Policy:</strong><br />
   50% refund will be provided if the booking is cancelled before check-in time.
@@ -361,17 +580,190 @@ export default function CustomerAccommodation({ onBack }) {
   <input type="checkbox" required />
   I agree to the 50% refundable cancellation policy.
 </label>
+</div>
+
+
+
+            
+          <div className="cp-modal-footer">
+
+  <button
+    className="cp-btn-outline"
+    onClick={closeBookingModal}
+  >
+    Cancel
+  </button>
+
+  <button
+    className="cp-btn-primary"
+    onClick={() => {
+
+      if (
+        !bookingData.room ||
+        !bookingData.guestName ||
+        !bookingData.mobile
+      ) {
+        alert("Please fill all details");
+        return;
+      }
+
+      setShowPayment(true);
+
+    }}
+  >
+    Continue Payment
+  </button>
+
+  {/* PAYMENT MODAL */}
+
+{showPayment && (
+
+  <div className="cp-modal-overlay">
+
+    <div className="payment-modal">
+
+  <button
+    className="payment-close"
+    onClick={() =>
+      setShowPayment(false)
+    }
+  >
+    ×
+  </button>
+
+  <div className="payment-top">
+
+    <h2>
+      Advance Payment
+    </h2>
+
+    <p>
+      Secure your accommodation booking
+    </p>
+
+  </div>
+
+  <div className="payment-summary-card">
+    <div className="payment-summary-row">
+      <span>Total Amount</span>
+      <strong>₹{paymentSummary.totalAmount}</strong>
+    </div>
+
+    <div className="payment-summary-row">
+      <span>Advance Payment ({ADVANCE_PERCENT}%)</span>
+      <strong className="orange">₹{paymentSummary.advanceAmount}</strong>
+    </div>
+
+    <div className="payment-summary-row">
+      <span>Remaining Amount</span>
+      <strong className="green">₹{paymentSummary.remainingAmount}</strong>
+    </div>
+  </div>
+  <div className="payment-policy-card">
+
+    <h3>
+      Booking Policy
+    </h3>
+
+    <ul>
+
+      <li>
+        Advance payment required to confirm booking.
+      </li>
+
+      <li>
+        Advance payment is non-refundable.
+      </li>
+
+      <li>
+        Remaining payment at hotel check-in.
+      </li>
+
+      <li>
+        Date changes depend on availability.
+      </li>
+
+    </ul>
+
+    <label className="payment-checkbox">
+
+      <input type="checkbox" />
+
+      <span>
+        I agree to booking policy &
+        cancellation terms
+      </span>
+
+    </label>
+
+  </div>
+
+  <div className="payment-method-title">
+    Select Payment Method
+  </div>
+
+  <div className="payment-methods">
+
+    <button className="active">
+      UPI
+    </button>
+
+    <button>
+      Card
+    </button>
+
+    <button>
+      Net Banking
+    </button>
+
+  </div>
+
+  <button
+    className="payment-btn"
+    onClick={() => {
+
+      saveAccommodationPayment({
+        id: `ACCPAY-${Date.now()}`,
+        propertyName: selectedItem.name,
+        guestName: bookingData.guestName,
+        mobile: bookingData.mobile,
+        roomType: bookingData.room,
+        checkIn: bookingData.checkIn,
+        checkOut: bookingData.checkOut,
+        guests: bookingData.guests,
+        totalAmount: paymentSummary.totalAmount,
+        advanceAmount: paymentSummary.advanceAmount,
+        remainingAmount: paymentSummary.remainingAmount,
+        paymentMode: "Advance",
+        status: "Advance Paid",
+        createdAt: new Date().toISOString(),
+      });
+
+      alert("Payment Successful");
+
+      setShowPayment(false);
+
+      closeBookingModal();
+
+    }}
+  >
+    Pay Advance ₹{paymentSummary.advanceAmount}
+  </button>
+
+</div>
+
+  </div>
+
+)}
+
+</div>
+      
             </div>
-            <div className="cp-modal-footer">
-              <button className="cp-btn-outline" onClick={closeBookingModal}>Cancel</button>
-              <button className="cp-btn-primary" onClick={() => {
-                alert('Booking Confirmed!');
-                closeBookingModal();
-              }}>Confirm Booking</button>
-            </div>
-          </div>
+          
         </div>
       )}
+
     </div>
   );
 }
+
