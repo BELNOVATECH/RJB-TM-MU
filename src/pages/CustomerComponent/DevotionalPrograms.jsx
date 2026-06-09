@@ -9,7 +9,7 @@ const EVENTS_DATA = [
     date: "Daily",
     time: "6:00 AM & 7:00 PM",
     location: "Main Temple",
-    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1200&auto=format&fit=crop",
+    image: "assets/rjb1.jpg",
     category: "Daily Ritual",
     status: "Daily",
     bookable: true
@@ -23,7 +23,7 @@ const EVENTS_DATA = [
     date: "May 18, 2026",
     time: "4:00 PM - 6:00 PM",
     location: "Satsang Hall",
-    image: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?q=80&w=1200&auto=format&fit=crop",
+    image: "assets/rjb2.jpg",
     category: "Spiritual Talk",
     status: "Upcoming",
     bookable: true
@@ -37,7 +37,7 @@ const EVENTS_DATA = [
     date: "May 20, 2026",
     time: "5:30 PM - 8:00 PM",
     location: "Temple Courtyard",
-    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1200&auto=format&fit=crop",
+    image: "assets/rjb5.jpg",
     category: "Devotional Music",
     status: "Upcoming",
     bookable: true
@@ -51,7 +51,7 @@ const EVENTS_DATA = [
     date: "Daily",
     time: "5:00 AM",
     location: "Yoga Hall",
-    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1200&auto=format&fit=crop",
+    image: "assets/rjb2.jpg",
     category: "Wellness",
     status: "Daily",
     bookable: true
@@ -65,7 +65,7 @@ const EVENTS_DATA = [
     date: "April 6, 2026",
     time: "6:00 AM - 10:00 PM",
     location: "Entire Temple Complex",
-    image: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?q=80&w=1200&auto=format&fit=crop",
+    image: "assets/rjb3.jpg",
     category: "Festival",
     status: "Upcoming",
     bookable: true
@@ -78,7 +78,7 @@ const AUDIO_DATA = [
     artist: "S. P. Balasubrahmanyam",
     duration: "5:32",
     plays: "245K",
-    image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=200",
+    image: "assets/rjb5.jpg",
     url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
   },
   {
@@ -87,7 +87,7 @@ const AUDIO_DATA = [
     artist: "M. Anjaneyalu",
     duration: "6:45",
     plays: "189K",
-    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=200",
+    image: "assets/rjb4.jpg",
     url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
   },
   {
@@ -96,7 +96,7 @@ const AUDIO_DATA = [
     artist: "Hari Bhajan Group",
     duration: "7:15",
     plays: "156K",
-    image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=200",
+    image: "assets/rjb6.jpg",
     url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
   },
   {
@@ -105,7 +105,7 @@ const AUDIO_DATA = [
     artist: "Swami Ananda Bharati",
     duration: "8:20",
     plays: "198K",
-    image: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?q=80&w=200",
+    image: "assets/rjb1.jpg",
     url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
   },
   {
@@ -114,7 +114,7 @@ const AUDIO_DATA = [
     artist: "Dr. K. Raghunath",
     duration: "9:50",
     plays: "123K",
-    image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=200",
+    image: "assets/rjb7.jpg",
     url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"
   },
   {
@@ -123,7 +123,7 @@ const AUDIO_DATA = [
     artist: "Spiritual Singers",
     duration: "11:30",
     plays: "267K",
-    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=200",
+    image: "assets/rjb1.jpg",
     url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
   }
 ];
@@ -135,9 +135,7 @@ const VIDEOS_DATA = [
     description: "A heavenly Rama keerthana filled with love and devotion.",
     views: "428K",
     videoUrl: "https://www.youtube.com/watch?v=8zCNp8W2eJI",
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1200&auto=format&fit=crop"
-  },
+    thumbnailUrl: "assets/rjb2.jpg"  },
 
   {
     id: 2,
@@ -146,8 +144,7 @@ const VIDEOS_DATA = [
     description: "Soulful Hanuman Chalisa recital in Telugu with temple visuals.",
     views: "373K",
     videoUrl: "https://www.youtube.com/watch?v=9FaY05ww0bc",
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1508009603885-50cf7c579365?q=80&w=1200&auto=format&fit=crop"
+    thumbnailUrl: "assets/rjb3.jpg"
   },
 
   {
@@ -158,7 +155,7 @@ const VIDEOS_DATA = [
     views: "291K",
     videoUrl: "https://www.youtube.com/watch?v=BrK5c6xv4mM",
     thumbnailUrl:
-      "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1200&auto=format&fit=crop"
+      "assets/rjb6.jpg"
   },
 
   {
@@ -169,7 +166,7 @@ const VIDEOS_DATA = [
     views: "214K",
     videoUrl: "https://www.youtube.com/watch?v=BYiQTksNMcQ",
     thumbnailUrl:
-      "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?q=80&w=1200&auto=format&fit=crop"
+      "assets/rjb7.jpg"
   },
 
   {
@@ -180,7 +177,7 @@ const VIDEOS_DATA = [
     views: "512K",
     videoUrl: "https://www.youtube.com/watch?v=5qap5aO4i9A",
     thumbnailUrl:
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1200&auto=format&fit=crop"
+      "assets/rjb8.jpg"
   }
 ];
 export default function DevotionalPrograms({ onBack }) {
