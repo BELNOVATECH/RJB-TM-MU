@@ -1,33 +1,33 @@
 import { useState,useEffect } from "react";
-import Dashboard from "./pages/Dashboard";
-import Tourists from "./pages/Tourists";
-import Vehicles from "./pages/Vehicles";
-import Accommodation from "./pages/Accommodation";
-import DevotionalContent from "./pages/DevotionalContent";
-import TouristSpots from "./pages/TouristSpots";
-import ChargesPricing from "./pages/ChargesPricing";
-import Landing from "./pages/Landing";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import CustomerLogin from "./pages/CustomerLogin";
-import CustomerRegister from "./pages/CustomerRegister";
+import Dashboard from "./pages/AdminComponent/Dashboard";
+import Tourists from "./pages/AdminComponent/Tourists";
+import Vehicles from "./pages/AdminComponent/Vehicles";
+import Accommodation from "./pages/AdminComponent/Accommodation";
+import AccommodationLoginDetails from "./pages/AccommodationLoginDetails";
+import DevotionalContent from "./pages/AdminComponent/DevotionalContent";
+import TouristSpots from "./pages/AdminComponent/TouristSpots";
+import ChargesPricing from "./pages/AdminComponent/ChargesPricing";
+import Landing from "./pages/LandingPageComponent/Landing";
+import Login from "./pages/AdminComponent/Login";
+import Register from "./pages/AdminComponent/Register";
+import CustomerLogin from "./pages/CustomerComponent/CustomerLogin";
+import CustomerRegister from "./pages/CustomerComponent/CustomerRegister";
 import "./App.css";
 // import CustomerDashboard from "./pages/CustomerLogin";
-import PilgrimHome from "./pages/Customer_Dashboard";
-import TourGuideLogin from "./pages/TourGuideLogin";
-import VehicleLogin from "./pages/VehicleLogin";
-import DriverLogin from "./pages/DriverLogin";
-import TouriestGuide from "./pages/TouriestGuide";
-import VahicleLoginDetails from "./pages/VahicleLoginDetails";
-import DriverLoginDetails from "./pages/DriverLoginDetails";
-import AIAssistant from "./pages/AIassistant";
-import TourGuideRegistration from "./pages/TourGuideRegistration";
-import VehicleRegistration from "./pages/VehicleRegistration";
-import DriverManagement from "./pages/DriverManagement";
-import AIFeatures from "./pages/AIfeatures";
-import AccommodationLogin from "./pages/AccommodationLogin";
-import AccommodationRegistration from "./pages/AccommodationRegistration";
-import AccommodationLoginDetails from "./pages/AccommodationLoginDetails";
+import PilgrimHome from "./pages/CustomerComponent/Customer_Dashboard";
+import TourGuideLogin from "./pages/TourGuideComponent/TourGuideLogin";
+import VehicleLogin from "./pages/VehicleComponent/VehicleLogin";
+import DriverLogin from "./pages/DriverComponent/DriverLogin";
+import TouriestGuide from "./pages/TourGuideComponent/TouriestGuide";
+import VahicleLoginDetails from "./pages/VehicleComponent/VahicleLoginDetails";
+import DriverLoginDetails from "./pages/DriverComponent/DriverLoginDetails";
+import AIAssistant from "./pages/CustomerComponent/AIassistant";
+import TourGuideRegistration from "./pages/TourGuideComponent/TourGuideRegistration";
+import VehicleRegistration from "./pages/VehicleComponent/VehicleRegistration";
+import DriverManagement from "./pages/DriverComponent/DriverManagement";
+// import AIFeatures from "./pages/AIfeatures";
+import AccommodationLogin from "./pages/AccomendationComponent/AccommodationLogin";
+import AccommodationRegistration from "./pages/AccomendationComponent/AccommodationRegistration";
 
 // ─── Navigation config ────────────────────────────────────────────────────────
 const NAV = [
@@ -70,7 +70,7 @@ const SCREEN_MAP = {
   devotionalContent: <DevotionalContent />,
   touristSpots:      <TouristSpots />,
   chargesPricing:    <ChargesPricing />,
-  AIFeatures:    <AIFeatures />
+  // AIFeatures:    <AIFeatures />
 };
 
 const TITLES = {
@@ -81,7 +81,7 @@ const TITLES = {
   touristSpots:      "Tourist Spot Configuration",
   devotionalContent: "Devotional Content Management",
   chargesPricing:    "Charges & Pricing",
-  AIFeatures:    "AI/ML Features",
+  // AIFeatures:    "AI/ML Features",
 };
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
