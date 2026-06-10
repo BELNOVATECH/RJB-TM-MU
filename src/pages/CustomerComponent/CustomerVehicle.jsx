@@ -16,6 +16,63 @@ const PASSENGER_FILTERS = [
 const VEHICLE_CLASS_FILTERS = ["All", "Standard", "Luxury"];
 const BOOKING_HOUR_OPTIONS = [2, 4, 6, 8, 10, 12, 16];
 
+function resolveVehicleImage(type, index = 0) {
+  const name = String(type || "").toLowerCase();
+  const pools = {
+    suv: [
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1400",
+      "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1400",
+      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1400",
+    ],
+    sedan: [
+      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1400",
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1400",
+      "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=1400",
+    ],
+    miniBus: [
+      "https://images.unsplash.com/photo-1557223562-6c77ef16210f?q=80&w=1400",
+      "https://images.unsplash.com/photo-1519643381401-22c77e60520e?q=80&w=1400",
+      "https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=1400",
+    ],
+    luxury: [
+      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1400",
+      "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=1400",
+      "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1400",
+    ],
+    auto: [
+      "https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1400",
+      "https://images.unsplash.com/photo-1518021358257-4a0c4d8f5c6e?q=80&w=1400",
+      "https://images.unsplash.com/photo-1456613820599-bfe244172af5?q=80&w=1400",
+    ],
+    ev: [
+      "https://images.unsplash.com/photo-1593941707882-a5bba1d9d71b?q=80&w=1400",
+      "https://images.unsplash.com/photo-1511391409280-3a4f0b21d59c?q=80&w=1400",
+      "https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1400",
+    ],
+    van: [
+      "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1400",
+      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1400",
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1400",
+    ],
+    fallback: [
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1400",
+      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1400",
+      "https://images.unsplash.com/photo-1557223562-6c77ef16210f?q=80&w=1400",
+      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1400",
+    ],
+  };
+  const seed = Math.abs(index) || 0;
+  if (name.includes("suv")) return pools.suv[seed % pools.suv.length];
+  if (name.includes("sedan")) return pools.sedan[seed % pools.sedan.length];
+  if (name.includes("mini bus")) return pools.miniBus[seed % pools.miniBus.length];
+  if (name.includes("luxury")) return pools.luxury[seed % pools.luxury.length];
+  if (name.includes("auto")) return pools.auto[seed % pools.auto.length];
+  if (name.includes("ev")) return pools.ev[seed % pools.ev.length];
+  if (name.includes("muv")) return pools.suv[seed % pools.suv.length];
+  if (name.includes("van")) return pools.van[seed % pools.van.length];
+  return pools.fallback[seed % pools.fallback.length];
+}
+
 const vehicles = [
 
   {
@@ -26,8 +83,7 @@ const vehicles = [
     capacity: 7,
     driver: "Ramesh Kumar",
     experience: "15 yrs exp",
-    image:
-      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200",
+    image: resolveVehicleImage("SUV"),
     rating: 4.8,
     seats: "7 Seater",
     fuel: "Diesel",
@@ -51,8 +107,7 @@ const vehicles = [
     capacity: 4,
     driver: "Suresh Das",
     experience: "8 yrs exp",
-    image:
-      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1200",
+    image: resolveVehicleImage("Sedan"),
     rating: 4.6,
     seats: "4 Seater",
     fuel: "Petrol",
@@ -74,8 +129,7 @@ const vehicles = [
     capacity: 15,
     driver: "Vikram Singh",
     experience: "12 yrs exp",
-    image:
-      "https://images.unsplash.com/photo-1557223562-6c77ef16210f?q=80&w=1200",
+    image: resolveVehicleImage("Mini Bus"),
     rating: 4.7,
     seats: "15 Seater",
     fuel: "Diesel",
@@ -92,33 +146,7 @@ const vehicles = [
   },
 ];
 
-const PROFILE_KEY = "tourist_vehicle_profile";
-const REGISTRY_KEY = "tourist_vehicle_registry";
 const RIDES_KEY = "tourist_vehicle_rides";
-
-function mapRegisteredVehicle(profile) {
-  if (!profile) return null;
-
-  return {
-    id: `reg-${profile.vehicleNo || profile.reg || "vehicle"}`,
-    name: profile.model?.split("·")[0]?.trim() || profile.vehicleNo || "Registered Vehicle",
-    type: profile.type || "SUV",
-    vehicleClass: profile.type === "Mini Bus" ? "Standard" : "Luxury",
-    capacity: Number(profile.capacity) || 4,
-    driver: profile.driverName || profile.role || "Vehicle Service",
-    experience: `${profile.year || "2024"} registered`,
-    image:
-      profile.image || "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200",
-    rating: 4.8,
-    seats: `${profile.capacity || "4"} Seater`,
-    fuel: "Diesel",
-    transmission: "Manual",
-    amenities: ["Registered", "GPS", "First Aid"],
-    pricePerDay: Math.max(1800, Number(profile.capacity || 4) * 450),
-    pricePerKm: 14,
-    available: (profile.status || "Available") !== "Maintenance",
-  };
-}
 
 function makeRideReference() {
   return `RIDE-${Date.now().toString(36).toUpperCase()}-${Math.floor(
@@ -250,24 +278,6 @@ function getBookingStatusMeta(ride) {
 }
 
 function loadRegisteredVehicles() {
-  try {
-    const registryRaw = localStorage.getItem(REGISTRY_KEY);
-    if (registryRaw) {
-      const registry = JSON.parse(registryRaw);
-      if (Array.isArray(registry)) {
-        return registry.map(mapRegisteredVehicle).filter(Boolean);
-      }
-    }
-
-    const singleProfile = localStorage.getItem(PROFILE_KEY);
-    if (singleProfile) {
-      const mapped = mapRegisteredVehicle(JSON.parse(singleProfile));
-      return mapped ? [mapped] : [];
-    }
-  } catch {
-    return [];
-  }
-
   return [];
 }
 

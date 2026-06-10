@@ -92,8 +92,12 @@ export default function AccommodationLogin({
         );
 
         setTimeout(() => {
-          onSuccess && onSuccess();
-        }, 1000);
+
+
+
+  onSuccess && onSuccess();
+
+}, 1000);
 
       } else {
 
@@ -325,10 +329,11 @@ export default function AccommodationLogin({
             </div>
 
             <button
-              className="auth-btn"
-              onClick={handleLogin}
-              disabled={loading}
-            >
+  type="button"
+  className="auth-btn"
+  onClick={handleLogin}
+  disabled={loading}
+>
               {loading
                 ? <><span className="auth-spinner" />Verifying…</>
                 : <>🏨 &nbsp; ENTER ACCOMMODATION PORTAL</>

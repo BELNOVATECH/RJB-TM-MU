@@ -18,6 +18,12 @@ export default function AccommodationRegistration({
 
   const PROFILE_KEY = "tourist_accommodation_profile";
 
+  const resetAccommodationRuntimeData = () => {
+    localStorage.removeItem("tourist_accommodation_current");
+    localStorage.removeItem("accommodation_hotel_details");
+    localStorage.removeItem("accommodation_rooms");
+  };
+
   const [form, setForm] = useState({
     propertyName: "",
     ownerName: "",
@@ -92,6 +98,8 @@ export default function AccommodationRegistration({
           role: "Accommodation",
         })
       );
+
+      resetAccommodationRuntimeData();
 
       setDone(true);
 
