@@ -3,6 +3,22 @@ import { useState } from "react";
 import "../styles/Accommodation.css";
 
 const ACCOMMODATION_PAYMENTS_KEY = "accommodation_payment_details";
+const ACCOMMODATION_ROOMS_KEY = "accommodation_rooms";
+
+const ROOM_IMAGE_POOL = [
+  "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1400",
+  "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1400",
+  "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1400",
+  "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1400",
+  "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1400",
+  "https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=1400",
+  "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1400",
+  "https://images.unsplash.com/photo-1590490359683-658d3d23f972?q=80&w=1400",
+  "https://images.unsplash.com/photo-1535827841776-24afc1e255ac?q=80&w=1400",
+  "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?q=80&w=1400",
+  "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=1400",
+  "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1400",
+];
 
 function loadAccommodationPayments() {
   try {
@@ -11,6 +27,28 @@ function loadAccommodationPayments() {
   } catch {
     return [];
   }
+}
+
+function getRoomSeed(value = 0) {
+  const digits = String(value ?? "")
+    .replace(/[^0-9]/g, "");
+  const seed = Number(digits || value || 0);
+  return Number.isFinite(seed) ? Math.abs(seed) : 0;
+}
+
+function resolveRoomImage(roomType, seed = 0) {
+  const name = String(roomType || "").toLowerCase();
+  const baseIndex = name.includes("premium") || name.includes("vip")
+    ? 2
+    : name.includes("deluxe") || name.includes("family")
+      ? 1
+      : name.includes("homestay")
+        ? 0
+        : name.includes("standard")
+          ? 3
+          : 4;
+  const offset = getRoomSeed(seed);
+  return ROOM_IMAGE_POOL[(baseIndex + offset) % ROOM_IMAGE_POOL.length];
 }
 
 const INITIAL_ROOMS = [
@@ -140,7 +178,7 @@ const EMPTY_FORM = {
 export default function Accommodation() {
   const [activeTab, setActiveTab] = useState(0);
   const savedRooms =
-  JSON.parse(localStorage.getItem("accommodation_rooms")) || [];
+  JSON.parse(localStorage.getItem(ACCOMMODATION_ROOMS_KEY)) || [];
 
 const dynamicRooms = savedRooms.map((room) => ({
   num: room.roomNumber || room.roomNo,
@@ -150,7 +188,7 @@ const dynamicRooms = savedRooms.map((room) => ({
   capacity: room.capacity,
   price: room.price,
   acType: room.acType,
-  image: room.image,
+  image: resolveRoomImage(room.roomType, room.roomNumber || room.roomNo),
   description: room.description,
 }));
 
@@ -202,8 +240,7 @@ const [rooms, setRooms] = useState([
     acType: form.acType,
 
     image:
-      form.image ||
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop",
+      resolveRoomImage(form.roomType, form.roomNo),
 
     description:
       form.description ||
@@ -211,12 +248,12 @@ const [rooms, setRooms] = useState([
   };
 
   const existing =
-    JSON.parse(localStorage.getItem("accommodation_rooms")) || [];
+    JSON.parse(localStorage.getItem(ACCOMMODATION_ROOMS_KEY)) || [];
 
   const updated = [...existing, newRoom];
 
   localStorage.setItem(
-    "accommodation_rooms",
+    ACCOMMODATION_ROOMS_KEY,
     JSON.stringify(updated)
   );
 
@@ -528,7 +565,12 @@ const [rooms, setRooms] = useState([
             <button
               key={t}
               className={`tab-pill ${activeTab === i ? "active" : ""}`}
-              onClick={() => setActiveTab(i)}
+              onClick={() => {
+                setActiveTab(i);
+                setShowManualRooms(false);
+                setShowPaymentDetails(false);
+                setShowForm(false);
+              }}
             >
               {t}
             </button>
@@ -537,27 +579,34 @@ const [rooms, setRooms] = useState([
 
         <div className="page-actions">
           <button
-  className="btn-outline"
-  onClick={() =>
-    setShowManualRooms(!showManualRooms)
-  }
->
-  Manual Room Entry
-</button>
+            className="btn-outline"
+            onClick={() => {
+              setShowForm(false);
+              setShowPaymentDetails(false);
+              setShowManualRooms((value) => !value);
+            }}
+          >
+            Manual Room Entry
+          </button>
           <button
             className="btn-outline"
             onClick={() => {
+              setShowForm(false);
+              setShowManualRooms(false);
               setPaymentDetails(loadAccommodationPayments());
               setShowPaymentDetails(!showPaymentDetails);
             }}
           >
             Payment Details
           </button>
-          <button className="btn-outline">Export</button>
 
           <button
             className="btn-primary"
-            onClick={() => setShowForm(true)}
+            onClick={() => {
+              setShowManualRooms(false);
+              setShowPaymentDetails(false);
+              setShowForm(true);
+            }}
           >
             <i className="ti ti-plus" /> New Booking
           </button>
@@ -591,7 +640,7 @@ const [rooms, setRooms] = useState([
           <img
             src={
               room.image ||
-              "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop"
+              resolveRoomImage(room.roomType, room.num || index)
             }
             alt=""
             className="manual-room-image"

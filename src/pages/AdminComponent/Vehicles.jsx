@@ -1024,12 +1024,12 @@ const filteredTracking = trackingData.filter((t) =>
           <button
             className="btn-primary"
             type="button"
-      onClick={() => {
-  setEditVehicle(null);
-  setEditIndex(null);
-  setEditType("vehicle");
-  setShowModal(true);
-}}
+            onClick={() => {
+              setEditVehicle(null);
+              setEditIndex(null);
+              setEditType("vehicle");
+              setShowModal(true);
+            }}
           >
             <i className="ti ti-plus" /> Add Vehicle
           </button>
