@@ -172,7 +172,7 @@ const dynamicAccommodation = {
   name: currentHotel.propertyName || "Spiritual Stay",
   type: currentHotel.accommodationType || "Hotel",
   image:
-    !isLegacyStayImage(hotelDetails.image)
+    hotelDetails.image && !isLegacyStayImage(hotelDetails.image)
       ? hotelDetails.image
       : resolveStayImage(currentHotel.accommodationType || currentHotel.propertyName, 0),
   rating: 4.8,
@@ -336,24 +336,6 @@ const baseAccommodations = [
     ],
   },
   {
-    id: 8,
-    name: "Shree Ram Palace",
-    type: "Resort",
-    image:
-      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200",
-    rating: 4.9,
-    reviews: 540,
-    distance: "2 km",
-    desc: "Premium resort with luxury amenities and devotional atmosphere.",
-    amenities: ["Spa", "Pool", "Luxury Dining", "Free WiFi"],
-    rooms: [
-      { name: "Premium", price: 12000, left: 2 },
-      { name: "Medium", price: 6500, left: 4 },
-      { name: "Standard", price: 3200, left: 5 },
-      { name: "Homestay", price: 2500, left: 6 },
-    ],
-  },
-  {
     id: 9,
     name: "Pilgrim Rest House",
     type: "Guest House",
@@ -392,14 +374,21 @@ const baseAccommodations = [
   },
 ];
 
-const accommodations = [dynamicAccommodation, ...baseAccommodations].map((item) => ({
-  ...item,
-  image:
-    item.id === 999
-      ? item.image
-      : resolveStayImage(item.type, item.id),
-  rooms: (item.rooms || []).map(normalizeRoom),
-}));
+const accommodations = [dynamicAccommodation, ...baseAccommodations].map((item) => {
+  let finalImage = item.image;
+  if (item.id === 999) {
+    // For dynamic accommodation, ensure image is always generated
+    finalImage = item.image || resolveStayImage(item.type, item.id);
+  } else {
+    // For base accommodations, use resolveStayImage to ensure consistency
+    finalImage = resolveStayImage(item.type, item.id);
+  }
+  return {
+    ...item,
+    image: finalImage,
+    rooms: (item.rooms || []).map(normalizeRoom),
+  };
+});
 
 const initialBooking = (item = null) => ({
   room: item?.rooms?.[0]?.name || "",
