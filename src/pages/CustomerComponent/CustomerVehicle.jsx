@@ -15,6 +15,8 @@ const PASSENGER_FILTERS = [
 ];
 const VEHICLE_CLASS_FILTERS = ["All", "Standard", "Luxury"];
 const BOOKING_HOUR_OPTIONS = [2, 4, 6, 8, 10, 12, 16];
+const PROFILE_KEY = "tourist_vehicle_profile";
+const REGISTRY_KEY = "tourist_vehicle_registry";
 
 function resolveVehicleImage(type, index = 0) {
   const name = String(type || "").toLowerCase();
@@ -278,8 +280,39 @@ function getBookingStatusMeta(ride) {
 }
 
 function loadRegisteredVehicles() {
-  return [];
+  try {
+    const rawRegistry = localStorage.getItem(REGISTRY_KEY);
+    const registry = rawRegistry ? JSON.parse(rawRegistry) : null;
+    
+    const vehicles = Array.isArray(registry) ? registry : [];
+    
+    return vehicles.map((vehicle, index) => {
+      const vehicleType = vehicle.type || "SUV";
+      const id = vehicle.id || vehicle.vehicleNo || `REG-${index + 1}`;
+      return {
+        id,
+        name: vehicle.vehicleName || vehicle.model || `Registered ${vehicleType}`,
+        type: vehicleType,
+        vehicleClass: vehicle.vehicleClass || (vehicleType.includes("Luxury") ? "Luxury" : "Standard"),
+        capacity: Math.max(Number(vehicle.capacity) || 4, 1),
+        driver: vehicle.driverName || vehicle.driver || "Driver",
+        experience: vehicle.experience || "Experience",
+        image: resolveVehicleImage(vehicleType, index),
+        rating: Number(vehicle.rating) || 4.5,
+        seats: `${vehicle.capacity || 4} Seater`,
+        fuel: vehicle.fuel || "Diesel",
+        transmission: vehicle.transmission || "Manual",
+        amenities: vehicle.amenities || ["AC", "Music System"],
+        pricePerDay: Number(vehicle.pricePerDay) || 2000,
+        pricePerKm: Number(vehicle.pricePerKm) || 15,
+        available: vehicle.status !== "Maintenance"
+      };
+    });
+  } catch (error) {
+    return [];
+  }
 }
+
 
 export default function CustomerVehicle({ onBack }) {
   const tabs = ["All", "Sedan", "SUV", "MUV", "Mini Bus", "Luxury Van"];
