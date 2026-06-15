@@ -1,6 +1,6 @@
 // src/pages/AdminComponent/TourGuides.jsx
 // Component for managing tour guides with KPI cards and guide details
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import "../styles/Tourists.css";
 
@@ -63,6 +63,11 @@ const STATUS_CLS_MAP = {
   Pending: "badge-amber",
   Inactive: "badge-red",
 };
+const GUIDE_STORAGE_KEY = "tour_guides";
+const GUIDE_REGISTRATION_KEY = "tourGuideRegistrations";
+const GUIDE_PROFILE_KEY = "tourist_guide_profile";
+const GUIDE_CURRENT_KEY = "tourist_guide_current";
+const GUIDE_NOTICE_KEY = "tourist_guide_notifications";
 
 const EMPTY_FORM = {
   name: "",
@@ -72,6 +77,80 @@ const EMPTY_FORM = {
   rating: 4.0,
   status: "Active",
 };
+
+function normalizeGuide(guide, fallbackStatus = "Pending") {
+  const phone = guide.phone || guide.mobile || "+91";
+  const name = guide.fullName || guide.guideName || guide.name || "Guide";
+  const status = guide.status || fallbackStatus;
+
+  return {
+    initials:
+      name
+        .split(" ")
+        .map((w) => w[0])
+        .join("")
+        .toUpperCase() || "G",
+    name,
+    phone,
+    languages: guide.languages || "Hindi",
+    experience: guide.experience || guide.exp || "1 Year",
+    rating: guide.rating || 4.0,
+    status,
+    statusCls: STATUS_CLS_MAP[status] || "badge-amber",
+    mobile: guide.mobile || phone,
+    email: guide.email || "",
+    specialization: guide.specialization || guide.role || "Spiritual Tour Guide",
+    availability: guide.availability || "Full Time",
+    password: guide.password || "",
+  };
+}
+
+function loadGuideQueue() {
+  const storedGuides =
+    JSON.parse(localStorage.getItem(GUIDE_STORAGE_KEY) || "null") || [];
+  const registrations =
+    JSON.parse(localStorage.getItem(GUIDE_REGISTRATION_KEY) || "null") || [];
+  const merged = [
+    ...INITIAL_GUIDES.map((guide) => ({ ...guide, status: guide.status || "Active" })),
+    ...(Array.isArray(storedGuides) ? storedGuides.map((guide) => normalizeGuide(guide, guide.status || "Active")) : []),
+    ...(Array.isArray(registrations) ? registrations.map((guide) => normalizeGuide(guide, "Pending")) : []),
+  ];
+
+  const byPhone = new Map();
+  merged.forEach((guide) => {
+    if (!byPhone.has(guide.phone)) {
+      byPhone.set(guide.phone, guide);
+    } else {
+      byPhone.set(guide.phone, { ...byPhone.get(guide.phone), ...guide });
+    }
+  });
+
+  return Array.from(byPhone.values());
+}
+
+function saveGuideQueue(nextGuides) {
+  localStorage.setItem(GUIDE_STORAGE_KEY, JSON.stringify(nextGuides));
+}
+
+function pushGuideNotice(guide, action) {
+  const raw = localStorage.getItem(GUIDE_NOTICE_KEY);
+  const notices = raw ? JSON.parse(raw) : [];
+  const message =
+    action === "Active"
+      ? `Your guide request for ${guide.name} has been approved.`
+      : `Your guide request for ${guide.name} has been rejected.`;
+
+  notices.unshift({
+    id: Date.now(),
+    phone: guide.phone,
+    name: guide.name,
+    status: action,
+    message,
+    createdAt: new Date().toISOString(),
+  });
+
+  localStorage.setItem(GUIDE_NOTICE_KEY, JSON.stringify(notices.slice(0, 25)));
+}
 
 function AddGuideModal({ onClose, onSave }) {
   const [form, setForm] = useState(EMPTY_FORM);
@@ -480,45 +559,29 @@ function GuideEditModal({ onClose, editData, onUpdate }) {
 }
 
 export default function TourGuides() {
-  useEffect(() => {
-    const registeredGuides =
-      JSON.parse(localStorage.getItem("tourGuideRegistrations")) || [];
-
-    const finalGuides = [
-      ...INITIAL_GUIDES,
-      ...registeredGuides.map((guide) => ({
-        initials:
-          guide.fullName
-            ?.split(" ")
-            .map((w) => w[0])
-            .join("")
-            .toUpperCase() || "G",
-        name: guide.fullName || guide.name || "Guide",
-        phone: guide.phone || "+91",
-        languages: guide.languages || "Hindi",
-        experience: guide.experience || "1 Year",
-        rating: guide.rating || 4.0,
-        status: "Pending",
-        statusCls: "badge-amber",
-      })),
-    ];
-
-    setGuides(finalGuides);
-  }, []);
-
-  const [guides, setGuides] = useState(INITIAL_GUIDES);
+  const [guides, setGuides] = useState(() => loadGuideQueue());
   const [editData, setEditData] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterActive, setFilterActive] = useState(false);
+  const [showRequestsPanel, setShowRequestsPanel] = useState(false);
 
   const handleSave = (newGuide) => {
-    setGuides((prev) => [newGuide, ...prev]);
+    const normalized = normalizeGuide(newGuide, "Active");
+    setGuides((prev) => {
+      const next = [normalized, ...prev];
+      saveGuideQueue(next);
+      return next;
+    });
     setShowModal(false);
   };
 
   const handleDelete = (phone) => {
-    setGuides((prev) => prev.filter((g) => g.phone !== phone));
+    setGuides((prev) => {
+      const next = prev.filter((g) => g.phone !== phone);
+      saveGuideQueue(next);
+      return next;
+    });
   };
 
   const handleEdit = (data) => {
@@ -527,18 +590,51 @@ export default function TourGuides() {
   };
 
   const handleUpdate = (updatedGuide) => {
-    setGuides((prev) =>
-      prev.map((g) =>
+    setGuides((prev) => {
+      const next = prev.map((g) =>
         g.phone === editData.phone
           ? {
-              ...updatedGuide,
-              phone: g.phone, // Keep original phone
+              ...normalizeGuide(updatedGuide, g.status),
+              phone: g.phone,
             }
           : g
-      )
-    );
+      );
+      saveGuideQueue(next);
+      return next;
+    });
     setShowModal(false);
     setEditData(null);
+  };
+
+  const handleRequestDecision = (guide, nextStatus) => {
+    setGuides((prev) => {
+      const next = prev.map((item) =>
+        item.phone === guide.phone
+          ? {
+              ...item,
+              status: nextStatus,
+              statusCls: STATUS_CLS_MAP[nextStatus] || item.statusCls,
+            }
+          : item
+      );
+
+      saveGuideQueue(next);
+
+      const profile = JSON.parse(localStorage.getItem(GUIDE_PROFILE_KEY) || "null");
+      if (profile && (profile.phone === guide.phone || profile.mobile === guide.phone)) {
+        const updatedProfile = {
+          ...profile,
+          status: nextStatus,
+          statusCls: STATUS_CLS_MAP[nextStatus] || profile.statusCls || "badge-amber",
+        };
+        localStorage.setItem(GUIDE_PROFILE_KEY, JSON.stringify(updatedProfile));
+        localStorage.setItem(GUIDE_CURRENT_KEY, JSON.stringify(updatedProfile));
+      }
+
+      pushGuideNotice(guide, nextStatus);
+
+      return next;
+    });
   };
 
   const filteredGuides = guides.filter((g) => {
@@ -551,6 +647,8 @@ export default function TourGuides() {
 
     return matchesSearch && matchesFilter;
   });
+
+  const pendingRequests = guides.filter((g) => g.status === "Pending");
 
   const handleExport = () => {
     const data = JSON.stringify(guides, null, 2);
@@ -640,6 +738,32 @@ export default function TourGuides() {
       <div className="card">
         <div className="card-head">
           <div className="tourist-action-row">
+            <button
+              className="btn-outline"
+              onClick={() => setShowRequestsPanel((prev) => !prev)}
+              type="button"
+            >
+              New Requests
+              <span
+                style={{
+                  marginLeft: 8,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  minWidth: 20,
+                  height: 20,
+                  borderRadius: 999,
+                  background: "#f5c842",
+                  color: "#1a1a1a",
+                  fontSize: 11,
+                  fontWeight: 700,
+                  padding: "0 6px",
+                }}
+              >
+                {pendingRequests.length}
+              </span>
+            </button>
+
             {/* Search */}
             <div
               className="tourist-search-wrap"
@@ -694,6 +818,105 @@ export default function TourGuides() {
             </button>
           </div>
         </div>
+
+        {showRequestsPanel && (
+          <div
+            className="card"
+            style={{
+              margin: "0 0 14px",
+              border: "1px solid rgba(245, 200, 66, 0.3)",
+              background: "#fffdf4",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 10,
+                marginBottom: 12,
+              }}
+            >
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 800, color: "#1a1a1a" }}>
+                  New Requested Guides
+                </div>
+                <div style={{ fontSize: 12, color: "#8a6c4a", marginTop: 2 }}>
+                  Review and approve or reject new guide registrations.
+                </div>
+              </div>
+              <button className="btn-outline" type="button" onClick={() => setShowRequestsPanel(false)}>
+                Close
+              </button>
+            </div>
+
+            {pendingRequests.length === 0 ? (
+              <div style={{ padding: "14px 0", fontSize: 13, color: "#8a6c4a" }}>
+                No new requests right now.
+              </div>
+            ) : (
+              <div style={{ display: "grid", gap: 10 }}>
+                {pendingRequests.map((guide) => (
+                  <div
+                    key={guide.phone}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: 14,
+                      padding: 12,
+                      borderRadius: 12,
+                      border: "1px solid rgba(0,0,0,0.08)",
+                      background: "#fff",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div
+                        className="avatar-circle"
+                        style={{
+                          width: 38,
+                          height: 38,
+                          background: "#f5c842",
+                          color: "#1a1a1a",
+                          fontSize: 12,
+                        }}
+                      >
+                        {guide.initials}
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: "#1a1a1a" }}>
+                          {guide.name}
+                        </div>
+                        <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>
+                          {guide.phone} · {guide.languages} · {guide.experience}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                      <span className={`badge ${guide.statusCls}`}>{guide.status}</span>
+                      <button
+                        className="btn-outline"
+                        type="button"
+                        onClick={() => handleRequestDecision(guide, "Rejected")}
+                      >
+                        Reject
+                      </button>
+                      <button
+                        className="btn-primary"
+                        type="button"
+                        onClick={() => handleRequestDecision(guide, "Active")}
+                      >
+                        Accept
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* GUIDE DETAILS TABLE */}
         <table className="data-table">

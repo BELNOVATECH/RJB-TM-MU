@@ -292,6 +292,7 @@
     width: 100%;
     justify-content: space-between;
     flex-wrap: wrap;
+    gap: 8px;
   }
 
   .tourist-page .tourist-search-wrap {
@@ -309,6 +310,10 @@
     flex: 0 0 auto;
   }
 
+  .tourist-page .tourist-action-row > * {
+    min-width: 0;
+  }
+
   .tourist-page .tab-bar {
     display: flex;
     flex-wrap: nowrap;
@@ -320,5 +325,50 @@
   .tourist-page .tab-pill {
     white-space: nowrap;
     flex-shrink: 0;
+  }
+
+  .tourist-page .card {
+    padding-left: 14px;
+    padding-right: 14px;
+    overflow-x: auto;
+  }
+
+  .tourist-page .data-table {
+    min-width: 900px;
+  }
+
+  .tourist-page .data-table th,
+  .tourist-page .data-table td {
+    padding: 8px 6px;
+    white-space: normal;
+  }
+
+  .tourist-page .table-action-btns {
+    gap: 3px;
+  }
+
+  .tourist-page .table-icon-btn {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  .tourist-modal {
+    padding: 22px 18px 18px;
+  }
+
+  .common-modal {
+    padding: 20px 16px;
+  }
+
+  .tourist-page .tourist-search-wrap input {
+    font-size: 12px;
+  }
+
+  .tourist-page .btn-outline,
+  .tourist-page .btn-primary {
+    width: 100%;
+    justify-content: center;
   }
 }
