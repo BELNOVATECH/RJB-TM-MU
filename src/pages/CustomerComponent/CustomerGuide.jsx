@@ -116,6 +116,7 @@ export default function GuideBooking({
 
   const [guides, setGuides] =
     useState(defaultGuides);
+    
 
   const [selectedLang, setSelectedLang] =
     useState("All");
@@ -160,6 +161,52 @@ const [ratingFilter, setRatingFilter] =
       date: "",
       people: "",
     });
+    
+  const openRazorpay = () => {
+  const options = {
+    key: "rzp_test_T1nKHVi3crHSPg",
+
+    amount: Number(advancePayment) * 100,
+
+    currency: "INR",
+
+    name: "Rama Janma Bhoomi",
+
+    description: `Guide Booking - ${selectedGuide?.name}`,
+
+    image: "/assets/temple-logo.png",
+
+    prefill: {
+      name: bookingData?.name || "",
+      contact: bookingData?.phone || "",
+    },
+
+    notes: {
+      guide: selectedGuide?.name || "",
+      places: selectedPlaces
+        .map((p) => p.name)
+        .join(", "),
+    },
+
+    handler: function (response) {
+      alert(
+        `Payment Successful!
+
+Payment ID: ${response.razorpay_payment_id}
+
+Amount Paid: ₹${advancePayment}`
+      );
+
+      handlePayment();
+    }
+  };
+
+  console.log("Advance Amount:", advancePayment);
+
+  const razorpay = new window.Razorpay(options);
+
+  razorpay.open();
+};
 
   /* =========================
      LOAD REGISTERED GUIDES
@@ -1240,28 +1287,22 @@ ${paymentMethod}`
                 </div>
 
                 {/* PAY */}
+<button
+  className="pay-now-btn"
+  onClick={() => {
 
-                <button
-                  className="pay-now-btn"
-                 onClick={() => {
+    console.log("Pay Button Clicked");
 
-  if (!acceptPolicy) {
+    console.log("Method:", paymentMethod);
 
-    alert(
-      "Please accept booking policy"
-    );
+    console.log("Razorpay:", window.Razorpay);
 
-    return;
-  }
+    openRazorpay();
 
-  handlePayment();
-
-}}
-                >
-                  Pay Advance ₹{
-                    advancePayment
-                  }
-                </button>
+  }}
+>
+  Pay Advance ₹{advancePayment}
+</button>
 
                 {/* BACK */}
 
