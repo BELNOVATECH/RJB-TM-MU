@@ -128,6 +128,7 @@
 .touristspots-toolbar {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .touristspots-button-row {
@@ -307,7 +308,8 @@
   }
 
   .touristspots-page .touristspots-search-box {
-    width: 100%;
+    flex: 1 1 220px;
+    width: auto;
     max-width: none;
   }
 

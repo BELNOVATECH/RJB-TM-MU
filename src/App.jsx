@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react";
 import Dashboard from "./pages/AdminComponent/Dashboard";
 import Tourists from "./pages/AdminComponent/Tourists";
+import TourGuides from "./pages/AdminComponent/TourGuides";
 import Vehicles from "./pages/AdminComponent/Vehicles";
 import Accommodation from "./pages/AdminComponent/Accommodation";
 import AccommodationLoginDetails from "./pages/AccommodationLoginDetails";
@@ -41,6 +42,7 @@ const NAV = [
     section: "Management",
     items: [
       { key: "tourists",      label: "Tourists",       icon: "ti-users"    },
+      { key: "tourGuides",    label: "Tour Guides",    icon: "ti-license"  },
       { key: "vehicles",      label: "Vehicles",       icon: "ti-car"      },
       { key: "accommodation", label: "Accommodation",  icon: "ti-building" },
       { key: "touristSpots",  label: "Tourist Spots",  icon: "ti-map-pin"  },
@@ -65,6 +67,7 @@ const NAV = [
 const SCREEN_MAP = {
   dashboard:         <Dashboard />,
   tourists:          <Tourists />,
+  tourGuides:        <TourGuides />,
   vehicles:          <Vehicles />,
   accommodation:     <Accommodation />,
   devotionalContent: <DevotionalContent />,
@@ -75,7 +78,8 @@ const SCREEN_MAP = {
 
 const TITLES = {
   dashboard:         "Dashboard",
-  tourists:          "Tourist & Guide Management",
+  tourists:          "Tourist Management",
+  tourGuides:        "Tour Guide Management",
   vehicles:          "Vehicle & Transport Management",
   accommodation:     "Accommodation & Cottage Management",
   touristSpots:      "Tourist Spot Configuration",
