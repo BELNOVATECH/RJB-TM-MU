@@ -2,6 +2,55 @@ import { useState } from "react";
 
 import "../styles/Accommodation.css";
 
+const ACCOMMODATION_PAYMENTS_KEY = "accommodation_payment_details";
+const ACCOMMODATION_ROOMS_KEY = "accommodation_rooms";
+
+const ROOM_IMAGE_POOL = [
+  "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1400",
+  "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1400",
+  "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1400",
+  "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1400",
+  "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1400",
+  "https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=1400",
+  "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1400",
+  "https://images.unsplash.com/photo-1590490359683-658d3d23f972?q=80&w=1400",
+  "https://images.unsplash.com/photo-1535827841776-24afc1e255ac?q=80&w=1400",
+  "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?q=80&w=1400",
+  "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=1400",
+  "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1400",
+];
+
+function loadAccommodationPayments() {
+  try {
+    const data = JSON.parse(localStorage.getItem(ACCOMMODATION_PAYMENTS_KEY)) || [];
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+function getRoomSeed(value = 0) {
+  const digits = String(value ?? "")
+    .replace(/[^0-9]/g, "");
+  const seed = Number(digits || value || 0);
+  return Number.isFinite(seed) ? Math.abs(seed) : 0;
+}
+
+function resolveRoomImage(roomType, seed = 0) {
+  const name = String(roomType || "").toLowerCase();
+  const baseIndex = name.includes("premium") || name.includes("vip")
+    ? 2
+    : name.includes("deluxe") || name.includes("family")
+      ? 1
+      : name.includes("homestay")
+        ? 0
+        : name.includes("standard")
+          ? 3
+          : 4;
+  const offset = getRoomSeed(seed);
+  return ROOM_IMAGE_POOL[(baseIndex + offset) % ROOM_IMAGE_POOL.length];
+}
+
 const INITIAL_ROOMS = [
   { num: "101", status: "occupied" },
   { num: "102", status: "occupied" },
@@ -122,12 +171,35 @@ const EMPTY_FORM = {
   capacity: "",
   price: "",
   acType: "AC",
+  image: "",
+  description: "",
 };
 
 export default function Accommodation() {
   const [activeTab, setActiveTab] = useState(0);
-  const [rooms, setRooms] = useState(INITIAL_ROOMS);
+  const savedRooms =
+  JSON.parse(localStorage.getItem(ACCOMMODATION_ROOMS_KEY)) || [];
+
+const dynamicRooms = savedRooms.map((room) => ({
+  num: room.roomNumber || room.roomNo,
+  status: (room.status || "available").toLowerCase(),
+  roomType: room.roomType,
+  block: room.block,
+  capacity: room.capacity,
+  price: room.price,
+  acType: room.acType,
+  image: resolveRoomImage(room.roomType, room.roomNumber || room.roomNo),
+  description: room.description,
+}));
+
+const [rooms, setRooms] = useState([
+  ...INITIAL_ROOMS,
+  ...dynamicRooms,
+]);
   const [showForm, setShowForm] = useState(false);
+  const [showManualRooms, setShowManualRooms] = useState(false);
+  const [showPaymentDetails, setShowPaymentDetails] = useState(false);
+  const [paymentDetails, setPaymentDetails] = useState(loadAccommodationPayments);
   const [form, setForm] = useState(EMPTY_FORM);
   const [editingPrice, setEditingPrice] = useState(false);
   const [pricingData, setPricingData] = useState(PRICING);
@@ -146,22 +218,64 @@ export default function Accommodation() {
   ).length;
 
   function handleSave() {
-    if (!form.roomNo.trim()) return;
 
-    const newRoom = {
-      num: form.roomNo,
-      status: form.status,
-      roomType: form.roomType,
-      block: form.block,
-      capacity: form.capacity,
-      price: form.price,
-      acType: form.acType,
-    };
+  if (!form.roomNo.trim()) return;
 
-    setRooms((prev) => [...prev, newRoom]);
-    setForm(EMPTY_FORM);
-    setShowForm(false);
-  }
+  const newRoom = {
+
+    id: Date.now(),
+
+    roomNumber: form.roomNo,
+
+    roomType: form.roomType,
+
+    status: form.status,
+
+    block: form.block,
+
+    capacity: form.capacity,
+
+    price: form.price,
+
+    acType: form.acType,
+
+    image:
+      resolveRoomImage(form.roomType, form.roomNo),
+
+    description:
+      form.description ||
+      "Comfortable spiritual stay near temple area.",
+  };
+
+  const existing =
+    JSON.parse(localStorage.getItem(ACCOMMODATION_ROOMS_KEY)) || [];
+
+  const updated = [...existing, newRoom];
+
+  localStorage.setItem(
+    ACCOMMODATION_ROOMS_KEY,
+    JSON.stringify(updated)
+  );
+
+  setRooms((prev) => [
+    ...prev,
+    {
+      num: newRoom.roomNumber,
+      status: newRoom.status,
+      roomType: newRoom.roomType,
+      block: newRoom.block,
+      capacity: newRoom.capacity,
+      price: newRoom.price,
+      acType: newRoom.acType,
+      image: newRoom.image,
+      description: newRoom.description,
+    },
+  ]);
+
+  setForm(EMPTY_FORM);
+
+  setShowForm(false);
+}
 
   return (
     <div className="accommodation-page">
@@ -385,7 +499,49 @@ export default function Accommodation() {
                 <option>Non AC</option>
               </select>
             </div>
+
+            <div className="form-span-full">
+
+  <label className="form-label">
+    Room Image URL
+  </label>
+
+  <input
+    value={form.image || ""}
+    onChange={(e) =>
+      setForm({
+        ...form,
+        image: e.target.value,
+      })
+    }
+    placeholder="Paste image URL"
+    className="form-input"
+  />
+
+  <div className="form-span-full">
+
+  <label className="form-label">
+    Description
+  </label>
+
+  <textarea
+    value={form.description || ""}
+    onChange={(e) =>
+      setForm({
+        ...form,
+        description: e.target.value,
+      })
+    }
+    placeholder="Room description..."
+    className="form-input"
+    rows={4}
+  />
+
+</div>
+
           </div>
+
+         </div> 
 
           <div className="form-actions">
             <button className="btn-outline" onClick={() => setShowForm(false)}>
@@ -398,6 +554,8 @@ export default function Accommodation() {
         </div>
       )}
 
+      
+
       {/* Tabs + Actions */}
       <div
         className="tabs-actions"
@@ -407,7 +565,12 @@ export default function Accommodation() {
             <button
               key={t}
               className={`tab-pill ${activeTab === i ? "active" : ""}`}
-              onClick={() => setActiveTab(i)}
+              onClick={() => {
+                setActiveTab(i);
+                setShowManualRooms(false);
+                setShowPaymentDetails(false);
+                setShowForm(false);
+              }}
             >
               {t}
             </button>
@@ -415,16 +578,168 @@ export default function Accommodation() {
         </div>
 
         <div className="page-actions">
-          <button className="btn-outline">Export</button>
+          <button
+            className="btn-outline"
+            onClick={() => {
+              setShowForm(false);
+              setShowPaymentDetails(false);
+              setShowManualRooms((value) => !value);
+            }}
+          >
+            Manual Room Entry
+          </button>
+          <button
+            className="btn-outline"
+            onClick={() => {
+              setShowForm(false);
+              setShowManualRooms(false);
+              setPaymentDetails(loadAccommodationPayments());
+              setShowPaymentDetails(!showPaymentDetails);
+            }}
+          >
+            Payment Details
+          </button>
 
           <button
             className="btn-primary"
-            onClick={() => setShowForm(true)}
+            onClick={() => {
+              setShowManualRooms(false);
+              setShowPaymentDetails(false);
+              setShowForm(true);
+            }}
           >
             <i className="ti ti-plus" /> New Booking
           </button>
         </div>
       </div>
+      
+      {showManualRooms && (
+
+  <div
+    className="card"
+    style={{ marginBottom: 16 }}
+  >
+
+    <div className="card-head">
+
+      <div className="card-title">
+        Added Room Details
+      </div>
+
+    </div>
+
+    <div className="manual-room-grid">
+
+      {dynamicRooms.map((room, index) => (
+
+        <div
+          key={index}
+          className="manual-room-card"
+        >
+
+          <img
+            src={
+              room.image ||
+              resolveRoomImage(room.roomType, room.num || index)
+            }
+            alt=""
+            className="manual-room-image"
+          />
+
+          <div className="manual-room-content">
+
+            <div className="manual-room-top">
+
+              <h4>
+                Room {room.num}
+              </h4>
+
+              <span className="room-status">
+                {room.status}
+              </span>
+
+            </div>
+
+            <p className="room-type">
+              {room.roomType}
+            </p>
+
+            <p className="room-price">
+              ₹{room.price}/night
+            </p>
+
+            <div className="room-meta">
+
+              <span>
+                {room.capacity}
+              </span>
+
+              <span>
+                {room.acType}
+              </span>
+
+            </div>
+
+            <p className="room-description">
+              {room.description}
+            </p>
+
+          </div>
+
+        </div>
+      ))}
+
+    </div>
+
+  </div>
+)}
+
+      {showPaymentDetails && (
+        <div className="card" style={{ marginBottom: 16 }}>
+          <div className="card-head">
+            <div className="card-title">Accommodation Payment Details</div>
+          </div>
+
+          {paymentDetails.length === 0 ? (
+            <div className="empty-payment-state">
+              No accommodation payments found yet.
+            </div>
+          ) : (
+            <div className="admin-payment-grid">
+              {paymentDetails.map((payment) => (
+                <div className="admin-payment-card" key={payment.id}>
+                  <div className="admin-payment-top">
+                    <div>
+                      <h4>{payment.guestName}</h4>
+                      <p>{payment.propertyName} · {payment.roomType}</p>
+                    </div>
+                    <span>{payment.status}</span>
+                  </div>
+
+                  <div className="admin-payment-metrics">
+                    <div>
+                      <small>Total</small>
+                      <strong>₹{payment.totalAmount}</strong>
+                    </div>
+                    <div>
+                      <small>Advance</small>
+                      <strong>₹{payment.advanceAmount}</strong>
+                    </div>
+                    <div>
+                      <small>Remaining</small>
+                      <strong>₹{payment.remainingAmount}</strong>
+                    </div>
+                  </div>
+
+                  <div className="admin-payment-meta">
+                    {payment.checkIn || "-"} to {payment.checkOut || "-"} · {payment.guests} guest(s)
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="main-layout">
 
@@ -660,61 +975,109 @@ export default function Accommodation() {
           </>
         )}
 
-        {/* BOOKINGS TAB */}
-        {activeTab === 1 && (
-          <div className="card">
-            <div className="card-head">
-              <div className="card-title">Bookings</div>
+      {/* BOOKINGS TAB */}
+{activeTab === 1 && (
+  <div className="card">
+
+    <div className="card-head">
+      <div className="card-title">
+        Bookings
+      </div>
+    </div>
+
+    {BOOKINGS.map((b) => (
+      <div
+        className="checkin-item"
+        key={b.room}
+      >
+
+        <div>
+
+          <div className="checkin-name">
+            {b.guest}
+          </div>
+
+          <div className="checkin-meta">
+            Room {b.room} · {b.type} · {b.stay}
+          </div>
+
+        </div>
+
+        <span className="badge badge-green">
+          {b.status}
+        </span>
+
+      </div>
+    ))}
+
+    {
+      dynamicRooms.map((r, index) => (
+
+        <div
+          className="checkin-item"
+          key={index}
+        >
+
+          <div>
+
+            <div className="checkin-name">
+              Room {r.num}
             </div>
 
-            {BOOKINGS.map((b) => (
-              <div className="checkin-item" key={b.room}>
-                <div>
-                  <div className="checkin-name">
-                    {b.guest}
-                  </div>
+            <div className="checkin-meta">
+              {r.roomType} · {r.capacity} · {r.acType}
+            </div>
 
-                  <div className="checkin-meta">
-                    Room {b.room} · {b.type} · {b.stay}
-                  </div>
-                </div>
-
-                <span className="badge badge-green">
-                  {b.status}
-                </span>
-              </div>
-            ))}
           </div>
-        )}
+
+          <span className="badge badge-blue">
+            {r.status}
+          </span>
+
+        </div>
+      ))
+    }
+
+  </div>
+)}
 
         {/* PRICING TAB */}
-        {activeTab === 2 && (
-          <div className="card">
+{activeTab === 2 && (
+  <div className="card">
 
-            <div className="card-head">
-              <div className="card-title">
-                Room Pricing
-              </div>
-            </div>
+    <div className="card-head">
+      <div className="card-title">
+        Room Pricing
+      </div>
+    </div>
 
-            <div className="pricing-list">
-              {pricingData.map((p) => (
-                <div className="pricing-item" key={p.label}>
+    <div className="pricing-list">
 
-                  <div className="pricing-title">
-                    {p.label}
-                  </div>
+      {pricingData.map((p) => (
 
-                  <div className="pricing-value">
-                    {p.price}
-                  </div>
+        <div
+          className="pricing-item"
+          key={p.label}
+        >
 
-                </div>
-              ))}
-            </div>
-
+          <div className="pricing-title">
+            {p.label}
           </div>
-        )}
+
+          <div className="pricing-value">
+            {p.price}
+          </div>
+
+        </div>
+      ))}
+
+    </div>
+
+    
+
+  </div>
+)}
+
 
         {/* EXPORT TAB */}
         {activeTab === 3 && (

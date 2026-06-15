@@ -3,6 +3,7 @@ import Dashboard from "./pages/AdminComponent/Dashboard";
 import Tourists from "./pages/AdminComponent/Tourists";
 import Vehicles from "./pages/AdminComponent/Vehicles";
 import Accommodation from "./pages/AdminComponent/Accommodation";
+import AccommodationLoginDetails from "./pages/AccommodationLoginDetails";
 import DevotionalContent from "./pages/AdminComponent/DevotionalContent";
 import TouristSpots from "./pages/AdminComponent/TouristSpots";
 import ChargesPricing from "./pages/AdminComponent/ChargesPricing";
@@ -87,10 +88,20 @@ const TITLES = {
 export default function App() {
   // "landing" | "login" | "register" | "app"
   const [screen, setScreen] = useState("landing");
+
+useEffect(() => {
+
+  if (
+    window.location.hash === "#accommodationDashboard"
+  ) {
+    setScreen("accommodationDashboard");
+  }
+
+}, []);
+
   const [active, setActive] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-const [activePage, setActivePage] =
-  useState("home");
+const [activePage] = useState("home");
 
 useEffect(() => {
 
@@ -229,6 +240,21 @@ if (screen === "accommodationLogin") {
 }
 
 
+/* ACCOMMODATION DASHBOARD */
+
+if (screen === "accommodationDashboard") {
+
+  return (
+    <AccommodationLoginDetails
+      onBack={() =>
+        setScreen("accommodationLogin")
+      }
+    />
+  );
+
+}
+
+
 /* ACCOMMODATION REGISTER */
 
 if (screen === "accommodationRegister") {
@@ -250,6 +276,7 @@ if (screen === "accommodationRegister") {
   );
 
 }
+
 /* DRIVER LOGIN */
 
 if (screen === "driverLogin") {
