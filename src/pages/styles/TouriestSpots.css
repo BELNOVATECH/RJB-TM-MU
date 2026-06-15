@@ -143,11 +143,11 @@
 .touristspots-search-box {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background: #fdf8f0;
   border: 1px solid rgba(0, 0, 0, 0.09);
   border-radius: 8px;
-  padding: 6px 12px;
+  padding: 7px 10px;
   font-size: 12px;
   color: #888;
 }
@@ -349,3 +349,5 @@
     overflow-x: visible;
   }
 }
+
+

@@ -6,6 +6,8 @@ body {
 
 .dashboard {
   padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .page-greeting {
@@ -22,15 +24,21 @@ body {
 .kpi-row {
   display: flex;
   gap: 20px;
+  flex-wrap: wrap;
+  align-items: stretch;
 }
 
 .kpi-card {
   flex: 1;
+  min-width: 200px;
   background: #fff;
   border-radius: 14px;
   padding: 16px;
   position: relative;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .kpi-accent {
@@ -98,9 +106,31 @@ body {
 
 .grid-3 {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
   margin-top: 20px;
+}
+
+@media (max-width: 1024px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .kpi-row {
+    gap: 16px;
+  }
 }
 
 /* ===== CARD ===== */
@@ -114,11 +144,16 @@ body {
 .card-head {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .card-title {
   font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
 }
 
 .card-action {
@@ -219,26 +254,33 @@ body {
 .booking-item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   background: #fdf8f0;
-  padding: 8px;
+  padding: 12px;
   border-radius: 8px;
   margin-bottom: 8px;
 }
 
 .avatar-circle {
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
   border-radius: 50%;
   background: #f5e6c0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .booking-info {
   flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .booking-name {
@@ -255,14 +297,26 @@ body {
 .vehicle-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 0;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
   border-bottom: 1px solid #eee;
+}
+
+.vehicle-item i {
+  flex-shrink: 0;
+  font-size: 20px;
+}
+
+.vehicle-item > div {
+  flex: 1;
+  min-width: 0;
 }
 
 .vehicle-sub {
   font-size: 10px;
   color: #777;
+  margin-top: 2px;
 }
 
 /* ===== BADGES ===== */
@@ -280,8 +334,10 @@ body {
 /* ===== ALERTS ===== */
 .alert-item {
   display: flex;
-  gap: 8px;
-  margin-bottom: 10px;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 2px 0;
 }
 
 .alert-dot {
