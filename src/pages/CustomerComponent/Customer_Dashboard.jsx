@@ -9,6 +9,7 @@ import CustomerAccommodation from "./CustomerAccommodation";
 import CustomerGuide from "./CustomerGuide";
 import CustomerVehicle from "./CustomerVehicle";
 import PaymentIntegration from "./PaymentGateway";
+import DonationPage from "./DonationPage";
 export default function PilgrimHome() {
   const [activePage, setActivePage] = useState("home");
   const [selectedBooking, setSelectedBooking] = useState(null);
@@ -224,7 +225,13 @@ refundTime: "5-7 Working Days",
   if (activePage === "vehicle") {
     return <CustomerVehicle onBack={() => setActivePage("home")} />;
   }
-
+if (activePage === "donation") {
+  return (
+    <DonationPage
+      onBack={() => setActivePage("home")}
+    />
+  );
+}
   if (activePage === "guide") {
     return (
       <GuideBooking
@@ -651,6 +658,16 @@ if (activePage === "ai") {
             </div>
             <span>Payments</span>
           </div>
+          <div
+  className="service-card"
+  onClick={() => setActivePage("donation")}
+>
+  <div className="service-icon gold">
+    <i className="ti ti-heart-handshake"></i>
+  </div>
+
+  <span>Donation</span>
+</div>
 {/* 
           <div className="service-card">
             <div className="service-icon gray">

@@ -1164,3 +1164,104 @@
   background: #f59e0b !important;
   color: white !important;
 }
+.donation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+.donation-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  transition: 0.3s;
+}
+
+.donation-card:hover {
+  transform: translateY(-5px);
+}
+
+.donation-icon {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+.donation-card h3 {
+  color: #ff7a00;
+  margin-bottom: 10px;
+}
+
+.donation-card p {
+  color: #555;
+  line-height: 1.5;
+}
+
+.donation-info {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.donate-btn {
+  width: 100%;
+  background: #ff7a00;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.donate-btn:hover {
+  background: #e66c00;
+}
+
+.donation-success-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.donation-success-box {
+  background: white;
+  width: 360px;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  animation: popupScale .3s ease;
+}
+
+.success-icon {
+  font-size: 60px;
+  margin-bottom: 10px;
+}
+
+.donation-success-box h2 {
+  color: #ff7a00;
+  margin-bottom: 10px;
+}
+
+@keyframes popupScale {
+  from {
+    transform: scale(.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .donation-grid {
+    grid-template-columns: 1fr;
+  }
+}
