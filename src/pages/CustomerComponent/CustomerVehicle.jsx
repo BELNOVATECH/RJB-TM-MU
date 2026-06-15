@@ -1,5 +1,6 @@
 ﻿import React, { useEffect, useState } from "react";
 import "../styles/CustomerPages.css";
+import { openRazorpay } from "../../services/razorpay";
 
 const WORKING_HOURS_PER_DAY = 16;
 const ADVANCE_PERCENT = 50;
@@ -283,9 +284,9 @@ function loadRegisteredVehicles() {
   try {
     const rawRegistry = localStorage.getItem(REGISTRY_KEY);
     const registry = rawRegistry ? JSON.parse(rawRegistry) : null;
-    
+
     const vehicles = Array.isArray(registry) ? registry : [];
-    
+
     return vehicles.map((vehicle, index) => {
       const vehicleType = vehicle.type || "SUV";
       const id = vehicle.id || vehicle.vehicleNo || `REG-${index + 1}`;
@@ -512,406 +513,406 @@ export default function CustomerVehicle({ onBack }) {
         </div>
 
         {!showMyBookings && (
-        <div className="cp-booking-filters">
-          <div className="cp-filter-item">
-            <label className="cp-filter-label">Persons</label>
-            <select
-              className="cp-filter-select"
-              value={filters.persons}
-              onChange={(e) => updateFilter("persons", e.target.value)}
-            >
-              {PASSENGER_FILTERS.map((option) => (
-                <option key={option.label} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
+          <div className="cp-booking-filters">
+            <div className="cp-filter-item">
+              <label className="cp-filter-label">Persons</label>
+              <select
+                className="cp-filter-select"
+                value={filters.persons}
+                onChange={(e) => updateFilter("persons", e.target.value)}
+              >
+                {PASSENGER_FILTERS.map((option) => (
+                  <option key={option.label} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div className="cp-filter-item">
-            <label className="cp-filter-label">Vehicle Class</label>
-            <select
-              className="cp-filter-select"
-              value={filters.vehicleClass}
-              onChange={(e) => updateFilter("vehicleClass", e.target.value)}
-            >
-              {VEHICLE_CLASS_FILTERS.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
+            <div className="cp-filter-item">
+              <label className="cp-filter-label">Vehicle Class</label>
+              <select
+                className="cp-filter-select"
+                value={filters.vehicleClass}
+                onChange={(e) => updateFilter("vehicleClass", e.target.value)}
+              >
+                {VEHICLE_CLASS_FILTERS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div className="cp-filter-item">
-            <label className="cp-filter-label">Booking Hours</label>
-            <select
-              className="cp-filter-select"
-              value={filters.hours}
-              onChange={(e) => updateFilter("hours", e.target.value)}
-            >
-              {BOOKING_HOUR_OPTIONS.map((hours) => (
-                <option key={hours} value={hours}>
-                  {hours} hrs
-                </option>
-              ))}
-            </select>
+            <div className="cp-filter-item">
+              <label className="cp-filter-label">Booking Hours</label>
+              <select
+                className="cp-filter-select"
+                value={filters.hours}
+                onChange={(e) => updateFilter("hours", e.target.value)}
+              >
+                {BOOKING_HOUR_OPTIONS.map((hours) => (
+                  <option key={hours} value={hours}>
+                    {hours} hrs
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-        </div>
         )}
 
         {showMyBookings && (
-        <section className="cp-bookings-section">
-          <div className="cp-bookings-head">
-            <div>
-              <h2>Your Bookings</h2>
-              <p>
-                Track driver confirmation, ride progress, and payment updates from one place.
-              </p>
+          <section className="cp-bookings-section">
+            <div className="cp-bookings-head">
+              <div>
+                <h2>Your Bookings</h2>
+                <p>
+                  Track driver confirmation, ride progress, and payment updates from one place.
+                </p>
+              </div>
+              <div className="cp-bookings-badge">{sortedBookings.length} rides</div>
             </div>
-            <div className="cp-bookings-badge">{sortedBookings.length} rides</div>
-          </div>
 
-          {sortedBookings.length === 0 ? (
-            <div className="cp-bookings-empty">
-              Your confirmed and pending rides will appear here after booking a vehicle.
-            </div>
-          ) : (
-            <div className="cp-bookings-list">
-              {sortedBookings.map((ride) => {
-                const statusMeta = getBookingStatusMeta(ride);
-                const isPaymentDue =
-                  ride.paymentStatus === "Pending" ||
-                  String(ride.paymentStatus || "").includes("Due");
-                const paymentLabel =
-                  ride.status === "Completed" &&
-                  ride.paymentMode !== "full" &&
-                  ride.paymentStatus !== "Settled"
-                    ? `Remaining due ₹${ride.balanceDue}`
-                    : isPaymentDue
-                      ? ride.paymentMode === "full"
-                        ? `Full amount due ₹${ride.advanceAmount}`
-                        : `Advance due ₹${ride.advanceAmount}`
-                      : ride.paymentMode === "full"
-                        ? "Full amount paid"
-                        : "Advance paid";
-                const showPayAdvance =
-                  ride.status === "Accepted" &&
-                  !["Paid", "Advance Paid", "Settled"].includes(ride.paymentStatus || "");
-                const showPayRemaining =
-                  ride.status === "Completed" &&
-                  ride.paymentMode !== "full" &&
-                  ride.paymentStatus !== "Settled";
+            {sortedBookings.length === 0 ? (
+              <div className="cp-bookings-empty">
+                Your confirmed and pending rides will appear here after booking a vehicle.
+              </div>
+            ) : (
+              <div className="cp-bookings-list">
+                {sortedBookings.map((ride) => {
+                  const statusMeta = getBookingStatusMeta(ride);
+                  const isPaymentDue =
+                    ride.paymentStatus === "Pending" ||
+                    String(ride.paymentStatus || "").includes("Due");
+                  const paymentLabel =
+                    ride.status === "Completed" &&
+                      ride.paymentMode !== "full" &&
+                      ride.paymentStatus !== "Settled"
+                      ? `Remaining due ₹${ride.balanceDue}`
+                      : isPaymentDue
+                        ? ride.paymentMode === "full"
+                          ? `Full amount due ₹${ride.advanceAmount}`
+                          : `Advance due ₹${ride.advanceAmount}`
+                        : ride.paymentMode === "full"
+                          ? "Full amount paid"
+                          : "Advance paid";
+                  const showPayAdvance =
+                    ride.status === "Accepted" &&
+                    !["Paid", "Advance Paid", "Settled"].includes(ride.paymentStatus || "");
+                  const showPayRemaining =
+                    ride.status === "Completed" &&
+                    ride.paymentMode !== "full" &&
+                    ride.paymentStatus !== "Settled";
 
-                return (
-                  <article key={ride.rideId} className="cp-booking-card">
-                    <div className="cp-booking-top">
-                      <div>
-                        <div className="cp-booking-title">{ride.vehicleName}</div>
-                        <div className="cp-booking-route">
-                          {ride.pickupLocation} → {ride.dropLocation}
+                  return (
+                    <article key={ride.rideId} className="cp-booking-card">
+                      <div className="cp-booking-top">
+                        <div>
+                          <div className="cp-booking-title">{ride.vehicleName}</div>
+                          <div className="cp-booking-route">
+                            {ride.pickupLocation} → {ride.dropLocation}
+                          </div>
+                        </div>
+                        <span className={`cp-booking-status ${statusMeta.tone}`}>
+                          {statusMeta.label}
+                        </span>
+                      </div>
+
+                      <div className="cp-booking-note">{statusMeta.note}</div>
+
+                      <div className="cp-booking-grid cp-booking-grid-primary">
+                        <div className="cp-booking-cell">
+                          <span>Tourist</span>
+                          <strong>{ride.touristName || ride.customerName || "-"}</strong>
+                        </div>
+                        <div className="cp-booking-cell">
+                          <span>Travel Date</span>
+                          <strong>{ride.travelDate || "-"}</strong>
+                        </div>
+                        <div className="cp-booking-cell">
+                          <span>Pickup Time</span>
+                          <strong>{ride.pickupTime || "-"}</strong>
+                        </div>
+                        <div className="cp-booking-cell">
+                          <span>Payment Mode</span>
+                          <strong>{ride.paymentMode === "full" ? "Full Amount" : "Advance 50%"}</strong>
                         </div>
                       </div>
-                      <span className={`cp-booking-status ${statusMeta.tone}`}>
-                        {statusMeta.label}
-                      </span>
-                    </div>
 
-                    <div className="cp-booking-note">{statusMeta.note}</div>
+                      <div className="cp-booking-grid cp-booking-grid-secondary">
+                        <div className="cp-booking-cell">
+                          <span>Ride Ref</span>
+                          <strong>{ride.rideId}</strong>
+                        </div>
+                        <div className="cp-booking-cell">
+                          <span>Pay Now</span>
+                          <strong>₹{ride.advanceAmount}</strong>
+                        </div>
+                        <div className="cp-booking-cell">
+                          <span>Remaining</span>
+                          <strong>₹{ride.balanceDue}</strong>
+                        </div>
+                        <div className="cp-booking-cell">
+                          <span>Distance</span>
+                          <strong>{ride.distanceKm} km</strong>
+                        </div>
+                      </div>
 
-                    <div className="cp-booking-grid cp-booking-grid-primary">
-                      <div className="cp-booking-cell">
-                        <span>Tourist</span>
-                        <strong>{ride.touristName || ride.customerName || "-"}</strong>
+                      <div className="cp-booking-footer">
+                        <span className="cp-booking-chip">{paymentLabel}</span>
+                        <span className="cp-booking-chip">Driver: {ride.driverName || "-"}</span>
+                        {showPayAdvance && (
+                          <button
+                            type="button"
+                            className="cp-booking-pay-btn"
+                            onClick={() => handleCustomerPayment(ride)}
+                          >
+                            Pay {ride.paymentMode === "full" ? "Now" : "Advance"}
+                          </button>
+                        )}
+                        {showPayRemaining && (
+                          <button
+                            type="button"
+                            className="cp-booking-pay-btn"
+                            onClick={() => handleCustomerPayment(ride)}
+                          >
+                            Pay Remaining
+                          </button>
+                        )}
                       </div>
-                      <div className="cp-booking-cell">
-                        <span>Travel Date</span>
-                        <strong>{ride.travelDate || "-"}</strong>
-                      </div>
-                      <div className="cp-booking-cell">
-                        <span>Pickup Time</span>
-                        <strong>{ride.pickupTime || "-"}</strong>
-                      </div>
-                      <div className="cp-booking-cell">
-                        <span>Payment Mode</span>
-                        <strong>{ride.paymentMode === "full" ? "Full Amount" : "Advance 50%"}</strong>
-                      </div>
-                    </div>
-
-                    <div className="cp-booking-grid cp-booking-grid-secondary">
-                      <div className="cp-booking-cell">
-                        <span>Ride Ref</span>
-                        <strong>{ride.rideId}</strong>
-                      </div>
-                      <div className="cp-booking-cell">
-                        <span>Pay Now</span>
-                        <strong>₹{ride.advanceAmount}</strong>
-                      </div>
-                      <div className="cp-booking-cell">
-                        <span>Remaining</span>
-                        <strong>₹{ride.balanceDue}</strong>
-                      </div>
-                      <div className="cp-booking-cell">
-                        <span>Distance</span>
-                        <strong>{ride.distanceKm} km</strong>
-                      </div>
-                    </div>
-
-                    <div className="cp-booking-footer">
-                      <span className="cp-booking-chip">{paymentLabel}</span>
-                      <span className="cp-booking-chip">Driver: {ride.driverName || "-"}</span>
-                      {showPayAdvance && (
-                        <button
-                          type="button"
-                          className="cp-booking-pay-btn"
-                          onClick={() => handleCustomerPayment(ride)}
-                        >
-                          Pay {ride.paymentMode === "full" ? "Now" : "Advance"}
-                        </button>
-                      )}
-                      {showPayRemaining && (
-                        <button
-                          type="button"
-                          className="cp-booking-pay-btn"
-                          onClick={() => handleCustomerPayment(ride)}
-                        >
-                          Pay Remaining
-                        </button>
-                      )}
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          )}
-        </section>
+                    </article>
+                  );
+                })}
+              </div>
+            )}
+          </section>
         )}
 
         {!showMyBookings && (
-        <div className="cp-vehicle-grid">
-          {filteredData.length === 0 ? (
-            <div style={{ textAlign: "center", padding: "40px", color: "#6b7280", gridColumn: "1 / -1" }}>
-              No vehicles found.
-            </div>
-          ) : (
-            filteredData.map((item) => (
-              <div className="cp-card" key={item.id}>
-              <div className="cp-card-img" style={{ height: "220px" }}>
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-                <div className="cp-card-tags">
-                  {item.available && <span className="cp-tag green">Available</span>}
-                  <span className="cp-tag">{item.type}</span>
-                </div>
+          <div className="cp-vehicle-grid">
+            {filteredData.length === 0 ? (
+              <div style={{ textAlign: "center", padding: "40px", color: "#6b7280", gridColumn: "1 / -1" }}>
+                No vehicles found.
               </div>
-
-              <div className="cp-card-body">
-                <div className="cp-card-top">
-                  <div>
-                    <div className="cp-card-title">{item.name}</div>
-                    <div className="cp-card-subtitle">
-                      {item.driver} ({item.experience})
+            ) : (
+              filteredData.map((item) => (
+                <div className="cp-card" key={item.id}>
+                  <div className="cp-card-img" style={{ height: "220px" }}>
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                    <div className="cp-card-tags">
+                      {item.available && <span className="cp-tag green">Available</span>}
+                      <span className="cp-tag">{item.type}</span>
                     </div>
                   </div>
-                  <div className="cp-card-rating">
-                    <i className="ti ti-star-filled"></i> {item.rating}
-                  </div>
-                </div>
 
-                <div
-                  className="cp-amenities"
-                  style={{
-                    borderBottom: "1px solid #e5e7eb",
-                    paddingBottom: "16px",
-                    marginBottom: "16px",
-                    display: "flex",
-                    justifyContent: "space-between"
-                  }}
-                >
-                  <div style={{ display: "flex", gap: "6px", alignItems: "center", fontSize: "14px", color: "#6b7280" }}>
-                    <i className="ti ti-users"></i> {item.seats}
-                  </div>
-                  <div style={{ display: "flex", gap: "6px", alignItems: "center", fontSize: "14px", color: "#6b7280" }}>
-                    <i className="ti ti-gas-station"></i> {item.fuel}
-                  </div>
-                  <div style={{ display: "flex", gap: "6px", alignItems: "center", fontSize: "14px", color: "#6b7280" }}>
-                    <i className="ti ti-settings"></i> {item.transmission}
-                  </div>
-                </div>
+                  <div className="cp-card-body">
+                    <div className="cp-card-top">
+                      <div>
+                        <div className="cp-card-title">{item.name}</div>
+                        <div className="cp-card-subtitle">
+                          {item.driver} ({item.experience})
+                        </div>
+                      </div>
+                      <div className="cp-card-rating">
+                        <i className="ti ti-star-filled"></i> {item.rating}
+                      </div>
+                    </div>
 
-                <div className="cp-amenities">
-                  {item.amenities.map((amenity) => (
-                    <span className="cp-amenity" key={amenity}>
-                      {amenity}
-                    </span>
-                  ))}
-                </div>
+                    <div
+                      className="cp-amenities"
+                      style={{
+                        borderBottom: "1px solid #e5e7eb",
+                        paddingBottom: "16px",
+                        marginBottom: "16px",
+                        display: "flex",
+                        justifyContent: "space-between"
+                      }}
+                    >
+                      <div style={{ display: "flex", gap: "6px", alignItems: "center", fontSize: "14px", color: "#6b7280" }}>
+                        <i className="ti ti-users"></i> {item.seats}
+                      </div>
+                      <div style={{ display: "flex", gap: "6px", alignItems: "center", fontSize: "14px", color: "#6b7280" }}>
+                        <i className="ti ti-gas-station"></i> {item.fuel}
+                      </div>
+                      <div style={{ display: "flex", gap: "6px", alignItems: "center", fontSize: "14px", color: "#6b7280" }}>
+                        <i className="ti ti-settings"></i> {item.transmission}
+                      </div>
+                    </div>
 
-                <div className="cp-stats-row" style={{ textAlign: "left", marginTop: "20px" }}>
-                  <div className="cp-stat" style={{ flex: 1 }}>
-                    <div className="cp-stat-label">Per Hour</div>
-                    <div className="cp-stat-val" style={{ color: "#f57c00", fontSize: "18px" }}>
-                      ₹{getHourlyRate(item)}
+                    <div className="cp-amenities">
+                      {item.amenities.map((amenity) => (
+                        <span className="cp-amenity" key={amenity}>
+                          {amenity}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="cp-stats-row" style={{ textAlign: "left", marginTop: "20px" }}>
+                      <div className="cp-stat" style={{ flex: 1 }}>
+                        <div className="cp-stat-label">Per Hour</div>
+                        <div className="cp-stat-val" style={{ color: "#f57c00", fontSize: "18px" }}>
+                          ₹{getHourlyRate(item)}
+                        </div>
+                      </div>
+                      <div className="cp-stat" style={{ flex: 1 }}>
+                        <div className="cp-stat-label">16 Hour Day</div>
+                        <div className="cp-stat-val" style={{ color: "#f57c00", fontSize: "18px" }}>
+                          ₹{item.pricePerDay}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="cp-price-notes">
+                      <div className="cp-price-note">
+                        Estimated for {filters.hours} hrs: <strong>₹{getEstimatedPrice(item, filters.hours)}</strong>
+                      </div>
+
+                      <div className="cp-price-note cp-price-note-soft">
+                        Complimentary distance: <strong>{getComplimentaryKm(filters.hours)} km</strong> free
+                      </div>
+                    </div>
+
+                    <div className="cp-actions" style={{ marginTop: "20px" }}>
+                      <button className="cp-btn-primary" onClick={() => openBookingModal(item)}>
+                        Book Vehicle
+                      </button>
                     </div>
                   </div>
-                  <div className="cp-stat" style={{ flex: 1 }}>
-                    <div className="cp-stat-label">16 Hour Day</div>
-                    <div className="cp-stat-val" style={{ color: "#f57c00", fontSize: "18px" }}>
-                      ₹{item.pricePerDay}
-                    </div>
-                  </div>
                 </div>
-
-                <div className="cp-price-notes">
-                  <div className="cp-price-note">
-                    Estimated for {filters.hours} hrs: <strong>₹{getEstimatedPrice(item, filters.hours)}</strong>
-                  </div>
-
-                  <div className="cp-price-note cp-price-note-soft">
-                    Complimentary distance: <strong>{getComplimentaryKm(filters.hours)} km</strong> free
-                  </div>
-                </div>
-
-                <div className="cp-actions" style={{ marginTop: "20px" }}>
-                  <button className="cp-btn-primary" onClick={() => openBookingModal(item)}>
-                    Book Vehicle
-                  </button>
-                </div>
-              </div>
-            </div>
-            ))
-          )}
-        </div>
+              ))
+            )}
+          </div>
         )}
 
         {false && (
-        <section className="cp-bookings-section">
-          <div className="cp-bookings-head">
-            <div>
-              <h2>Your Bookings</h2>
-              <p>
-                Track driver confirmation, ride progress, and payment updates from one place.
-              </p>
+          <section className="cp-bookings-section">
+            <div className="cp-bookings-head">
+              <div>
+                <h2>Your Bookings</h2>
+                <p>
+                  Track driver confirmation, ride progress, and payment updates from one place.
+                </p>
+              </div>
+              <div className="cp-bookings-badge">{sortedBookings.length} rides</div>
             </div>
-            <div className="cp-bookings-badge">{sortedBookings.length} rides</div>
-          </div>
 
-          {sortedBookings.length === 0 ? (
-            <div className="cp-bookings-empty">
-              Your confirmed and pending rides will appear here after booking a vehicle.
-            </div>
-          ) : (
-            <div className="cp-bookings-list">
-              {sortedBookings.map((ride) => {
-                const statusMeta = getBookingStatusMeta(ride);
-                const isPaymentDue =
-                  ride.paymentStatus === "Pending" ||
-                  String(ride.paymentStatus || "").includes("Due");
-                const paymentLabel =
-                  ride.status === "Completed" &&
-                  ride.paymentMode !== "full" &&
-                  ride.paymentStatus !== "Settled"
-                    ? `Remaining due ₹${ride.balanceDue}`
-                    : isPaymentDue
-                      ? ride.paymentMode === "full"
-                        ? `Full amount due ₹${ride.advanceAmount}`
-                        : `Advance due ₹${ride.advanceAmount}`
-                      : ride.paymentMode === "full"
-                        ? "Full amount paid"
-                        : "Advance paid";
-                const showPayAdvance =
-                  ride.status === "Accepted" &&
-                  !["Paid", "Advance Paid", "Settled"].includes(ride.paymentStatus || "");
-                const showPayRemaining =
-                  ride.status === "Completed" &&
-                  ride.paymentMode !== "full" &&
-                  ride.paymentStatus !== "Settled";
+            {sortedBookings.length === 0 ? (
+              <div className="cp-bookings-empty">
+                Your confirmed and pending rides will appear here after booking a vehicle.
+              </div>
+            ) : (
+              <div className="cp-bookings-list">
+                {sortedBookings.map((ride) => {
+                  const statusMeta = getBookingStatusMeta(ride);
+                  const isPaymentDue =
+                    ride.paymentStatus === "Pending" ||
+                    String(ride.paymentStatus || "").includes("Due");
+                  const paymentLabel =
+                    ride.status === "Completed" &&
+                      ride.paymentMode !== "full" &&
+                      ride.paymentStatus !== "Settled"
+                      ? `Remaining due ₹${ride.balanceDue}`
+                      : isPaymentDue
+                        ? ride.paymentMode === "full"
+                          ? `Full amount due ₹${ride.advanceAmount}`
+                          : `Advance due ₹${ride.advanceAmount}`
+                        : ride.paymentMode === "full"
+                          ? "Full amount paid"
+                          : "Advance paid";
+                  const showPayAdvance =
+                    ride.status === "Accepted" &&
+                    !["Paid", "Advance Paid", "Settled"].includes(ride.paymentStatus || "");
+                  const showPayRemaining =
+                    ride.status === "Completed" &&
+                    ride.paymentMode !== "full" &&
+                    ride.paymentStatus !== "Settled";
 
-                return (
-                  <article key={ride.rideId} className="cp-booking-card">
-                    <div className="cp-booking-top">
-                      <div>
-                        <div className="cp-booking-title">{ride.vehicleName}</div>
-                        <div className="cp-booking-route">
-                          {ride.pickupLocation} → {ride.dropLocation}
+                  return (
+                    <article key={ride.rideId} className="cp-booking-card">
+                      <div className="cp-booking-top">
+                        <div>
+                          <div className="cp-booking-title">{ride.vehicleName}</div>
+                          <div className="cp-booking-route">
+                            {ride.pickupLocation} → {ride.dropLocation}
+                          </div>
+                        </div>
+                        <span className={`cp-booking-status ${statusMeta.tone}`}>
+                          {statusMeta.label}
+                        </span>
+                      </div>
+
+                      <div className="cp-booking-note">{statusMeta.note}</div>
+
+                      <div className="cp-booking-grid">
+                        <div className="cp-booking-cell">
+                          <span>Tourist</span>
+                          <strong>{ride.touristName || ride.customerName || "-"}</strong>
+                        </div>
+                        <div className="cp-booking-cell">
+                          <span>Travel Date</span>
+                          <strong>{ride.travelDate || "-"}</strong>
+                        </div>
+                        <div className="cp-booking-cell">
+                          <span>Pickup Time</span>
+                          <strong>{ride.pickupTime || "-"}</strong>
+                        </div>
+                        <div className="cp-booking-cell">
+                          <span>Payment Mode</span>
+                          <strong>{ride.paymentMode === "full" ? "Full Amount" : "Advance 50%"}</strong>
                         </div>
                       </div>
-                      <span className={`cp-booking-status ${statusMeta.tone}`}>
-                        {statusMeta.label}
-                      </span>
-                    </div>
 
-                    <div className="cp-booking-note">{statusMeta.note}</div>
+                      <div className="cp-booking-grid cp-booking-grid-secondary">
+                        <div className="cp-booking-cell">
+                          <span>Ride Ref</span>
+                          <strong>{ride.rideId}</strong>
+                        </div>
+                        <div className="cp-booking-cell">
+                          <span>Pay Now</span>
+                          <strong>₹{ride.advanceAmount}</strong>
+                        </div>
+                        <div className="cp-booking-cell">
+                          <span>Remaining</span>
+                          <strong>₹{ride.balanceDue}</strong>
+                        </div>
+                        <div className="cp-booking-cell">
+                          <span>Distance</span>
+                          <strong>{ride.distanceKm} km</strong>
+                        </div>
+                      </div>
 
-                    <div className="cp-booking-grid">
-                      <div className="cp-booking-cell">
-                        <span>Tourist</span>
-                        <strong>{ride.touristName || ride.customerName || "-"}</strong>
+                      <div className="cp-booking-footer">
+                        <span className="cp-booking-chip">{paymentLabel}</span>
+                        <span className="cp-booking-chip">Driver: {ride.driverName || "-"}</span>
+                        {showPayAdvance && (
+                          <button
+                            type="button"
+                            className="cp-booking-pay-btn"
+                            onClick={() => handleCustomerPayment(ride)}
+                          >
+                            Pay {ride.paymentMode === "full" ? "Now" : "Advance"}
+                          </button>
+                        )}
+                        {showPayRemaining && (
+                          <button
+                            type="button"
+                            className="cp-booking-pay-btn"
+                            onClick={() => handleCustomerPayment(ride)}
+                          >
+                            Pay Remaining
+                          </button>
+                        )}
                       </div>
-                      <div className="cp-booking-cell">
-                        <span>Travel Date</span>
-                        <strong>{ride.travelDate || "-"}</strong>
-                      </div>
-                      <div className="cp-booking-cell">
-                        <span>Pickup Time</span>
-                        <strong>{ride.pickupTime || "-"}</strong>
-                      </div>
-                      <div className="cp-booking-cell">
-                        <span>Payment Mode</span>
-                        <strong>{ride.paymentMode === "full" ? "Full Amount" : "Advance 50%"}</strong>
-                      </div>
-                    </div>
-
-                    <div className="cp-booking-grid cp-booking-grid-secondary">
-                      <div className="cp-booking-cell">
-                        <span>Ride Ref</span>
-                        <strong>{ride.rideId}</strong>
-                      </div>
-                      <div className="cp-booking-cell">
-                        <span>Pay Now</span>
-                        <strong>₹{ride.advanceAmount}</strong>
-                      </div>
-                      <div className="cp-booking-cell">
-                        <span>Remaining</span>
-                        <strong>₹{ride.balanceDue}</strong>
-                      </div>
-                      <div className="cp-booking-cell">
-                        <span>Distance</span>
-                        <strong>{ride.distanceKm} km</strong>
-                      </div>
-                    </div>
-
-                    <div className="cp-booking-footer">
-                      <span className="cp-booking-chip">{paymentLabel}</span>
-                      <span className="cp-booking-chip">Driver: {ride.driverName || "-"}</span>
-                      {showPayAdvance && (
-                        <button
-                          type="button"
-                          className="cp-booking-pay-btn"
-                          onClick={() => handleCustomerPayment(ride)}
-                        >
-                          Pay {ride.paymentMode === "full" ? "Now" : "Advance"}
-                        </button>
-                      )}
-                      {showPayRemaining && (
-                        <button
-                          type="button"
-                          className="cp-booking-pay-btn"
-                          onClick={() => handleCustomerPayment(ride)}
-                        >
-                          Pay Remaining
-                        </button>
-                      )}
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          )}
-        </section>
+                    </article>
+                  );
+                })}
+              </div>
+            )}
+          </section>
         )}
       </div>
 
@@ -1082,11 +1083,10 @@ export default function CustomerVehicle({ onBack }) {
                     type="text"
                     className="cp-form-input"
                     readOnly
-                    value={`₹${
-                      bookingForm.paymentMode === "full"
+                    value={`₹${bookingForm.paymentMode === "full"
                         ? getEstimatedPrice(selectedItem, bookingForm.hours)
                         : Math.round(getEstimatedPrice(selectedItem, bookingForm.hours) * (ADVANCE_PERCENT / 100))
-                    }`}
+                      }`}
                   />
                 </div>
               </div>
@@ -1242,9 +1242,35 @@ export default function CustomerVehicle({ onBack }) {
             </div>
 
             <div className="cp-modal-footer">
-              <button className="cp-btn-primary" onClick={closeBookingModal}>
+
+              <button
+                className="cp-btn-outline"
+                onClick={closeBookingModal}
+              >
                 Close
               </button>
+
+              <button
+                className="cp-btn-primary"
+                onClick={() =>
+                  openRazorpay({
+                    amount: bookingReceipt.advanceAmount,
+                    customerName: bookingReceipt.touristName,
+                    phone: "",
+                    description: `Vehicle Booking - ${bookingReceipt.vehicleName}`,
+                    onSuccess: () => {
+                      alert("Payment Successful");
+
+                      handleCustomerPayment(bookingReceipt);
+
+                      closeBookingModal();
+                    }
+                  })
+                }
+              >
+                Pay Advance ₹{bookingReceipt.advanceAmount}
+              </button>
+
             </div>
           </div>
         </div>

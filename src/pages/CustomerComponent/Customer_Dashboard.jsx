@@ -13,7 +13,7 @@ import DonationPage from "./DonationPage";
 export default function PilgrimHome() {
   const [activePage, setActivePage] = useState("home");
   const [selectedBooking, setSelectedBooking] = useState(null);
-  
+
   const [bookings, setBookings] = useState([
     {
       id: 1,
@@ -98,7 +98,7 @@ export default function PilgrimHome() {
     },
   ]);
 
-  
+
   const openBookingDetails = (booking) => setSelectedBooking(booking);
   const closeBookingDetails = () => setSelectedBooking(null);
   const cancelBooking = (id) => {
@@ -106,36 +106,48 @@ export default function PilgrimHome() {
       prev.map((booking) =>
         booking.id === id
           ? {
-              ...booking,
-              status: "Refund Processing",
-refund: "50% Refund Initiated",
-refundAmount: "₹4000",
-refundTime: "5-7 Working Days",
-              details: booking.details,
-              person: booking.person
-                ? { ...booking.person, status: "Cancelled" }
-                : booking.person,
-            }
+            ...booking,
+            status: "Refund Processing",
+            refund: "50% Refund Initiated",
+            refundAmount: "₹4000",
+            refundTime: "5-7 Working Days",
+            details: booking.details,
+            person: booking.person
+              ? { ...booking.person, status: "Cancelled" }
+              : booking.person,
+          }
           : booking
       )
     );
     setSelectedBooking((prev) =>
       prev && prev.id === id
         ? {
-            ...prev,
-         status: "Refund Processing",
-refund: "50% Refund Initiated",
-refundAmount: "₹4000",
-refundTime: "5-7 Working Days",
-            person: prev.person
-              ? { ...prev.person, status: "Cancelled" }
-              : prev.person,
-          }
+          ...prev,
+          status: "Refund Processing",
+          refund: "50% Refund Initiated",
+          refundAmount: "₹4000",
+          refundTime: "5-7 Working Days",
+          person: prev.person
+            ? { ...prev.person, status: "Cancelled" }
+            : prev.person,
+        }
         : prev
     );
   };
 
-  
+  const handleTempleOpen = () => {
+    window.alert(
+      "🛕 Temple Status\n\nRama Janma Bhoomi Temple is OPEN now.\nTimings: 5:00 AM - 10:00 PM"
+    );
+  };
+
+  const handleCrowdStatus = () => {
+    window.alert(
+      "👥 Crowd Status\n\nCurrent Crowd: Moderate\nEstimated Wait Time: 20-30 Minutes"
+    );
+  };
+
+
   const getBookingTypeLabel = (type) => {
     const labels = {
       guide: "Tour Guide",
@@ -225,13 +237,13 @@ refundTime: "5-7 Working Days",
   if (activePage === "vehicle") {
     return <CustomerVehicle onBack={() => setActivePage("home")} />;
   }
-if (activePage === "donation") {
-  return (
-    <DonationPage
-      onBack={() => setActivePage("home")}
-    />
-  );
-}
+  if (activePage === "donation") {
+    return (
+      <DonationPage
+        onBack={() => setActivePage("home")}
+      />
+    );
+  }
   if (activePage === "guide") {
     return (
       <GuideBooking
@@ -256,24 +268,24 @@ if (activePage === "donation") {
     );
   }
   if (activePage === "spots") {
-  return (
-    <CustomerTouriestSpots
-      onBack={() => setActivePage("home")}
-    />
-  );
-}
+    return (
+      <CustomerTouriestSpots
+        onBack={() => setActivePage("home")}
+      />
+    );
+  }
 
-if (activePage === "ai") {
+  if (activePage === "ai") {
 
-  return (
+    return (
 
-    <AIAssistant
-      setActivePage={setActivePage}
-    />
+      <AIAssistant
+        setActivePage={setActivePage}
+      />
 
-  );
+    );
 
-}
+  }
   if (activePage === "bookings") {
     return (
       <div className="pilgrim-page">
@@ -305,19 +317,18 @@ if (activePage === "ai") {
                   <p className="text-muted">{booking.details}</p>
                 </div>
               </div>
-            <span
-  className={`status-badge ${
-    booking.status === "Pending"
-      ? "pending"
-      : booking.status === "Confirmed"
-      ? "confirmed"
-      : booking.status === "Refund Processing"
-      ? "refund"
-      : "cancelled"
-  }`}
->
-  {booking.status}
-</span>
+              <span
+                className={`status-badge ${booking.status === "Pending"
+                    ? "pending"
+                    : booking.status === "Confirmed"
+                      ? "confirmed"
+                      : booking.status === "Refund Processing"
+                        ? "refund"
+                        : "cancelled"
+                  }`}
+              >
+                {booking.status}
+              </span>
             </div>
           ))}
 
@@ -344,12 +355,12 @@ if (activePage === "ai") {
                 </div>
                 <p className="booking-note">{selectedBooking.hint}</p>
                 {selectedBooking.status === "Refund Processing" && (
-  <div className="refund-details-box">
-    <p><strong>Refund Status:</strong> Processing</p>
-    <p><strong>Refund Amount:</strong> {selectedBooking.refundAmount}</p>
-    <p><strong>Expected Refund:</strong> {selectedBooking.refundTime}</p>
-  </div>
-)}
+                  <div className="refund-details-box">
+                    <p><strong>Refund Status:</strong> Processing</p>
+                    <p><strong>Refund Amount:</strong> {selectedBooking.refundAmount}</p>
+                    <p><strong>Expected Refund:</strong> {selectedBooking.refundTime}</p>
+                  </div>
+                )}
                 {selectedBooking.person && (
                   <div className="profile-card">
                     <h4>{selectedBooking.person.role} Details</h4>
@@ -364,17 +375,17 @@ if (activePage === "ai") {
                 )}
                 <div className="modal-actions">
                   <div className="booking-refund-note">
-  <i className="ti ti-info-circle"></i>
-  50% refund applicable on cancellation before check-in time.
-</div>
-                 {selectedBooking.status !== "Refund Processing" ? (
+                    <i className="ti ti-info-circle"></i>
+                    50% refund applicable on cancellation before check-in time.
+                  </div>
+                  {selectedBooking.status !== "Refund Processing" ? (
                     <button className="view-all-btn cancel" onClick={() => cancelBooking(selectedBooking.id)}>
                       Cancel {getBookingActionLabel(selectedBooking.type)}
                     </button>
                   ) : (
-                   <button className="view-all-btn refund-processing" disabled>
-  Refund Processing
-</button>
+                    <button className="view-all-btn refund-processing" disabled>
+                      Refund Processing
+                    </button>
                   )}
                   <button className="view-all-btn" onClick={closeBookingDetails}>Close</button>
                 </div>
@@ -548,6 +559,15 @@ if (activePage === "ai") {
         </div>
 
         {renderBottomNav()}
+         <button
+  className="logout-btn"
+  onClick={() => {
+    localStorage.clear();
+    window.location.href = "/";
+  }}
+>
+  Logout
+</button>
       </div>
     );
   }
@@ -624,21 +644,21 @@ if (activePage === "ai") {
             <span>Accommodation</span>
           </div>
 
-     <div
-  className="service-card"
-  onClick={() => setActivePage("spots")}
->
-  <div className="service-icon red">
-    <i className="ti ti-map"></i>
-  </div>
+          <div
+            className="service-card"
+            onClick={() => setActivePage("spots")}
+          >
+            <div className="service-icon red">
+              <i className="ti ti-map"></i>
+            </div>
 
-  <span>Tourist Spots</span>
-</div>
+            <span>Tourist Spots</span>
+          </div>
 
           <div
-  className="service-card"
-  onClick={() => setActivePage("devotional")}
->
+            className="service-card"
+            onClick={() => setActivePage("devotional")}
+          >
             <div className="service-icon orange">
               <i className="ti ti-music"></i>
             </div>
@@ -652,23 +672,17 @@ if (activePage === "ai") {
             <span>AI Assistant</span>
           </div>
 
-          <div className="service-card" onClick={() => setActivePage("payment")}>
-            <div className="service-icon gold">
-              <i className="ti ti-wallet"></i>
-            </div>
-            <span>Payments</span>
-          </div>
           <div
-  className="service-card"
-  onClick={() => setActivePage("donation")}
->
-  <div className="service-icon gold">
-    <i className="ti ti-heart-handshake"></i>
-  </div>
+            className="service-card"
+            onClick={() => setActivePage("donation")}
+          >
+            <div className="service-icon gold">
+              <i className="ti ti-heart-handshake"></i>
+            </div>
 
-  <span>Donation</span>
-</div>
-{/* 
+            <span>Donation</span>
+          </div>
+          {/* 
           <div className="service-card">
             <div className="service-icon gray">
               <i className="ti ti-history"></i>
@@ -678,8 +692,11 @@ if (activePage === "ai") {
 
         </div>
 
-        {/* TEMPLE STATUS */}
+
+
+
         <div className="temple-card">
+
 
           <div className="temple-left">
 
@@ -707,13 +724,19 @@ if (activePage === "ai") {
 
           <div className="temple-right">
 
-            <div className="status-badge open">
+            <button
+              className="status-badge open"
+              onClick={handleTempleOpen}
+            >
               Open Now
-            </div>
+            </button>
 
-            <div className="status-badge moderate">
+            <button
+              className="status-badge moderate"
+              onClick={handleCrowdStatus}
+            >
               Moderate
-            </div>
+            </button>
 
           </div>
 
@@ -782,11 +805,12 @@ if (activePage === "ai") {
 
         </div>
 
+
+        {renderBottomNav()}
+
       </div>
-
-      {/* BOTTOM NAVBAR */}
-      {renderBottomNav()}
-
     </div>
+
   );
 }
+

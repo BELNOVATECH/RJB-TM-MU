@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/CustomerPages.css";
+import { openRazorpay } from "../../services/razorpay";
 
 const ACCOMMODATION_PAYMENTS_KEY = "accommodation_payment_details";
 const ADVANCE_PERCENT = 30;
@@ -862,39 +863,54 @@ export default function CustomerAccommodation({ onBack }) {
                     </button>
                   ))}
                 </div>
+<button
+  className="accommodation-payment-btn"
+  onClick={() => {
 
-                <button
-                  className="accommodation-payment-btn"
-                  onClick={() => {
-                    if (!acceptPolicy) {
-                      alert("Please accept booking policy");
-                      return;
-                    }
+    if (!acceptPolicy) {
+      alert("Please accept booking policy");
+      return;
+    }
 
-                    saveAccommodationPayment({
-                      id: `ACCPAY-${Date.now()}`,
-                      propertyName: selectedItem.name,
-                      guestName: bookingData.guestName,
-                      mobile: bookingData.mobile,
-                      roomType: bookingData.room,
-                      checkIn: bookingData.checkIn,
-                      checkOut: bookingData.checkOut,
-                      guests: bookingData.guests,
-                      totalAmount: paymentSummary.totalAmount,
-                      advanceAmount: paymentSummary.advanceAmount,
-                      remainingAmount: paymentSummary.remainingAmount,
-                      paymentMode: paymentMethod,
-                      status: "Advance Paid",
-                      createdAt: new Date().toISOString(),
-                    });
+    openRazorpay({
+      amount: paymentSummary.advanceAmount,
 
-                    alert("Payment Successful");
-                    closeBookingModal();
-                  }}
-                >
-                  Pay Advance ₹{paymentSummary.advanceAmount}
-                </button>
+      customerName: bookingData.guestName,
 
+      phone: bookingData.mobile,
+
+      description: `Accommodation Booking - ${selectedItem.name}`,
+
+      onSuccess: () => {
+
+        saveAccommodationPayment({
+          id: `ACCPAY-${Date.now()}`,
+          propertyName: selectedItem.name,
+          guestName: bookingData.guestName,
+          mobile: bookingData.mobile,
+          roomType: bookingData.room,
+          checkIn: bookingData.checkIn,
+          checkOut: bookingData.checkOut,
+          guests: bookingData.guests,
+          totalAmount: paymentSummary.totalAmount,
+          advanceAmount: paymentSummary.advanceAmount,
+          remainingAmount: paymentSummary.remainingAmount,
+          paymentMode: paymentMethod,
+          status: "Advance Paid",
+          paymentStatus: "Paid",
+          createdAt: new Date().toISOString(),
+        });
+
+        alert("Payment Successful");
+
+        closeBookingModal();
+      }
+    });
+
+  }}
+>
+  Pay Advance ₹{paymentSummary.advanceAmount}
+</button>
                 <button
                   className="accommodation-payment-back-btn"
                   onClick={() => setShowPayment(false)}
