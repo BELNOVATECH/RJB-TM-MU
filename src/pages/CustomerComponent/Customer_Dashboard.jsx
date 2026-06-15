@@ -652,19 +652,13 @@ if (activePage === "ai") {
             <span>AI Assistant</span>
           </div>
 
-          <div className="service-card" onClick={() => setActivePage("payment")}>
-            <div className="service-icon gold">
-              <i className="ti ti-wallet"></i>
-            </div>
-            <span>Payments</span>
-          </div>
           <div
   className="service-card"
   onClick={() => setActivePage("donation")}
 >
   <div className="service-icon gold">
     <i className="ti ti-heart-handshake"></i>
-  </div>
+  </div> 
 
   <span>Donation</span>
 </div>
@@ -782,11 +776,12 @@ if (activePage === "ai") {
 
         </div>
 
-      </div>
 
-      {/* BOTTOM NAVBAR */}
       {renderBottomNav()}
 
     </div>
+    </div>
+    
   );
 }
+
