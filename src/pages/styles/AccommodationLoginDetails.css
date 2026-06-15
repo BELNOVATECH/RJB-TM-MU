@@ -1,0 +1,873 @@
+/* =================================
+   MAIN DASHBOARD LAYOUT
+================================= */
+
+.accommodation-dashboard {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  background: #f7f3eb;
+  overflow: hidden;
+}
+
+/* =================================
+   SIDEBAR
+================================= */
+
+.accommodation-sidebar {
+  background: linear-gradient(180deg, #2a0f00 0%, #4a1b00 100%);
+  color: white;
+  padding: 18px 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.accommodation-back-btn {
+  border: none;
+  background: rgba(255,255,255,0.12);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.accommodation-profile-card {
+  margin-top: 18px;
+  text-align: center;
+}
+
+.accommodation-avatar {
+  width: 82px;
+  height: 82px;
+  margin: auto;
+  border-radius: 50%;
+  background: #f7b733;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.accommodation-name {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.accommodation-role {
+  color: #d8c4a7;
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.accommodation-info-card {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.08);
+}
+
+.label {
+  font-size: 10px;
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+.value {
+  margin-top: 4px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+/* =================================
+   MAIN CONTENT
+================================= */
+
+.accommodation-main {
+  padding: 18px;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+/* =================================
+   HERO SECTION
+================================= */
+
+.accommodation-hero {
+  background: white;
+  padding: 20px;
+  border-radius: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accommodation-hero h1 {
+  font-size: 22px;
+  margin: 0;
+  color: #1f1f1f;
+}
+
+.accommodation-hero p {
+  margin-top: 6px;
+  color: #777;
+  font-size: 12px;
+}
+
+.hero-btn {
+  border: none;
+  background: #f7b733;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* =================================
+   KPI STATS
+================================= */
+
+.accommodation-stats {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 18px;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+  min-height: 105px;
+}
+
+.stat-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 5px;
+  height: 100%;
+}
+
+.stat-card.gold::before {
+  background: #f7b733;
+}
+
+.stat-card.green::before {
+  background: #22c55e;
+}
+
+.stat-card.red::before {
+  background: #ef4444;
+}
+
+.stat-card.blue::before {
+  background: #3b82f6;
+}
+
+.stat-card span {
+  font-size: 11px;
+  color: #777;
+}
+
+.stat-card strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 22px;
+  color: #1f1f1f;
+}
+
+.stat-card small {
+  display: block;
+  margin-top: 5px;
+  color: #9a9a9a;
+  font-size: 10px;
+}
+
+/* =================================
+   SECTION TITLE
+================================= */
+
+.dashboard-section {
+  margin-top: 20px;
+}
+
+.section-title,
+.popup-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2a2a2a;
+  margin-bottom: 14px;
+  position: relative;
+  padding-left: 12px;
+}
+
+.section-title::before,
+.popup-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 4px;
+  height: 18px;
+  border-radius: 999px;
+  background: #ff7b42;
+}
+
+/* =================================
+   QUICK ACTION BUTTONS
+================================= */
+
+.quick-actions-wrap {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.quick-action-btn {
+  border: 1px solid rgba(0,0,0,0.08);
+  background: white;
+  border-radius: 14px;
+  padding: 11px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #333;
+  transition: 0.2s ease;
+}
+
+.quick-action-btn.active {
+  background: #f7b733;
+  color: white;
+  border: none;
+}
+
+/* =================================
+   DASHBOARD CARD
+================================= */
+
+.dashboard-card {
+  margin-top: 18px;
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.popup-card {
+  animation: fadeIn 0.2s ease;
+}
+
+/* =================================
+   FORM GRID
+================================= */
+
+.popup-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.popup-input {
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #faf7f2;
+  border-radius: 12px;
+  padding: 12px 13px;
+  font-size: 12px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.popup-textarea {
+  grid-column: 1 / -1;
+  min-height: 90px;
+  resize: none;
+}
+
+/* =================================
+   BUTTONS
+================================= */
+
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.dashboard-btn {
+  border: none;
+  background: #f7b733;
+  color: white;
+  padding: 11px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.dashboard-btn.secondary {
+  background: #f1f1f1;
+  color: #444;
+}
+
+/* =================================
+   PAYMENT BOXES
+================================= */
+
+.payment-stats {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 12px;
+}
+
+.payment-box {
+  background: #faf7f2;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.payment-box span {
+  font-size: 11px;
+  color: #888;
+}
+
+.payment-box strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 20px;
+  color: #1f1f1f;
+}
+
+.payment-empty {
+  padding: 16px;
+  border: 1px dashed #e5d4b7;
+  border-radius: 14px;
+  background: #fffaf2;
+  color: #7a6245;
+  font-size: 13px;
+}
+
+.owner-payment-list {
+  display: grid;
+  gap: 12px;
+}
+
+.owner-payment-card {
+  background: #fffaf5;
+  border: 1px solid #eadcc3;
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.owner-payment-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.owner-payment-head strong {
+  color: #1f1f1f;
+  font-size: 15px;
+}
+
+.owner-payment-head p {
+  margin-top: 4px;
+  color: #777;
+  font-size: 12px;
+}
+
+.owner-payment-head span {
+  background: #dcfce7;
+  color: #15803d;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* =================================
+   BOOKINGS
+================================= */
+
+.booking-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  border-radius: 14px;
+  background: #faf7f2;
+  margin-bottom: 10px;
+}
+
+.booking-item h4 {
+  margin: 0;
+  font-size: 13px;
+}
+
+.booking-item p {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #777;
+}
+
+.booking-status {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.booking-status.pending {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* =================================
+   ROOM GRID
+================================= */
+
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.room {
+  padding: 14px;
+  border-radius: 14px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.room.available {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.room.booked {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* =================================
+   ADDED ROOMS
+================================= */
+
+.added-room-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+  gap: 14px;
+}
+
+.added-room-card {
+  background: #faf7f2;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.added-room-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.added-room-content {
+  padding: 12px;
+}
+
+.added-room-content h4 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.added-room-content p {
+  margin-top: 5px;
+  font-size: 11px;
+  color: #666;
+}
+
+.added-room-content span {
+  display: inline-block;
+  margin-top: 8px;
+  background: #dcfce7;
+  color: #15803d;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* =================================
+   ANIMATION
+================================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =================================
+   MOBILE RESPONSIVE
+================================= */
+
+@media (max-width: 900px) {
+
+  .accommodation-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .accommodation-sidebar {
+    position: relative;
+    height: auto;
+  }
+
+  .accommodation-main {
+    height: auto;
+  }
+
+  .accommodation-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .popup-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .room-grid {
+    grid-template-columns: repeat(3,1fr);
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .accommodation-main {
+    padding: 12px;
+  }
+
+  .accommodation-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .accommodation-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-actions-wrap {
+    flex-direction: column;
+  }
+
+  .quick-action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .room-grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+
+  .booking-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .popup-actions {
+    flex-direction: column;
+  }
+
+  .dashboard-btn {
+    width: 100%;
+  }
+
+}
+
+/* =================================
+   QUICK ACTIONS
+================================= */
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.quick-btn {
+  border: 1px solid rgba(0,0,0,0.08);
+  background: white;
+  padding: 12px 18px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.2s;
+  color: #2b2b2b;
+}
+
+.quick-btn:hover {
+  background: #fff6df;
+}
+
+.quick-btn.active {
+  background: #f7b733;
+  color: white;
+  border-color: #f7b733;
+}
+
+/* =================================
+   DASHBOARD CARD
+================================= */
+
+.dashboard-card {
+  background: white;
+  border-radius: 24px;
+  padding: 24px;
+  margin-top: 22px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+.section-title,
+.popup-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2b2b2b;
+  margin-bottom: 18px;
+}
+
+/* =================================
+   POPUP FORM
+================================= */
+
+.popup-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.popup-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #faf7f2;
+  outline: none;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.popup-textarea {
+  grid-column: 1 / -1;
+  min-height: 110px;
+  resize: none;
+}
+
+.popup-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* =================================
+   BUTTONS
+================================= */
+
+.dashboard-btn {
+  border: none;
+  background: #f7b733;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dashboard-btn:hover {
+  transform: translateY(-1px);
+}
+
+.dashboard-btn.secondary {
+  background: #f3f4f6;
+  color: #333;
+}
+
+/* =================================
+   PAYMENT SECTION
+================================= */
+
+.payment-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.payment-item strong {
+  font-size: 15px;
+}
+
+.payment-item p {
+  margin-top: 4px;
+  color: #777;
+  font-size: 12px;
+}
+
+.payment-item span {
+  font-size: 15px;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+/* =================================
+   TOURIST / HISTORY ROW
+================================= */
+
+.tourist-row {
+  padding: 14px 16px;
+  background: #faf7f2;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* =================================
+   ADDED ROOMS
+================================= */
+
+.added-room-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
+  gap: 18px;
+}
+
+.added-room-card {
+  background: #faf7f2;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: 0.2s;
+}
+
+.added-room-card:hover {
+  transform: translateY(-3px);
+}
+
+.added-room-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+}
+
+.added-room-content {
+  padding: 16px;
+}
+
+.added-room-content h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #1f1f1f;
+}
+
+.added-room-content p {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #666;
+}
+
+.added-room-content span {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* =================================
+   MOBILE VIEW
+================================= */
+
+@media (max-width: 768px) {
+
+  .popup-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-actions {
+    flex-direction: column;
+  }
+
+  .quick-btn {
+    width: 100%;
+  }
+
+  .popup-actions {
+    flex-direction: column;
+  }
+
+  .dashboard-btn {
+    width: 100%;
+  }
+
+  .added-room-list {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+.popup-subtitle {
+  grid-column: 1 / -1;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2b2b2b;
+  margin-top: 10px;
+  margin-bottom: -2px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}

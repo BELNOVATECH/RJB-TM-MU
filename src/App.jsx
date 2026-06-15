@@ -1,29 +1,33 @@
-import { useState } from "react";
-import Dashboard from "./pages/Dashboard";
-import Tourists from "./pages/Tourists";
-import Vehicles from "./pages/Vehicles";
-import Accommodation from "./pages/Accommodation";
-import DevotionalContent from "./pages/DevotionalContent";
-import TouristSpots from "./pages/TouristSpots";
-import ChargesPricing from "./pages/ChargesPricing";
-import Landing from "./pages/Landing";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import CustomerLogin from "./pages/CustomerLogin";
-import CustomerRegister from "./pages/CustomerRegister";
+import { useState,useEffect } from "react";
+import Dashboard from "./pages/AdminComponent/Dashboard";
+import Tourists from "./pages/AdminComponent/Tourists";
+import Vehicles from "./pages/AdminComponent/Vehicles";
+import Accommodation from "./pages/AdminComponent/Accommodation";
+import AccommodationLoginDetails from "./pages/AccommodationLoginDetails";
+import DevotionalContent from "./pages/AdminComponent/DevotionalContent";
+import TouristSpots from "./pages/AdminComponent/TouristSpots";
+import ChargesPricing from "./pages/AdminComponent/ChargesPricing";
+import Landing from "./pages/LandingPageComponent/Landing";
+import Login from "./pages/AdminComponent/Login";
+import Register from "./pages/AdminComponent/Register";
+import CustomerLogin from "./pages/CustomerComponent/CustomerLogin";
+import CustomerRegister from "./pages/CustomerComponent/CustomerRegister";
 import "./App.css";
 // import CustomerDashboard from "./pages/CustomerLogin";
-import PilgrimHome from "./pages/Customer_Dashboard";
-import TourGuideLogin from "./pages/TourGuideLogin";
-import VehicleLogin from "./pages/VehicleLogin";
-import DriverLogin from "./pages/DriverLogin";
-import TouriestGuide from "./pages/TouriestGuide";
-import VahicleLoginDetails from "./pages/VahicleLoginDetails";
-import DriverLoginDetails from "./pages/DriverLoginDetails";
-
-import TourGuideRegistration from "./pages/TourGuideRegistration";
-import VehicleRegistration from "./pages/VehicleRegistration";
-import DriverManagement from "./pages/DriverManagement";
+import PilgrimHome from "./pages/CustomerComponent/Customer_Dashboard";
+import TourGuideLogin from "./pages/TourGuideComponent/TourGuideLogin";
+import VehicleLogin from "./pages/VehicleComponent/VehicleLogin";
+import DriverLogin from "./pages/DriverComponent/DriverLogin";
+import TouriestGuide from "./pages/TourGuideComponent/TouriestGuide";
+import VahicleLoginDetails from "./pages/VehicleComponent/VahicleLoginDetails";
+import DriverLoginDetails from "./pages/DriverComponent/DriverLoginDetails";
+import AIAssistant from "./pages/CustomerComponent/AIassistant";
+import TourGuideRegistration from "./pages/TourGuideComponent/TourGuideRegistration";
+import VehicleRegistration from "./pages/VehicleComponent/VehicleRegistration";
+import DriverManagement from "./pages/DriverComponent/DriverManagement";
+// import AIFeatures from "./pages/AIfeatures";
+import AccommodationLogin from "./pages/AccomendationComponent/AccommodationLogin";
+import AccommodationRegistration from "./pages/AccomendationComponent/AccommodationRegistration";
 
 // ─── Navigation config ────────────────────────────────────────────────────────
 const NAV = [
@@ -52,8 +56,10 @@ const NAV = [
     section: "System",
     items: [
       { key: "chargesPricing", label: "Charges & Pricing", icon: "ti-cash" },
+       { key: "AIFeatures", label: "AI Features", icon: "ti-cash" },
     ],
   },
+  
 ];
 
 const SCREEN_MAP = {
@@ -64,6 +70,7 @@ const SCREEN_MAP = {
   devotionalContent: <DevotionalContent />,
   touristSpots:      <TouristSpots />,
   chargesPricing:    <ChargesPricing />,
+  // AIFeatures:    <AIFeatures />
 };
 
 const TITLES = {
@@ -73,16 +80,45 @@ const TITLES = {
   accommodation:     "Accommodation & Cottage Management",
   touristSpots:      "Tourist Spot Configuration",
   devotionalContent: "Devotional Content Management",
-  chargesPricing:    "Charges & Pricing Configuration",
+  chargesPricing:    "Charges & Pricing",
+  // AIFeatures:    "AI/ML Features",
 };
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
 export default function App() {
-  // "landing" | "login" | "register" | "app"
-  const [screen, setScreen] = useState("landing");
-  const [active, setActive] = useState("dashboard");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+const [screen, setScreen] = useState("landing");
 
+useEffect(() => {
+  localStorage.setItem("screen", screen);
+}, [screen]);
+
+useEffect(() => {
+
+  if (
+    window.location.hash === "#accommodationDashboard"
+  ) {
+    setScreen("accommodationDashboard");
+  }
+
+}, []);
+const [active, setActive] = useState(
+  localStorage.getItem("activeMenu") || "dashboard"
+);
+useEffect(() => {
+  localStorage.setItem("activeMenu", active);
+}, [active]);
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+const [activePage] = useState("home");
+
+useEffect(() => {
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}, [activePage]);
   // ── Landing ───────────────────────────────────────────────────────────────
   if (screen === "landing") {
     // return <Landing onEnter={() => setScreen("login")} />;
@@ -99,13 +135,27 @@ if (screen === "customerLogin") {
       onGuide={() => setScreen("guideLogin")}
       onVehicle={() => setScreen("vehicleLogin")}
       onDriver={() => setScreen("driverLogin")}
-
+       onAccommodation={() =>
+    setScreen("accommodationLogin")
+  }
       onBack={() => setScreen("landing")}
     />
   );
 }
 if (screen === "customer_dashboard") {
   return <PilgrimHome />;
+}
+
+if (screen === "aiassistant") {
+
+  return (
+
+    <AIAssistant
+      setActivePage={setScreen}
+    />
+
+  );
+
 }
 /* GUIDE LOGIN */
 /* GUIDE LOGIN */
@@ -121,6 +171,7 @@ if (screen === "guideLogin") {
     />
   );
 }
+
 
 if (screen === "guideDashboard") {
   return <TouriestGuide onBack={() => setScreen("guideLogin")} />;
@@ -169,6 +220,69 @@ if (screen === "vehicleRegister") {
       onBack={() => setScreen("customerLogin")}
     />
   );
+}
+/* ACCOMMODATION LOGIN */
+
+if (screen === "accommodationLogin") {
+
+  return (
+
+    <AccommodationLogin
+
+      onSuccess={() =>
+        setScreen("accommodationDashboard")
+      }
+
+      onRegister={() =>
+        setScreen("accommodationRegister")
+      }
+
+      onBack={() =>
+        setScreen("customerLogin")
+      }
+
+    />
+
+  );
+
+}
+
+
+/* ACCOMMODATION DASHBOARD */
+
+if (screen === "accommodationDashboard") {
+
+  return (
+    <AccommodationLoginDetails
+      onBack={() =>
+        setScreen("accommodationLogin")
+      }
+    />
+  );
+
+}
+
+
+/* ACCOMMODATION REGISTER */
+
+if (screen === "accommodationRegister") {
+
+  return (
+
+    <AccommodationRegistration
+
+      onLogin={() =>
+        setScreen("accommodationLogin")
+      }
+
+      onBack={() =>
+        setScreen("customerLogin")
+      }
+
+    />
+
+  );
+
 }
 
 /* DRIVER LOGIN */
@@ -293,8 +407,9 @@ if (screen === "customerRegister") {
           {/* Logout */}
           <button
             title="Logout"
-            // onClick={() => { setScreen("login"); setActive("dashboard"); }}
-            onClick={() => {
+          onClick={() => {
+  localStorage.removeItem("screen");
+  localStorage.removeItem("activeMenu");
   setScreen("customerLogin");
   setActive("dashboard");
 }}
