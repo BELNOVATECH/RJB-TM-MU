@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { openRazorpay } from "../../services/razorpay";
+import "../styles/donationpage.css";
 
 export default function DonationPage({ onBack }) {
   const [showDonateSuccess, setShowDonateSuccess] = useState(false);
@@ -81,21 +82,32 @@ const handleDonate = (item) => {
 };
   return (
     <div className="pilgrim-page">
-      <div className="hero-section">
-        <button
-          className="view-all-btn"
-          onClick={onBack}
-        >
-          ← Back
-        </button>
+  <div className="hero-section">
 
-        <h1>🙏 Donation Services</h1>
+  <div className="hero-content-row">
 
-        <p>
-          Support Ayodhya Dham development and help thousands of
-          devotees through your valuable contribution.
-        </p>
-      </div>
+    <button
+      className="view-all-btn"
+      onClick={onBack}
+    >
+      ←
+    </button>
+
+    <div className="hero-text">
+
+      <h1>Donation Services</h1>
+
+      <p>
+        Support Ayodhya Dham development and help
+        thousands of devotees through your valuable
+        contribution.
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
 
       <div className="donation-grid">
         {donations.map((item, index) => (

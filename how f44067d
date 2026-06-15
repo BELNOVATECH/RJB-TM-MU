@@ -1,0 +1,1835 @@
+[33mcommit 4884950d3a492946e37ddcafa58c99c239d6d413[m
+Author: Rajashekar157 <rajashekarmaddi562@gmail.com>
+Date:   Mon Jun 15 17:51:11 2026 +0530
+
+    added razorpay to vehicle and tourists
+
+[1mdiff --git a/src/App.jsx b/src/App.jsx[m
+[1mindex 66f6e75..0efae1e 100644[m
+[1m--- a/src/App.jsx[m
+[1m+++ b/src/App.jsx[m
+[36m@@ -86,8 +86,11 @@[m [mconst TITLES = {[m
+ [m
+ // ─── ROOT APP ─────────────────────────────────────────────────────────────────[m
+ export default function App() {[m
+[31m-  // "landing" | "login" | "register" | "app"[m
+[31m-  const [screen, setScreen] = useState("landing");[m
+[32m+[m[32mconst [screen, setScreen] = useState("landing");[m
+[32m+[m
+[32m+[m[32museEffect(() => {[m
+[32m+[m[32m  localStorage.setItem("screen", screen);[m
+[32m+[m[32m}, [screen]);[m
+ [m
+ useEffect(() => {[m
+ [m
+[36m@@ -98,8 +101,13 @@[m [museEffect(() => {[m
+   }[m
+ [m
+ }, []);[m
+[32m+[m[32mconst [active, setActive] = useState([m
+[32m+[m[32m  localStorage.getItem("activeMenu") || "dashboard"[m
+[32m+[m[32m);[m
+[32m+[m[32museEffect(() => {[m
+[32m+[m[32m  localStorage.setItem("activeMenu", active);[m
+[32m+[m[32m}, [active]);[m
+ [m
+[31m-  const [active, setActive] = useState("dashboard");[m
+   const [sidebarOpen, setSidebarOpen] = useState(false);[m
+ const [activePage] = useState("home");[m
+ [m
+[36m@@ -399,8 +407,9 @@[m [mif (screen === "customerRegister") {[m
+           {/* Logout */}[m
+           <button[m
+             title="Logout"[m
+[31m-            // onClick={() => { setScreen("login"); setActive("dashboard"); }}[m
+[31m-            onClick={() => {[m
+[32m+[m[32m          onClick={() => {[m
+[32m+[m[32m  localStorage.removeItem("screen");[m
+[32m+[m[32m  localStorage.removeItem("activeMenu");[m
+   setScreen("customerLogin");[m
+   setActive("dashboard");[m
+ }}[m
+[1mdiff --git a/src/pages/CustomerComponent/CustomerAccommodation.jsx b/src/pages/CustomerComponent/CustomerAccommodation.jsx[m
+[1mindex 34fef22..fa7a258 100644[m
+[1m--- a/src/pages/CustomerComponent/CustomerAccommodation.jsx[m
+[1m+++ b/src/pages/CustomerComponent/CustomerAccommodation.jsx[m
+[36m@@ -1,5 +1,6 @@[m
+ import React, { useState } from "react";[m
+ import "../styles/CustomerPages.css";[m
+[32m+[m[32mimport { openRazorpay } from "../../services/razorpay";[m
+ [m
+ const ACCOMMODATION_PAYMENTS_KEY = "accommodation_payment_details";[m
+ const ADVANCE_PERCENT = 30;[m
+[36m@@ -862,39 +863,54 @@[m [mexport default function CustomerAccommodation({ onBack }) {[m
+                     </button>[m
+                   ))}[m
+                 </div>[m
+[31m-[m
+[31m-                <button[m
+[31m-                  className="accommodation-payment-btn"[m
+[31m-                  onClick={() => {[m
+[31m-                    if (!acceptPolicy) {[m
+[31m-                      alert("Please accept booking policy");[m
+[31m-                      return;[m
+[31m-                    }[m
+[31m-[m
+[31m-                    saveAccommodationPayment({[m
+[31m-                      id: `ACCPAY-${Date.now()}`,[m
+[31m-                      propertyName: selectedItem.name,[m
+[31m-                      guestName: bookingData.guestName,[m
+[31m-                      mobile: bookingData.mobile,[m
+[31m-                      roomType: bookingData.room,[m
+[31m-                      checkIn: bookingData.checkIn,[m
+[31m-                      checkOut: bookingData.checkOut,[m
+[31m-                      guests: bookingData.guests,[m
+[31m-                      totalAmount: paymentSummary.totalAmount,[m
+[31m-                      advanceAmount: paymentSummary.advanceAmount,[m
+[31m-                      remainingAmount: paymentSummary.remainingAmount,[m
+[31m-                      paymentMode: paymentMethod,[m
+[31m-                      status: "Advance Paid",[m
+[31m-                      createdAt: new Date().toISOString(),[m
+[31m-                    });[m
+[31m-[m
+[31m-                    alert("Payment Successful");[m
+[31m-                    closeBookingModal();[m
+[31m-                  }}[m
+[31m-                >[m
+[31m-                  Pay Advance ₹{paymentSummary.advanceAmount}[m
+[31m-                </button>[m
+[31m-[m
+[32m+[m[32m<button[m
+[32m+[m[32m  className="accommodation-payment-btn"[m
+[32m+[m[32m  onClick={() => {[m
+[32m+[m
+[32m+[m[32m    if (!acceptPolicy) {[m
+[32m+[m[32m      alert("Please accept booking policy");[m
+[32m+[m[32m      return;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    openRazorpay({[m
+[32m+[m[32m      amount: paymentSummary.advanceAmount,[m
+[32m+[m
+[32m+[m[32m      customerName: bookingData.guestName,[m
+[32m+[m
+[32m+[m[32m      phone: bookingData.mobile,[m
+[32m+[m
+[32m+[m[32m      description: `Accommodation Booking - ${selectedItem.name}`,[m
+[32m+[m
+[32m+[m[32m      onSuccess: () => {[m
+[32m+[m
+[32m+[m[32m        saveAccommodationPayment({[m
+[32m+[m[32m          id: `ACCPAY-${Date.now()}`,[m
+[32m+[m[32m          propertyName: selectedItem.name,[m
+[32m+[m[32m          guestName: bookingData.guestName,[m
+[32m+[m[32m          mobile: bookingData.mobile,[m
+[32m+[m[32m          roomType: bookingData.room,[m
+[32m+[m[32m          checkIn: bookingData.checkIn,[m
+[32m+[m[32m          checkOut: bookingData.checkOut,[m
+[32m+[m[32m          guests: bookingData.guests,[m
+[32m+[m[32m          totalAmount: paymentSummary.totalAmount,[m
+[32m+[m[32m          advanceAmount: paymentSummary.advanceAmount,[m
+[32m+[m[32m          remainingAmount: paymentSummary.remainingAmount,[m
+[32m+[m[32m          paymentMode: paymentMethod,[m
+[32m+[m[32m          status: "Advance Paid",[m
+[32m+[m[32m          paymentStatus: "Paid",[m
+[32m+[m[32m          createdAt: new Date().toISOString(),[m
+[32m+[m[32m        });[m
+[32m+[m
+[32m+[m[32m        alert("Payment Successful");[m
+[32m+[m
+[32m+[m[32m        closeBookingModal();[m
+[32m+[m[32m      }[m
+[32m+[m[32m    });[m
+[32m+[m
+[32m+[m[32m  }}[m
+[32m+[m[32m>[m
+[32m+[m[32m  Pay Advance ₹{paymentSummary.advanceAmount}[m
+[32m+[m[32m</button>[m
+                 <button[m
+                   className="accommodation-payment-back-btn"[m
+                   onClick={() => setShowPayment(false)}[m
+[1mdiff --git a/src/pages/CustomerComponent/CustomerVehicle.jsx b/src/pages/CustomerComponent/CustomerVehicle.jsx[m
+[1mindex c78ecdd..814751a 100644[m
+[1m--- a/src/pages/CustomerComponent/CustomerVehicle.jsx[m
+[1m+++ b/src/pages/CustomerComponent/CustomerVehicle.jsx[m
+[36m@@ -1,5 +1,6 @@[m
+ ﻿import React, { useEffect, useState } from "react";[m
+ import "../styles/CustomerPages.css";[m
+[32m+[m[32mimport { openRazorpay } from "../../services/razorpay";[m
+ [m
+ const WORKING_HOURS_PER_DAY = 16;[m
+ const ADVANCE_PERCENT = 50;[m
+[36m@@ -283,9 +284,9 @@[m [mfunction loadRegisteredVehicles() {[m
+   try {[m
+     const rawRegistry = localStorage.getItem(REGISTRY_KEY);[m
+     const registry = rawRegistry ? JSON.parse(rawRegistry) : null;[m
+[31m-    [m
+[32m+[m
+     const vehicles = Array.isArray(registry) ? registry : [];[m
+[31m-    [m
+[32m+[m
+     return vehicles.map((vehicle, index) => {[m
+       const vehicleType = vehicle.type || "SUV";[m
+       const id = vehicle.id || vehicle.vehicleNo || `REG-${index + 1}`;[m
+[36m@@ -512,406 +513,406 @@[m [mexport default function CustomerVehicle({ onBack }) {[m
+         </div>[m
+ [m
+         {!showMyBookings && ([m
+[31m-        <div className="cp-booking-filters">[m
+[31m-          <div className="cp-filter-item">[m
+[31m-            <label className="cp-filter-label">Persons</label>[m
+[31m-            <select[m
+[31m-              className="cp-filter-select"[m
+[31m-              value={filters.persons}[m
+[31m-              onChange={(e) => updateFilter("persons", e.target.value)}[m
+[31m-            >[m
+[31m-              {PASSENGER_FILTERS.map((option) => ([m
+[31m-                <option key={option.label} value={option.value}>[m
+[31m-                  {option.label}[m
+[31m-                </option>[m
+[31m-              ))}[m
+[31m-            </select>[m
+[31m-          </div>[m
+[32m+[m[32m          <div className="cp-booking-filters">[m
+[32m+[m[32m            <div className="cp-filter-item">[m
+[32m+[m[32m              <label className="cp-filter-label">Persons</label>[m
+[32m+[m[32m              <select[m
+[32m+[m[32m                className="cp-filter-select"[m
+[32m+[m[32m                value={filters.persons}[m
+[32m+[m[32m                onChange={(e) => updateFilter("persons", e.target.value)}[m
+[32m+[m[32m              >[m
+[32m+[m[32m                {PASSENGER_FILTERS.map((option) => ([m
+[32m+[m[32m                  <option key={option.label} value={option.value}>[m
+[32m+[m[32m                    {option.label}[m
+[32m+[m[32m                  </option>[m
+[32m+[m[32m                ))}[m
+[32m+[m[32m              </select>[m
+[32m+[m[32m            </div>[m
+ [m
+[31m-          <div className="cp-filter-item">[m
+[31m-            <label className="cp-filter-label">Vehicle Class</label>[m
+[31m-            <select[m
+[31m-              className="cp-filter-select"[m
+[31m-              value={filters.vehicleClass}[m
+[31m-              onChange={(e) => updateFilter("vehicleClass", e.target.value)}[m
+[31m-            >[m
+[31m-              {VEHICLE_CLASS_FILTERS.map((option) => ([m
+[31m-                <option key={option} value={option}>[m
+[31m-                  {option}[m
+[31m-                </option>[m
+[31m-              ))}[m
+[31m-            </select>[m
+[31m-          </div>[m
+[32m+[m[32m            <div className="cp-filter-item">[m
+[32m+[m[32m              <label className="cp-filter-label">Vehicle Class</label>[m
+[32m+[m[32m              <select[m
+[32m+[m[32m                className="cp-filter-select"[m
+[32m+[m[32m                value={filters.vehicleClass}[m
+[32m+[m[32m                onChange={(e) => updateFilter("vehicleClass", e.target.value)}[m
+[32m+[m[32m              >[m
+[32m+[m[32m                {VEHICLE_CLASS_FILTERS.map((option) => ([m
+[32m+[m[32m                  <option key={option} value={option}>[m
+[32m+[m[32m                    {option}[m
+[32m+[m[32m                  </option>[m
+[32m+[m[32m                ))}[m
+[32m+[m[32m              </select>[m
+[32m+[m[32m            </div>[m
+ [m
+[31m-          <div className="cp-filter-item">[m
+[31m-            <label className="cp-filter-label">Booking Hours</label>[m
+[31m-            <select[m
+[31m-              className="cp-filter-select"[m
+[31m-              value={filters.hours}[m
+[31m-              onChange={(e) => updateFilter("hours", e.target.value)}[m
+[31m-            >[m
+[31m-              {BOOKING_HOUR_OPTIONS.map((hours) => ([m
+[31m-                <option key={hours} value={hours}>[m
+[31m-                  {hours} hrs[m
+[31m-                </option>[m
+[31m-              ))}[m
+[31m-            </select>[m
+[32m+[m[32m            <div className="cp-filter-item">[m
+[32m+[m[32m              <label className="cp-filter-label">Booking Hours</label>[m
+[32m+[m[32m              <select[m
+[32m+[m[32m                className="cp-filter-select"[m
+[32m+[m[32m                value={filters.hours}[m
+[32m+[m[32m                onChange={(e) => updateFilter("hours", e.target.value)}[m
+[32m+[m[32m              >[m
+[32m+[m[32m                {BOOKING_HOUR_OPTIONS.map((hours) => ([m
+[32m+[m[32m                  <option key={hours} value={hours}>[m
+[32m+[m[32m                    {hours} hrs[m
+[32m+[m[32m                  </option>[m
+[32m+[m[32m                ))}[m
+[32m+[m[32m              </select>[m
+[32m+[m[32m            </div>[m
+           </div>[m
+[31m-        </div>[m
+         )}[m
+ [m
+         {showMyBookings && ([m
+[31m-        <section className="cp-bookings-section">[m
+[31m-          <div className="cp-bookings-head">[m
+[31m-            <div>[m
+[31m-              <h2>Your Bookings</h2>[m
+[31m-              <p>[m
+[31m-                Track driver confirmation, ride progress, and payment updates from one place.[m
+[31m-              </p>[m
+[32m+[m[32m          <section className="cp-bookings-section">[m
+[32m+[m[32m            <div className="cp-bookings-head">[m
+[32m+[m[32m              <div>[m
+[32m+[m[32m                <h2>Your Bookings</h2>[m
+[32m+[m[32m                <p>[m
+[32m+[m[32m                  Track driver confirmation, ride progress, and payment updates from one place.[m
+[32m+[m[32m                </p>[m
+[32m+[m[32m              </div>[m
+[32m+[m[32m              <div className="cp-bookings-badge">{sortedBookings.length} rides</div>[m
+             </div>[m
+[31m-            <div className="cp-bookings-badge">{sortedBookings.length} rides</div>[m
+[31m-          </div>[m
+ [m
+[31m-          {sortedBookings.length === 0 ? ([m
+[31m-            <div className="cp-bookings-empty">[m
+[31m-              Your confirmed and pending rides will appear here after booking a vehicle.[m
+[31m-            </div>[m
+[31m-          ) : ([m
+[31m-            <div className="cp-bookings-list">[m
+[31m-              {sortedBookings.map((ride) => {[m
+[31m-                const statusMeta = getBookingStatusMeta(ride);[m
+[31m-                const isPaymentDue =[m
+[31m-                  ride.paymentStatus === "Pending" ||[m
+[31m-                  String(ride.paymentStatus || "").includes("Due");[m
+[31m-                const paymentLabel =[m
+[31m-                  ride.status === "Completed" &&[m
+[31m-                  ride.paymentMode !== "full" &&[m
+[31m-                  ride.paymentStatus !== "Settled"[m
+[31m-                    ? `Remaining due ₹${ride.balanceDue}`[m
+[31m-                    : isPaymentDue[m
+[31m-                      ? ride.paymentMode === "full"[m
+[31m-                        ? `Full amount due ₹${ride.advanceAmount}`[m
+[31m-                        : `Advance due ₹${ride.advanceAmount}`[m
+[31m-                      : ride.paymentMode === "full"[m
+[31m-                        ? "Full amount paid"[m
+[31m-                        : "Advance paid";[m
+[31m-                const showPayAdvance =[m
+[31m-                  ride.status === "Accepted" &&[m
+[31m-                  !["Paid", "Advance Paid", "Settled"].includes(ride.paymentStatus || "");[m
+[31m-                const showPayRemaining =[m
+[31m-                  ride.status === "Completed" &&[m
+[31m-                  ride.paymentMode !== "full" &&[m
+[31m-                  ride.paymentStatus !== "Settled";[m
+[31m-[m
+[31m-                return ([m
+[31m-                  <article key={ride.rideId} className="cp-booking-card">[m
+[31m-                    <div className="cp-booking-top">[m
+[31m-                      <div>[m
+[31m-                        <div className="cp-booking-title">{ride.vehicleName}</div>[m
+[31m-                        <div className="cp-booking-route">[m
+[31m-                          {ride.pickupLocation} → {ride.dropLocation}[m
+[32m+[m[32m            {sortedBookings.length === 0 ? ([m
+[32m+[m[32m              <div className="cp-bookings-empty">[m
+[32m+[m[32m                Your confirmed and pending rides will appear here after booking a vehicle.[m
+[32m+[m[32m              </div>[m
+[32m+[m[32m            ) : ([m
+[32m+[m[32m              <div className="cp-bookings-list">[m
+[32m+[m[32m                {sortedBookings.map((ride) => {[m
+[32m+[m[32m                  const statusMeta = getBookingStatusMeta(ride);[m
+[32m+[m[32m                  const isPaymentDue =[m
+[32m+[m[32m                    ride.paymentStatus === "Pending" ||[m
+[32m+[m[32m                    String(ride.paymentStatus || "").includes("Due");[m
+[32m+[m[32m                  const paymentLabel =[m
+[32m+[m[32m                    ride.status === "Completed" &&[m
+[32m+[m[32m                      ride.paymentMode !== "full" &&[m
+[32m+[m[32m                      ride.paymentStatus !== "Settled"[m
+[32m+[m[32m                      ? `Remaining due ₹${ride.balanceDue}`[m
+[32m+[m[32m                      : isPaymentDue[m
+[32m+[m[32m                        ? ride.paymentMode === "full"[m
+[32m+[m[32m                          ? `Full amount due ₹${ride.advanceAmount}`[m
+[32m+[m[32m                          : `Advance due ₹${ride.advanceAmount}`[m
+[32m+[m[32m                        : ride.paymentMode === "full"[m
+[32m+[m[32m                          ? "Full amount paid"[m
+[32m+[m[32m                          : "Advance paid";[m
+[32m+[m[32m                  const showPayAdvance =[m
+[32m+[m[32m                    ride.status === "Accepted" &&[m
+[32m+[m[32m                    !["Paid", "Advance Paid", "Settled"].includes(ride.paymentStatus || "");[m
+[32m+[m[32m                  const showPayRemaining =[m
+[32m+[m[32m                    ride.status === "Completed" &&[m
+[32m+[m[32m                    ride.paymentMode !== "full" &&[m
+[32m+[m[32m                    ride.paymentStatus !== "Settled";[m
+[32m+[m
+[32m+[m[32m                  return ([m
+[32m+[m[32m                    <article key={ride.rideId} className="cp-booking-card">[m
+[32m+[m[32m                      <div className="cp-booking-top">[m
+[32m+[m[32m                        <div>[m
+[32m+[m[32m                          <div className="cp-booking-title">{ride.vehicleName}</div>[m
+[32m+[m[32m                          <div className="cp-booking-route">[m
+[32m+[m[32m                            {ride.pickupLocation} → {ride.dropLocation}[m
+[32m+[m[32m                          </div>[m
+                         </div>[m
+[32m+[m[32m                        <span className={`cp-booking-status ${statusMeta.tone}`}>[m
+[32m+[m[32m                          {statusMeta.label}[m
+[32m+[m[32m                        </span>[m
+                       </div>[m
+[31m-                      <span className={`cp-booking-status ${statusMeta.tone}`}>[m
+[31m-                        {statusMeta.label}[m
+[31m-                      </span>[m
+[31m-                    </div>[m
+ [m
+[31m-                    <div className="cp-booking-note">{statusMeta.note}</div>[m
+[32m+[m[32m                      <div className="cp-booking-note">{statusMeta.note}</div>[m
+ [m
+[31m-                    <div className="cp-booking-grid cp-booking-grid-primary">[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Tourist</span>[m
+[31m-                        <strong>{ride.touristName || ride.customerName || "-"}</strong>[m
+[31m-                      </div>[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Travel Date</span>[m
+[31m-                        <strong>{ride.travelDate || "-"}</strong>[m
+[32m+[m[32m                      <div className="cp-booking-grid cp-booking-grid-primary">[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Tourist</span>[m
+[32m+[m[32m                          <strong>{ride.touristName || ride.customerName || "-"}</strong>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Travel Date</span>[m
+[32m+[m[32m                          <strong>{ride.travelDate || "-"}</strong>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Pickup Time</span>[m
+[32m+[m[32m                          <strong>{ride.pickupTime || "-"}</strong>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Payment Mode</span>[m
+[32m+[m[32m                          <strong>{ride.paymentMode === "full" ? "Full Amount" : "Advance 50%"}</strong>[m
+[32m+[m[32m                        </div>[m
+                       </div>[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Pickup Time</span>[m
+[31m-                        <strong>{ride.pickupTime || "-"}</strong>[m
+[32m+[m
+[32m+[m[32m                      <div className="cp-booking-grid cp-booking-grid-secondary">[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Ride Ref</span>[m
+[32m+[m[32m                          <strong>{ride.rideId}</strong>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Pay Now</span>[m
+[32m+[m[32m                          <strong>₹{ride.advanceAmount}</strong>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Remaining</span>[m
+[32m+[m[32m                          <strong>₹{ride.balanceDue}</strong>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Distance</span>[m
+[32m+[m[32m                          <strong>{ride.distanceKm} km</strong>[m
+[32m+[m[32m                        </div>[m
+                       </div>[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Payment Mode</span>[m
+[31m-                        <strong>{ride.paymentMode === "full" ? "Full Amount" : "Advance 50%"}</strong>[m
+[32m+[m
+[32m+[m[32m                      <div className="cp-booking-footer">[m
+[32m+[m[32m                        <span className="cp-booking-chip">{paymentLabel}</span>[m
+[32m+[m[32m                        <span className="cp-booking-chip">Driver: {ride.driverName || "-"}</span>[m
+[32m+[m[32m                        {showPayAdvance && ([m
+[32m+[m[32m                          <button[m
+[32m+[m[32m                            type="button"[m
+[32m+[m[32m                            className="cp-booking-pay-btn"[m
+[32m+[m[32m                            onClick={() => handleCustomerPayment(ride)}[m
+[32m+[m[32m                          >[m
+[32m+[m[32m                            Pay {ride.paymentMode === "full" ? "Now" : "Advance"}[m
+[32m+[m[32m                          </button>[m
+[32m+[m[32m                        )}[m
+[32m+[m[32m                        {showPayRemaining && ([m
+[32m+[m[32m                          <button[m
+[32m+[m[32m                            type="button"[m
+[32m+[m[32m                            className="cp-booking-pay-btn"[m
+[32m+[m[32m                            onClick={() => handleCustomerPayment(ride)}[m
+[32m+[m[32m                          >[m
+[32m+[m[32m                            Pay Remaining[m
+[32m+[m[32m                          </button>[m
+[32m+[m[32m                        )}[m
+                       </div>[m
+[32m+[m[32m                    </article>[m
+[32m+[m[32m                  );[m
+[32m+[m[32m                })}[m
+[32m+[m[32m              </div>[m
+[32m+[m[32m            )}[m
+[32m+[m[32m          </section>[m
+[32m+[m[32m        )}[m
+[32m+[m
+[32m+[m[32m        {!showMyBookings && ([m
+[32m+[m[32m          <div className="cp-vehicle-grid">[m
+[32m+[m[32m            {filteredData.length === 0 ? ([m
+[32m+[m[32m              <div style={{ textAlign: "center", padding: "40px", color: "#6b7280", gridColumn: "1 / -1" }}>[m
+[32m+[m[32m                No vehicles found.[m
+[32m+[m[32m              </div>[m
+[32m+[m[32m            ) : ([m
+[32m+[m[32m              filteredData.map((item) => ([m
+[32m+[m[32m                <div className="cp-card" key={item.id}>[m
+[32m+[m[32m                  <div className="cp-card-img" style={{ height: "220px" }}>[m
+[32m+[m[32m                    <img[m
+[32m+[m[32m                      src={item.image}[m
+[32m+[m[32m                      alt={item.name}[m
+[32m+[m[32m                      style={{ width: "100%", height: "100%", objectFit: "cover" }}[m
+[32m+[m[32m                    />[m
+[32m+[m[32m                    <div className="cp-card-tags">[m
+[32m+[m[32m                      {item.available && <span className="cp-tag green">Available</span>}[m
+[32m+[m[32m                      <span className="cp-tag">{item.type}</span>[m
+                     </div>[m
+[32m+[m[32m                  </div>[m
+ [m
+[31m-                    <div className="cp-booking-grid cp-booking-grid-secondary">[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Ride Ref</span>[m
+[31m-                        <strong>{ride.rideId}</strong>[m
+[32m+[m[32m                  <div className="cp-card-body">[m
+[32m+[m[32m                    <div className="cp-card-top">[m
+[32m+[m[32m                      <div>[m
+[32m+[m[32m                        <div className="cp-card-title">{item.name}</div>[m
+[32m+[m[32m                        <div className="cp-card-subtitle">[m
+[32m+[m[32m                          {item.driver} ({item.experience})[m
+[32m+[m[32m                        </div>[m
+                       </div>[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Pay Now</span>[m
+[31m-                        <strong>₹{ride.advanceAmount}</strong>[m
+[32m+[m[32m                      <div className="cp-card-rating">[m
+[32m+[m[32m                        <i className="ti ti-star-filled"></i> {item.rating}[m
+                       </div>[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Remaining</span>[m
+[31m-                        <strong>₹{ride.balanceDue}</strong>[m
+[32m+[m[32m                    </div>[m
+[32m+[m
+[32m+[m[32m                    <div[m
+[32m+[m[32m                      className="cp-amenities"[m
+[32m+[m[32m                      style={{[m
+[32m+[m[32m                        borderBottom: "1px solid #e5e7eb",[m
+[32m+[m[32m                        paddingBottom: "16px",[m
+[32m+[m[32m                        marginBottom: "16px",[m
+[32m+[m[32m                        display: "flex",[m
+[32m+[m[32m                        justifyContent: "space-between"[m
+[32m+[m[32m                      }}[m
+[32m+[m[32m                    >[m
+[32m+[m[32m                      <div style={{ display: "flex", gap: "6px", alignItems: "center", fontSize: "14px", color: "#6b7280" }}>[m
+[32m+[m[32m                        <i className="ti ti-users"></i> {item.seats}[m
+[32m+[m[32m                      </div>[m
+[32m+[m[32m                      <div style={{ display: "flex", gap: "6px", alignItems: "center", fontSize: "14px", color: "#6b7280" }}>[m
+[32m+[m[32m                        <i className="ti ti-gas-station"></i> {item.fuel}[m
+                       </div>[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Distance</span>[m
+[31m-                        <strong>{ride.distanceKm} km</strong>[m
+[32m+[m[32m                      <div style={{ display: "flex", gap: "6px", alignItems: "center", fontSize: "14px", color: "#6b7280" }}>[m
+[32m+[m[32m                        <i className="ti ti-settings"></i> {item.transmission}[m
+                       </div>[m
+                     </div>[m
+ [m
+[31m-                    <div className="cp-booking-footer">[m
+[31m-                      <span className="cp-booking-chip">{paymentLabel}</span>[m
+[31m-                      <span className="cp-booking-chip">Driver: {ride.driverName || "-"}</span>[m
+[31m-                      {showPayAdvance && ([m
+[31m-                        <button[m
+[31m-                          type="button"[m
+[31m-                          className="cp-booking-pay-btn"[m
+[31m-                          onClick={() => handleCustomerPayment(ride)}[m
+[31m-                        >[m
+[31m-                          Pay {ride.paymentMode === "full" ? "Now" : "Advance"}[m
+[31m-                        </button>[m
+[31m-                      )}[m
+[31m-                      {showPayRemaining && ([m
+[31m-                        <button[m
+[31m-                          type="button"[m
+[31m-                          className="cp-booking-pay-btn"[m
+[31m-                          onClick={() => handleCustomerPayment(ride)}[m
+[31m-                        >[m
+[31m-                          Pay Remaining[m
+[31m-                        </button>[m
+[31m-                      )}[m
+[32m+[m[32m                    <div className="cp-amenities">[m
+[32m+[m[32m                      {item.amenities.map((amenity) => ([m
+[32m+[m[32m                        <span className="cp-amenity" key={amenity}>[m
+[32m+[m[32m                          {amenity}[m
+[32m+[m[32m                        </span>[m
+[32m+[m[32m                      ))}[m
+                     </div>[m
+[31m-                  </article>[m
+[31m-                );[m
+[31m-              })}[m
+[31m-            </div>[m
+[31m-          )}[m
+[31m-        </section>[m
+[31m-        )}[m
+[31m-[m
+[31m-        {!showMyBookings && ([m
+[31m-        <div className="cp-vehicle-grid">[m
+[31m-          {filteredData.length === 0 ? ([m
+[31m-            <div style={{ textAlign: "center", padding: "40px", color: "#6b7280", gridColumn: "1 / -1" }}>[m
+[31m-              No vehicles found.[m
+[31m-            </div>[m
+[31m-          ) : ([m
+[31m-            filteredData.map((item) => ([m
+[31m-              <div className="cp-card" key={item.id}>[m
+[31m-              <div className="cp-card-img" style={{ height: "220px" }}>[m
+[31m-                <img[m
+[31m-                  src={item.image}[m
+[31m-                  alt={item.name}[m
+[31m-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}[m
+[31m-                />[m
+[31m-                <div className="cp-card-tags">[m
+[31m-                  {item.available && <span className="cp-tag green">Available</span>}[m
+[31m-                  <span className="cp-tag">{item.type}</span>[m
+[31m-                </div>[m
+[31m-              </div>[m
+ [m
+[31m-              <div className="cp-card-body">[m
+[31m-                <div className="cp-card-top">[m
+[31m-                  <div>[m
+[31m-                    <div className="cp-card-title">{item.name}</div>[m
+[31m-                    <div className="cp-card-subtitle">[m
+[31m-                      {item.driver} ({item.experience})[m
+[32m+[m[32m                    <div className="cp-stats-row" style={{ textAlign: "left", marginTop: "20px" }}>[m
+[32m+[m[32m                      <div className="cp-stat" style={{ flex: 1 }}>[m
+[32m+[m[32m                        <div className="cp-stat-label">Per Hour</div>[m
+[32m+[m[32m                        <div className="cp-stat-val" style={{ color: "#f57c00", fontSize: "18px" }}>[m
+[32m+[m[32m                          ₹{getHourlyRate(item)}[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                      </div>[m
+[32m+[m[32m                      <div className="cp-stat" style={{ flex: 1 }}>[m
+[32m+[m[32m                        <div className="cp-stat-label">16 Hour Day</div>[m
+[32m+[m[32m                        <div className="cp-stat-val" style={{ color: "#f57c00", fontSize: "18px" }}>[m
+[32m+[m[32m                          ₹{item.pricePerDay}[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                      </div>[m
+                     </div>[m
+[31m-                  </div>[m
+[31m-                  <div className="cp-card-rating">[m
+[31m-                    <i className="ti ti-star-filled"></i> {item.rating}[m
+[31m-                  </div>[m
+[31m-                </div>[m
+ [m
+[31m-                <div[m
+[31m-                  className="cp-amenities"[m
+[31m-                  style={{[m
+[31m-                    borderBottom: "1px solid #e5e7eb",[m
+[31m-                    paddingBottom: "16px",[m
+[31m-                    marginBottom: "16px",[m
+[31m-                    display: "flex",[m
+[31m-                    justifyContent: "space-between"[m
+[31m-                  }}[m
+[31m-                >[m
+[31m-                  <div style={{ display: "flex", gap: "6px", alignItems: "center", fontSize: "14px", color: "#6b7280" }}>[m
+[31m-                    <i className="ti ti-users"></i> {item.seats}[m
+[31m-                  </div>[m
+[31m-                  <div style={{ display: "flex", gap: "6px", alignItems: "center", fontSize: "14px", color: "#6b7280" }}>[m
+[31m-                    <i className="ti ti-gas-station"></i> {item.fuel}[m
+[31m-                  </div>[m
+[31m-                  <div style={{ display: "flex", gap: "6px", alignItems: "center", fontSize: "14px", color: "#6b7280" }}>[m
+[31m-                    <i className="ti ti-settings"></i> {item.transmission}[m
+[31m-                  </div>[m
+[31m-                </div>[m
+[31m-[m
+[31m-                <div className="cp-amenities">[m
+[31m-                  {item.amenities.map((amenity) => ([m
+[31m-                    <span className="cp-amenity" key={amenity}>[m
+[31m-                      {amenity}[m
+[31m-                    </span>[m
+[31m-                  ))}[m
+[31m-                </div>[m
+[32m+[m[32m                    <div className="cp-price-notes">[m
+[32m+[m[32m                      <div className="cp-price-note">[m
+[32m+[m[32m                        Estimated for {filters.hours} hrs: <strong>₹{getEstimatedPrice(item, filters.hours)}</strong>[m
+[32m+[m[32m                      </div>[m
+ [m
+[31m-                <div className="cp-stats-row" style={{ textAlign: "left", marginTop: "20px" }}>[m
+[31m-                  <div className="cp-stat" style={{ flex: 1 }}>[m
+[31m-                    <div className="cp-stat-label">Per Hour</div>[m
+[31m-                    <div className="cp-stat-val" style={{ color: "#f57c00", fontSize: "18px" }}>[m
+[31m-                      ₹{getHourlyRate(item)}[m
+[31m-                    </div>[m
+[31m-                  </div>[m
+[31m-                  <div className="cp-stat" style={{ flex: 1 }}>[m
+[31m-                    <div className="cp-stat-label">16 Hour Day</div>[m
+[31m-                    <div className="cp-stat-val" style={{ color: "#f57c00", fontSize: "18px" }}>[m
+[31m-                      ₹{item.pricePerDay}[m
+[32m+[m[32m                      <div className="cp-price-note cp-price-note-soft">[m
+[32m+[m[32m                        Complimentary distance: <strong>{getComplimentaryKm(filters.hours)} km</strong> free[m
+[32m+[m[32m                      </div>[m
+                     </div>[m
+[31m-                  </div>[m
+[31m-                </div>[m
+ [m
+[31m-                <div className="cp-price-notes">[m
+[31m-                  <div className="cp-price-note">[m
+[31m-                    Estimated for {filters.hours} hrs: <strong>₹{getEstimatedPrice(item, filters.hours)}</strong>[m
+[31m-                  </div>[m
+[31m-[m
+[31m-                  <div className="cp-price-note cp-price-note-soft">[m
+[31m-                    Complimentary distance: <strong>{getComplimentaryKm(filters.hours)} km</strong> free[m
+[32m+[m[32m                    <div className="cp-actions" style={{ marginTop: "20px" }}>[m
+[32m+[m[32m                      <button className="cp-btn-primary" onClick={() => openBookingModal(item)}>[m
+[32m+[m[32m                        Book Vehicle[m
+[32m+[m[32m                      </button>[m
+[32m+[m[32m                    </div>[m
+                   </div>[m
+                 </div>[m
+[31m-[m
+[31m-                <div className="cp-actions" style={{ marginTop: "20px" }}>[m
+[31m-                  <button className="cp-btn-primary" onClick={() => openBookingModal(item)}>[m
+[31m-                    Book Vehicle[m
+[31m-                  </button>[m
+[31m-                </div>[m
+[31m-              </div>[m
+[31m-            </div>[m
+[31m-            ))[m
+[31m-          )}[m
+[31m-        </div>[m
+[32m+[m[32m              ))[m
+[32m+[m[32m            )}[m
+[32m+[m[32m          </div>[m
+         )}[m
+ [m
+         {false && ([m
+[31m-        <section className="cp-bookings-section">[m
+[31m-          <div className="cp-bookings-head">[m
+[31m-            <div>[m
+[31m-              <h2>Your Bookings</h2>[m
+[31m-              <p>[m
+[31m-                Track driver confirmation, ride progress, and payment updates from one place.[m
+[31m-              </p>[m
+[32m+[m[32m          <section className="cp-bookings-section">[m
+[32m+[m[32m            <div className="cp-bookings-head">[m
+[32m+[m[32m              <div>[m
+[32m+[m[32m                <h2>Your Bookings</h2>[m
+[32m+[m[32m                <p>[m
+[32m+[m[32m                  Track driver confirmation, ride progress, and payment updates from one place.[m
+[32m+[m[32m                </p>[m
+[32m+[m[32m              </div>[m
+[32m+[m[32m              <div className="cp-bookings-badge">{sortedBookings.length} rides</div>[m
+             </div>[m
+[31m-            <div className="cp-bookings-badge">{sortedBookings.length} rides</div>[m
+[31m-          </div>[m
+ [m
+[31m-          {sortedBookings.length === 0 ? ([m
+[31m-            <div className="cp-bookings-empty">[m
+[31m-              Your confirmed and pending rides will appear here after booking a vehicle.[m
+[31m-            </div>[m
+[31m-          ) : ([m
+[31m-            <div className="cp-bookings-list">[m
+[31m-              {sortedBookings.map((ride) => {[m
+[31m-                const statusMeta = getBookingStatusMeta(ride);[m
+[31m-                const isPaymentDue =[m
+[31m-                  ride.paymentStatus === "Pending" ||[m
+[31m-                  String(ride.paymentStatus || "").includes("Due");[m
+[31m-                const paymentLabel =[m
+[31m-                  ride.status === "Completed" &&[m
+[31m-                  ride.paymentMode !== "full" &&[m
+[31m-                  ride.paymentStatus !== "Settled"[m
+[31m-                    ? `Remaining due ₹${ride.balanceDue}`[m
+[31m-                    : isPaymentDue[m
+[31m-                      ? ride.paymentMode === "full"[m
+[31m-                        ? `Full amount due ₹${ride.advanceAmount}`[m
+[31m-                        : `Advance due ₹${ride.advanceAmount}`[m
+[31m-                      : ride.paymentMode === "full"[m
+[31m-                        ? "Full amount paid"[m
+[31m-                        : "Advance paid";[m
+[31m-                const showPayAdvance =[m
+[31m-                  ride.status === "Accepted" &&[m
+[31m-                  !["Paid", "Advance Paid", "Settled"].includes(ride.paymentStatus || "");[m
+[31m-                const showPayRemaining =[m
+[31m-                  ride.status === "Completed" &&[m
+[31m-                  ride.paymentMode !== "full" &&[m
+[31m-                  ride.paymentStatus !== "Settled";[m
+[31m-[m
+[31m-                return ([m
+[31m-                  <article key={ride.rideId} className="cp-booking-card">[m
+[31m-                    <div className="cp-booking-top">[m
+[31m-                      <div>[m
+[31m-                        <div className="cp-booking-title">{ride.vehicleName}</div>[m
+[31m-                        <div className="cp-booking-route">[m
+[31m-                          {ride.pickupLocation} → {ride.dropLocation}[m
+[32m+[m[32m            {sortedBookings.length === 0 ? ([m
+[32m+[m[32m              <div className="cp-bookings-empty">[m
+[32m+[m[32m                Your confirmed and pending rides will appear here after booking a vehicle.[m
+[32m+[m[32m              </div>[m
+[32m+[m[32m            ) : ([m
+[32m+[m[32m              <div className="cp-bookings-list">[m
+[32m+[m[32m                {sortedBookings.map((ride) => {[m
+[32m+[m[32m                  const statusMeta = getBookingStatusMeta(ride);[m
+[32m+[m[32m                  const isPaymentDue =[m
+[32m+[m[32m                    ride.paymentStatus === "Pending" ||[m
+[32m+[m[32m                    String(ride.paymentStatus || "").includes("Due");[m
+[32m+[m[32m                  const paymentLabel =[m
+[32m+[m[32m                    ride.status === "Completed" &&[m
+[32m+[m[32m                      ride.paymentMode !== "full" &&[m
+[32m+[m[32m                      ride.paymentStatus !== "Settled"[m
+[32m+[m[32m                      ? `Remaining due ₹${ride.balanceDue}`[m
+[32m+[m[32m                      : isPaymentDue[m
+[32m+[m[32m                        ? ride.paymentMode === "full"[m
+[32m+[m[32m                          ? `Full amount due ₹${ride.advanceAmount}`[m
+[32m+[m[32m                          : `Advance due ₹${ride.advanceAmount}`[m
+[32m+[m[32m                        : ride.paymentMode === "full"[m
+[32m+[m[32m                          ? "Full amount paid"[m
+[32m+[m[32m                          : "Advance paid";[m
+[32m+[m[32m                  const showPayAdvance =[m
+[32m+[m[32m                    ride.status === "Accepted" &&[m
+[32m+[m[32m                    !["Paid", "Advance Paid", "Settled"].includes(ride.paymentStatus || "");[m
+[32m+[m[32m                  const showPayRemaining =[m
+[32m+[m[32m                    ride.status === "Completed" &&[m
+[32m+[m[32m                    ride.paymentMode !== "full" &&[m
+[32m+[m[32m                    ride.paymentStatus !== "Settled";[m
+[32m+[m
+[32m+[m[32m                  return ([m
+[32m+[m[32m                    <article key={ride.rideId} className="cp-booking-card">[m
+[32m+[m[32m                      <div className="cp-booking-top">[m
+[32m+[m[32m                        <div>[m
+[32m+[m[32m                          <div className="cp-booking-title">{ride.vehicleName}</div>[m
+[32m+[m[32m                          <div className="cp-booking-route">[m
+[32m+[m[32m                            {ride.pickupLocation} → {ride.dropLocation}[m
+[32m+[m[32m                          </div>[m
+                         </div>[m
+[32m+[m[32m                        <span className={`cp-booking-status ${statusMeta.tone}`}>[m
+[32m+[m[32m                          {statusMeta.label}[m
+[32m+[m[32m                        </span>[m
+                       </div>[m
+[31m-                      <span className={`cp-booking-status ${statusMeta.tone}`}>[m
+[31m-                        {statusMeta.label}[m
+[31m-                      </span>[m
+[31m-                    </div>[m
+ [m
+[31m-                    <div className="cp-booking-note">{statusMeta.note}</div>[m
+[32m+[m[32m                      <div className="cp-booking-note">{statusMeta.note}</div>[m
+ [m
+[31m-                    <div className="cp-booking-grid">[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Tourist</span>[m
+[31m-                        <strong>{ride.touristName || ride.customerName || "-"}</strong>[m
+[31m-                      </div>[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Travel Date</span>[m
+[31m-                        <strong>{ride.travelDate || "-"}</strong>[m
+[31m-                      </div>[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Pickup Time</span>[m
+[31m-                        <strong>{ride.pickupTime || "-"}</strong>[m
+[31m-                      </div>[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Payment Mode</span>[m
+[31m-                        <strong>{ride.paymentMode === "full" ? "Full Amount" : "Advance 50%"}</strong>[m
+[32m+[m[32m                      <div className="cp-booking-grid">[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Tourist</span>[m
+[32m+[m[32m                          <strong>{ride.touristName || ride.customerName || "-"}</strong>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Travel Date</span>[m
+[32m+[m[32m                          <strong>{ride.travelDate || "-"}</strong>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Pickup Time</span>[m
+[32m+[m[32m                          <strong>{ride.pickupTime || "-"}</strong>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Payment Mode</span>[m
+[32m+[m[32m                          <strong>{ride.paymentMode === "full" ? "Full Amount" : "Advance 50%"}</strong>[m
+[32m+[m[32m                        </div>[m
+                       </div>[m
+[31m-                    </div>[m
+ [m
+[31m-                    <div className="cp-booking-grid cp-booking-grid-secondary">[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Ride Ref</span>[m
+[31m-                        <strong>{ride.rideId}</strong>[m
+[31m-                      </div>[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Pay Now</span>[m
+[31m-                        <strong>₹{ride.advanceAmount}</strong>[m
+[31m-                      </div>[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Remaining</span>[m
+[31m-                        <strong>₹{ride.balanceDue}</strong>[m
+[31m-                      </div>[m
+[31m-                      <div className="cp-booking-cell">[m
+[31m-                        <span>Distance</span>[m
+[31m-                        <strong>{ride.distanceKm} km</strong>[m
+[32m+[m[32m                      <div className="cp-booking-grid cp-booking-grid-secondary">[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Ride Ref</span>[m
+[32m+[m[32m                          <strong>{ride.rideId}</strong>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Pay Now</span>[m
+[32m+[m[32m                          <strong>₹{ride.advanceAmount}</strong>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Remaining</span>[m
+[32m+[m[32m                          <strong>₹{ride.balanceDue}</strong>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                        <div className="cp-booking-cell">[m
+[32m+[m[32m                          <span>Distance</span>[m
+[32m+[m[32m                          <strong>{ride.distanceKm} km</strong>[m
+[32m+[m[32m                        </div>[m
+                       </div>[m
+[31m-                    </div>[m
+ [m
+[31m-                    <div className="cp-booking-footer">[m
+[31m-                      <span className="cp-booking-chip">{paymentLabel}</span>[m
+[31m-                      <span className="cp-booking-chip">Driver: {ride.driverName || "-"}</span>[m
+[31m-                      {showPayAdvance && ([m
+[31m-                        <button[m
+[31m-                          type="button"[m
+[31m-                          className="cp-booking-pay-btn"[m
+[31m-                          onClick={() => handleCustomerPayment(ride)}[m
+[31m-                        >[m
+[31m-                          Pay {ride.paymentMode === "full" ? "Now" : "Advance"}[m
+[31m-                        </button>[m
+[31m-                      )}[m
+[31m-                      {showPayRemaining && ([m
+[31m-                        <button[m
+[31m-                          type="button"[m
+[31m-                          className="cp-booking-pay-btn"[m
+[31m-                          onClick={() => handleCustomerPayment(ride)}[m
+[31m-                        >[m
+[31m-                          Pay Remaining[m
+[31m-                        </button>[m
+[31m-                      )}[m
+[31m-                    </div>[m
+[31m-                  </article>[m
+[31m-                );[m
+[31m-              })}[m
+[31m-            </div>[m
+[31m-          )}[m
+[31m-        </section>[m
+[32m+[m[32m                      <div className="cp-booking-footer">[m
+[32m+[m[32m                        <span className="cp-booking-chip">{paymentLabel}</span>[m
+[32m+[m[32m                        <span className="cp-booking-chip">Driver: {ride.driverName || "-"}</span>[m
+[32m+[m[32m                        {showPayAdvance && ([m
+[32m+[m[32m                          <button[m
+[32m+[m[32m                            type="button"[m
+[32m+[m[32m                            className="cp-booking-pay-btn"[m
+[32m+[m[32m                            onClick={() => handleCustomerPayment(ride)}[m
+[32m+[m[32m                          >[m
+[32m+[m[32m                            Pay {ride.paymentMode === "full" ? "Now" : "Advance"}[m
+[32m+[m[32m                          </button>[m
+[32m+[m[32m                        )}[m
+[32m+[m[32m                        {showPayRemaining && ([m
+[32m+[m[32m                          <button[m
+[32m+[m[32m                            type="button"[m
+[32m+[m[32m                            className="cp-booking-pay-btn"[m
+[32m+[m[32m                            onClick={() => handleCustomerPayment(ride)}[m
+[32m+[m[32m                          >[m
+[32m+[m[32m                            Pay Remaining[m
+[32m+[m[32m                          </button>[m
+[32m+[m[32m                        )}[m
+[32m+[m[32m                      </div>[m
+[32m+[m[32m                    </article>[m
+[32m+[m[32m                  );[m
+[32m+[m[32m                })}[m
+[32m+[m[32m              </div>[m
+[32m+[m[32m            )}[m
+[32m+[m[32m          </section>[m
+         )}[m
+       </div>[m
+ [m
+[36m@@ -1082,11 +1083,10 @@[m [mexport default function CustomerVehicle({ onBack }) {[m
+                     type="text"[m
+                     className="cp-form-input"[m
+                     readOnly[m
+[31m-                    value={`₹${[m
+[31m-                      bookingForm.paymentMode === "full"[m
+[32m+[m[32m                    value={`₹${bookingForm.paymentMode === "full"[m
+                         ? getEstimatedPrice(selectedItem, bookingForm.hours)[m
+                         : Math.round(getEstimatedPrice(selectedItem, bookingForm.hours) * (ADVANCE_PERCENT / 100))[m
+[31m-                    }`}[m
+[32m+[m[32m                      }`}[m
+                   />[m
+                 </div>[m
+               </div>[m
+[36m@@ -1242,9 +1242,35 @@[m [mexport default function CustomerVehicle({ onBack }) {[m
+             </div>[m
+ [m
+             <div className="cp-modal-footer">[m
+[31m-              <button className="cp-btn-primary" onClick={closeBookingModal}>[m
+[32m+[m
+[32m+[m[32m              <button[m
+[32m+[m[32m                className="cp-btn-outline"[m
+[32m+[m[32m                onClick={closeBookingModal}[m
+[32m+[m[32m              >[m
+                 Close[m
+               </button>[m
+[32m+[m
+[32m+[m[32m              <button[m
+[32m+[m[32m                className="cp-btn-primary"[m
+[32m+[m[32m                onClick={() =>[m
+[32m+[m[32m                  openRazorpay({[m
+[32m+[m[32m                    amount: bookingReceipt.advanceAmount,[m
+[32m+[m[32m                    customerName: bookingReceipt.touristName,[m
+[32m+[m[32m                    phone: "",[m
+[32m+[m[32m                    description: `Vehicle Booking - ${bookingReceipt.vehicleName}`,[m
+[32m+[m[32m                    onSuccess: () => {[m
+[32m+[m[32m                      alert("Payment Successful");[m
+[32m+[m
+[32m+[m[32m                      handleCustomerPayment(bookingReceipt);[m
+[32m+[m
+[32m+[m[32m                      closeBookingModal();[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                  })[m
+[32m+[m[32m                }[m
+[32m+[m[32m              >[m
+[32m+[m[32m                Pay Advance ₹{bookingReceipt.advanceAmount}[m
+[32m+[m[32m              </button>[m
+[32m+[m
+             </div>[m
+           </div>[m
+         </div>[m
+[1mdiff --git a/src/pages/CustomerComponent/Customer_Dashboard.jsx b/src/pages/CustomerComponent/Customer_Dashboard.jsx[m
+[1mindex 936c07e..8d37a2d 100644[m
+[1m--- a/src/pages/CustomerComponent/Customer_Dashboard.jsx[m
+[1m+++ b/src/pages/CustomerComponent/Customer_Dashboard.jsx[m
+[36m@@ -13,7 +13,7 @@[m [mimport DonationPage from "./DonationPage";[m
+ export default function PilgrimHome() {[m
+   const [activePage, setActivePage] = useState("home");[m
+   const [selectedBooking, setSelectedBooking] = useState(null);[m
+[31m-  [m
+[32m+[m
+   const [bookings, setBookings] = useState([[m
+     {[m
+       id: 1,[m
+[36m@@ -98,7 +98,7 @@[m [mexport default function PilgrimHome() {[m
+     },[m
+   ]);[m
+ [m
+[31m-  [m
+[32m+[m
+   const openBookingDetails = (booking) => setSelectedBooking(booking);[m
+   const closeBookingDetails = () => setSelectedBooking(null);[m
+   const cancelBooking = (id) => {[m
+[36m@@ -106,36 +106,48 @@[m [mexport default function PilgrimHome() {[m
+       prev.map((booking) =>[m
+         booking.id === id[m
+           ? {[m
+[31m-              ...booking,[m
+[31m-              status: "Refund Processing",[m
+[31m-refund: "50% Refund Initiated",[m
+[31m-refundAmount: "₹4000",[m
+[31m-refundTime: "5-7 Working Days",[m
+[31m-              details: booking.details,[m
+[31m-              person: booking.person[m
+[31m-                ? { ...booking.person, status: "Cancelled" }[m
+[31m-                : booking.person,[m
+[31m-            }[m
+[32m+[m[32m            ...booking,[m
+[32m+[m[32m            status: "Refund Processing",[m
+[32m+[m[32m            refund: "50% Refund Initiated",[m
+[32m+[m[32m            refundAmount: "₹4000",[m
+[32m+[m[32m            refundTime: "5-7 Working Days",[m
+[32m+[m[32m            details: booking.details,[m
+[32m+[m[32m            person: booking.person[m
+[32m+[m[32m              ? { ...booking.person, status: "Cancelled" }[m
+[32m+[m[32m              : booking.person,[m
+[32m+[m[32m          }[m
+           : booking[m
+       )[m
+     );[m
+     setSelectedBooking((prev) =>[m
+       prev && prev.id === id[m
+         ? {[m
+[31m-            ...prev,[m
+[31m-         status: "Refund Processing",[m
+[31m-refund: "50% Refund Initiated",[m
+[31m-refundAmount: "₹4000",[m
+[31m-refundTime: "5-7 Working Days",[m
+[31m-            person: prev.person[m
+[31m-              ? { ...prev.person, status: "Cancelled" }[m
+[31m-              : prev.person,[m
+[31m-          }[m
+[32m+[m[32m          ...prev,[m
+[32m+[m[32m          status: "Refund Processing",[m
+[32m+[m[32m          refund: "50% Refund Initiated",[m
+[32m+[m[32m          refundAmount: "₹4000",[m
+[32m+[m[32m          refundTime: "5-7 Working Days",[m
+[32m+[m[32m          person: prev.person[m
+[32m+[m[32m            ? { ...prev.person, status: "Cancelled" }[m
+[32m+[m[32m            : prev.person,[m
+[32m+[m[32m        }[m
+         : prev[m
+     );[m
+   };[m
+ [m
+[31m-  [m
+[32m+[m[32m  const handleTempleOpen = () => {[m
+[32m+[m[32m    window.alert([m
+[32m+[m[32m      "🛕 Temple Status\n\nRama Janma Bhoomi Temple is OPEN now.\nTimings: 5:00 AM - 10:00 PM"[m
+[32m+[m[32m    );[m
+[32m+[m[32m  };[m
+[32m+[m
+[32m+[m[32m  const handleCrowdStatus = () => {[m
+[32m+[m[32m    window.alert([m
+[32m+[m[32m      "👥 Crowd Status\n\nCurrent Crowd: Moderate\nEstimated Wait Time: 20-30 Minutes"[m
+[32m+[m[32m    );[m
+[32m+[m[32m  };[m
+[32m+[m
+[32m+[m
+   const getBookingTypeLabel = (type) => {[m
+     const labels = {[m
+       guide: "Tour Guide",[m
+[36m@@ -225,13 +237,13 @@[m [mrefundTime: "5-7 Working Days",[m
+   if (activePage === "vehicle") {[m
+     return <CustomerVehicle onBack={() => setActivePage("home")} />;[m
+   }[m
+[31m-if (activePage === "donation") {[m
+[31m-  return ([m
+[31m-    <DonationPage[m
+[31m-      onBack={() => setActivePage("home")}[m
+[31m-    />[m
+[31m-  );[m
+[31m-}[m
+[32m+[m[32m  if (activePage === "donation") {[m
+[32m+[m[32m    return ([m
+[32m+[m[32m      <DonationPage[m
+[32m+[m[32m        onBack={() => setActivePage("home")}[m
+[32m+[m[32m      />[m
+[32m+[m[32m    );[m
+[32m+[m[32m  }[m
+   if (activePage === "guide") {[m
+     return ([m
+       <GuideBooking[m
+[36m@@ -256,24 +268,24 @@[m [mif (activePage === "donation") {[m
+     );[m
+   }[m
+   if (activePage === "spots") {[m
+[31m-  return ([m
+[31m-    <CustomerTouriestSpots[m
+[31m-      onBack={() => setActivePage("home")}[m
+[31m-    />[m
+[31m-  );[m
+[31m-}[m
+[32m+[m[32m    return ([m
+[32m+[m[32m      <CustomerTouriestSpots[m
+[32m+[m[32m        onBack={() => setActivePage("home")}[m
+[32m+[m[32m      />[m
+[32m+[m[32m    );[m
+[32m+[m[32m  }[m
+ [m
+[31m-if (activePage === "ai") {[m
+[32m+[m[32m  if (activePage === "ai") {[m
+ [m
+[31m-  return ([m
+[32m+[m[32m    return ([m
+ [m
+[31m-    <AIAssistant[m
+[31m-      setActivePage={setActivePage}[m
+[31m-    />[m
+[32m+[m[32m      <AIAssistant[m
+[32m+[m[32m        setActivePage={setActivePage}[m
+[32m+[m[32m      />[m
+ [m
+[31m-  );[m
+[32m+[m[32m    );[m
+ [m
+[31m-}[m
+[32m+[m[32m  }[m
+   if (activePage === "bookings") {[m
+     return ([m
+       <div className="pilgrim-page">[m
+[36m@@ -305,19 +317,18 @@[m [mif (activePage === "ai") {[m
+                   <p className="text-muted">{booking.details}</p>[m
+                 </div>[m
+               </div>[m
+[31m-            <span[m
+[31m-  className={`status-badge ${[m
+[31m-    booking.status === "Pending"[m
+[31m-      ? "pending"[m
+[31m-      : booking.status === "Confirmed"[m
+[31m-      ? "confirmed"[m
+[31m-      : booking.status === "Refund Processing"[m
+[31m-      ? "refund"[m
+[31m-      : "cancelled"[m
+[31m-  }`}[m
+[31m->[m
+[31m-  {booking.status}[m
+[31m-</span>[m
+[32m+[m[32m              <span[m
+[32m+[m[32m                className={`status-badge ${booking.status === "Pending"[m
+[32m+[m[32m                    ? "pending"[m
+[32m+[m[32m                    : booking.status === "Confirmed"[m
+[32m+[m[32m                      ? "confirmed"[m
+[32m+[m[32m                      : booking.status === "Refund Processing"[m
+[32m+[m[32m                        ? "refund"[m
+[32m+[m[32m                        : "cancelled"[m
+[32m+[m[32m                  }`}[m
+[32m+[m[32m              >[m
+[32m+[m[32m                {booking.status}[m
+[32m+[m[32m              </span>[m
+             </div>[m
+           ))}[m
+ [m
+[36m@@ -344,12 +355,12 @@[m [mif (activePage === "ai") {[m
+                 </div>[m
+                 <p className="booking-note">{selectedBooking.hint}</p>[m
+                 {selectedBooking.status === "Refund Processing" && ([m
+[31m-  <div className="refund-details-box">[m
+[31m-    <p><strong>Refund Status:</strong> Processing</p>[m
+[31m-    <p><strong>Refund Amount:</strong> {selectedBooking.refundAmount}</p>[m
+[31m-    <p><strong>Expected Refund:</strong> {selectedBooking.refundTime}</p>[m
+[31m-  </div>[m
+[31m-)}[m
+[32m+[m[32m                  <div className="refund-details-box">[m
+[32m+[m[32m                    <p><strong>Refund Status:</strong> Processing</p>[m
+[32m+[m[32m                    <p><strong>Refund Amount:</strong> {selectedBooking.refundAmount}</p>[m
+[32m+[m[32m                    <p><strong>Expected Refund:</strong> {selectedBooking.refundTime}</p>[m
+[32m+[m[32m                  </div>[m
+[32m+[m[32m                )}[m
+                 {selectedBooking.person && ([m
+                   <div className="profile-card">[m
+                     <h4>{selectedBooking.person.role} Details</h4>[m
+[36m@@ -364,17 +375,17 @@[m [mif (activePage === "ai") {[m
+                 )}[m
+                 <div className="modal-actions">[m
+                   <div className="booking-refund-note">[m
+[31m-  <i className="ti ti-info-circle"></i>[m
+[31m-  50% refund applicable on cancellation before check-in time.[m
+[31m-</div>[m
+[31m-                 {selectedBooking.status !== "Refund Processing" ? ([m
+[32m+[m[32m                    <i className="ti ti-info-circle"></i>[m
+[32m+[m[32m                    50% refund applicable on cancellation before check-in time.[m
+[32m+[m[32m                  </div>[m
+[32m+[m[32m                  {selectedBooking.status !== "Refund Processing" ? ([m
+                     <button className="view-all-btn cancel" onClick={() => cancelBooking(selectedBooking.id)}>[m
+                       Cancel {getBookingActionLabel(selectedBooking.type)}[m
+                     </button>[m
+                   ) : ([m
+[31m-                   <button className="view-all-btn refund-processing" disabled>[m
+[31m-  Refund Processing[m
+[31m-</button>[m
+[32m+[m[32m                    <button className="view-all-btn refund-processing" disabled>[m
+[32m+[m[32m                      Refund Processing[m
+[32m+[m[32m                    </button>[m
+                   )}[m
+                   <button className="view-all-btn" onClick={closeBookingDetails}>Close</button>[m
+                 </div>[m
+[36m@@ -548,6 +559,15 @@[m [mif (activePage === "ai") {[m
+         </div>[m
+ [m
+         {renderBottomNav()}[m
+[32m+[m[32m         <button[m
+[32m+[m[32m  className="logout-btn"[m
+[32m+[m[32m  onClick={() => {[m
+[32m+[m[32m    localStorage.clear();[m
+[32m+[m[32m    window.location.href = "/";[m
+[32m+[m[32m  }}[m
+[32m+[m[32m>[m
+[32m+[m[32m  Logout[m
+[32m+[m[32m</button>[m
+       </div>[m
+     );[m
+   }[m
+[36m@@ -624,21 +644,21 @@[m [mif (activePage === "ai") {[m
+             <span>Accommodation</span>[m
+           </div>[m
+ [m
+[31m-     <div[m
+[31m-  className="service-card"[m
+[31m-  onClick={() => setActivePage("spots")}[m
+[31m->[m
+[31m-  <div className="service-icon red">[m
+[31m-    <i className="ti ti-map"></i>[m
+[31m-  </div>[m
+[32m+[m[32m          <div[m
+[32m+[m[32m            className="service-card"[m
+[32m+[m[32m            onClick={() => setActivePage("spots")}[m
+[32m+[m[32m          >[m
+[32m+[m[32m            <div className="service-icon red">[m
+[32m+[m[32m              <i className="ti ti-map"></i>[m
+[32m+[m[32m            </div>[m
+ [m
+[31m-  <span>Tourist Spots</span>[m
+[31m-</div>[m
+[32m+[m[32m            <span>Tourist Spots</span>[m
+[32m+[m[32m          </div>[m
+ [m
+           <div[m
+[31m-  className="service-card"[m
+[31m-  onClick={() => setActivePage("devotional")}[m
+[31m->[m
+[32m+[m[32m            className="service-card"[m
+[32m+[m[32m            onClick={() => setActivePage("devotional")}[m
+[32m+[m[32m          >[m
+             <div className="service-icon orange">[m
+               <i className="ti ti-music"></i>[m
+             </div>[m
+[36m@@ -653,16 +673,16 @@[m [mif (activePage === "ai") {[m
+           </div>[m
+ [m
+           <div[m
+[31m-  className="service-card"[m
+[31m-  onClick={() => setActivePage("donation")}[m
+[31m->[m
+[31m-  <div className="service-icon gold">[m
+[31m-    <i className="ti ti-heart-handshake"></i>[m
+[31m-  </div> [m
+[32m+[m[32m            className="service-card"[m
+[32m+[m[32m            onClick={() => setActivePage("donation")}[m
+[32m+[m[32m          >[m
+[32m+[m[32m            <div className="service-icon gold">[m
+[32m+[m[32m              <i className="ti ti-heart-handshake"></i>[m
+[32m+[m[32m            </div>[m
+ [m
+[31m-  <span>Donation</span>[m
+[31m-</div>[m
+[31m-{/* [m
+[32m+[m[32m            <span>Donation</span>[m
+[32m+[m[32m          </div>[m
+[32m+[m[32m          {/*[m[41m [m
+           <div className="service-card">[m
+             <div className="service-icon gray">[m
+               <i className="ti ti-history"></i>[m
+[36m@@ -672,9 +692,12 @@[m [mif (activePage === "ai") {[m
+ [m
+         </div>[m
+ [m
+[31m-        {/* TEMPLE STATUS */}[m
+[32m+[m
+[32m+[m
+[32m+[m
+         <div className="temple-card">[m
+ [m
+[32m+[m
+           <div className="temple-left">[m
+ [m
+             <div className="temple-title">[m
+[36m@@ -701,13 +724,19 @@[m [mif (activePage === "ai") {[m
+ [m
+           <div className="temple-right">[m
+ [m
+[31m-            <div className="status-badge open">[m
+[32m+[m[32m            <button[m
+[32m+[m[32m              className="status-badge open"[m
+[32m+[m[32m              onClick={handleTempleOpen}[m
+[32m+[m[32m            >[m
+               Open Now[m
+[31m-            </div>[m
+[32m+[m[32m            </button>[m
+ [m
+[31m-            <div className="status-badge moderate">[m
+[32m+[m[32m            <button[m
+[32m+[m[32m              className="status-badge moderate"[m
+[32m+[m[32m              onClick={handleCrowdStatus}[m
+[32m+[m[32m            >[m
+               Moderate[m
+[31m-            </div>[m
+[32m+[m[32m            </button>[m
+ [m
+           </div>[m
+ [m
+[36m@@ -777,11 +806,11 @@[m [mif (activePage === "ai") {[m
+         </div>[m
+ [m
+ [m
+[31m-      {renderBottomNav()}[m
+[32m+[m[32m        {renderBottomNav()}[m
+ [m
+[32m+[m[32m      </div>[m
+     </div>[m
+[31m-    </div>[m
+[31m-    [m
+[32m+[m
+   );[m
+ }[m
+ [m
+[1mdiff --git a/src/pages/CustomerComponent/DonationPage.jsx b/src/pages/CustomerComponent/DonationPage.jsx[m
+[1mindex af0a123..ee34320 100644[m
+[1m--- a/src/pages/CustomerComponent/DonationPage.jsx[m
+[1m+++ b/src/pages/CustomerComponent/DonationPage.jsx[m
+[36m@@ -1,5 +1,6 @@[m
+ import React, { useState } from "react";[m
+ import { openRazorpay } from "../../services/razorpay";[m
+[32m+[m[32mimport "../styles/donationpage.css";[m
+ [m
+ export default function DonationPage({ onBack }) {[m
+   const [showDonateSuccess, setShowDonateSuccess] = useState(false);[m
+[36m@@ -81,21 +82,32 @@[m [mconst handleDonate = (item) => {[m
+ };[m
+   return ([m
+     <div className="pilgrim-page">[m
+[31m-      <div className="hero-section">[m
+[31m-        <button[m
+[31m-          className="view-all-btn"[m
+[31m-          onClick={onBack}[m
+[31m-        >[m
+[31m-          ← Back[m
+[31m-        </button>[m
+[31m-[m
+[31m-        <h1>🙏 Donation Services</h1>[m
+[31m-[m
+[31m-        <p>[m
+[31m-          Support Ayodhya Dham development and help thousands of[m
+[31m-          devotees through your valuable contribution.[m
+[31m-        </p>[m
+[31m-      </div>[m
+[32m+[m[32m  <div className="hero-section">[m
+[32m+[m
+[32m+[m[32m  <div className="hero-content-row">[m
+[32m+[m
+[32m+[m[32m    <button[m
+[32m+[m[32m      className="view-all-btn"[m
+[32m+[m[32m      onClick={onBack}[m
+[32m+[m[32m    >[m
+[32m+[m[32m      ←[m
+[32m+[m[32m    </button>[m
+[32m+[m
+[32m+[m[32m    <div className="hero-text">[m
+[32m+[m
+[32m+[m[32m      <h1>Donation Services</h1>[m
+[32m+[m
+[32m+[m[32m      <p>[m
+[32m+[m[32m        Support Ayodhya Dham development and help[m
+[32m+[m[32m        thousands of devotees through your valuable[m
+[32m+[m[32m        contribution.[m
+[32m+[m[32m      </p>[m
+[32m+[m
+[32m+[m[32m    </div>[m
+[32m+[m
+[32m+[m[32m  </div>[m
+[32m+[m
+[32m+[m[32m</div>[m
+ [m
+       <div className="donation-grid">[m
+         {donations.map((item, index) => ([m
+[1mdiff --git a/src/pages/styles/Customer_dashboard.css b/src/pages/styles/Customer_dashboard.css[m
+[1mindex 1762de7..46994b9 100644[m
+[1m--- a/src/pages/styles/Customer_dashboard.css[m
+[1m+++ b/src/pages/styles/Customer_dashboard.css[m
+[36m@@ -193,77 +193,68 @@[m
+ .gold i { color: #eab308; }[m
+ .gray.service-icon { background: #f9fafb; border: none; }[m
+ .gray i { color: #6b7280; }[m
+[32m+[m[32m.temple-card{[m
+[32m+[m[32m  background:#fdf0df;[m
+[32m+[m[32m  border:1px solid #f0c58b;[m
+[32m+[m[32m  border-radius:18px;[m
+ [m
+[31m-/* TEMPLE CARD */[m
+[31m-.temple-card {[m
+[31m-  background: var(--temple-bg);[m
+[31m-  border-radius: 16px;[m
+[31m-  padding: 12px;[m
+[31m-  border: 1px solid #f5dbb8;[m
+[31m-  display: flex;[m
+[31m-  justify-content: space-between;[m
+[31m-  margin-bottom: 12px;[m
+[31m-  align-items: flex-start;[m
+[31m-}[m
+[32m+[m[32m  padding:15px 20px;[m
+ [m
+[31m-.temple-left {[m
+[31m-  display: flex;[m
+[31m-  flex-direction: column;[m
+[31m-  gap: 12px;[m
+[31m-}[m
+[32m+[m[32m  display:flex;[m
+[32m+[m[32m  justify-content:flex-start;   /* LEFT */[m
+[32m+[m[32m  align-items:flex-start;[m
+[32m+[m[32m  flex-wrap:wrap;[m
+ [m
+[31m-.temple-title {[m
+[31m-  font-size: 18px;[m
+[31m-  font-weight: 600;[m
+[31m-  color: var(--text-dark);[m
+[31m-  display: flex;[m
+[31m-  align-items: center;[m
+[31m-  gap: 10px;[m
+[32m+[m[32m  margin-bottom:15px;[m
+[32m+[m
+[32m+[m[32m  height:auto !important;[m
+[32m+[m[32m  min-height:auto !important;[m
+ }[m
+ [m
+[31m-.temple-title i {[m
+[31m-  color: #f57c00;[m
+[31m-  font-size: 20px;[m
+[32m+[m[32m.temple-left{[m
+[32m+[m[32m  display:flex;[m
+[32m+[m[32m  flex-direction:column;[m
+[32m+[m[32m  gap:8px;[m
+ }[m
+ [m
+[31m-.temple-info {[m
+[31m-  display: flex;[m
+[31m-  align-items: center;[m
+[31m-  gap: 10px;[m
+[31m-  font-size: 14px;[m
+[31m-  color: var(--text-dark);[m
+[32m+[m[32m.temple-right{[m
+[32m+[m[32m  display:flex;[m
+[32m+[m[32m  flex-direction:row;[m
+[32m+[m[32m  gap:15px;[m
+[32m+[m[32m  align-items:center;[m
+ }[m
+ [m
+[31m-.temple-info i {[m
+[31m-  color: #f57c00;[m
+[31m-  font-size: 16px;[m
+[31m-  width: 20px;[m
+[31m-  text-align: center;[m
+[32m+[m[32m.temple-title{[m
+[32m+[m[32m  font-size:22px;[m
+[32m+[m[32m  font-weight:700;[m
+[32m+[m[32m  margin-bottom:6px;[m
+ }[m
+ [m
+[31m-.temple-right {[m
+[31m-  display: flex;[m
+[31m-  flex-direction: column;[m
+[31m-  gap: 4px;[m
+[31m-  align-items: flex-end;[m
+[32m+[m[32m.temple-info{[m
+[32m+[m[32m  display:flex;[m
+[32m+[m[32m  align-items:center;[m
+[32m+[m[32m  gap:8px;[m
+[32m+[m[32m  font-size:14px;[m
+ }[m
+ [m
+[31m-.status-badge {[m
+[31m-  padding: 6px 16px;[m
+[31m-  border-radius: 20px;[m
+[31m-  font-weight: 600;[m
+[31m-  font-size: 12px;[m
+[32m+[m[32m.status-badge{[m
+[32m+[m[32m  margin-top:6px;[m
+[32m+[m[32m  padding:8px 16px;[m
+[32m+[m[32m  border-radius:22px;[m
+[32m+[m[32m  font-size:13px;[m
+[32m+[m[32m  font-weight:600;[m
+[32m+[m[32m  cursor:pointer;[m
+ }[m
+ [m
+[31m-.open {[m
+[31m-  background: #10b981;[m
+[31m-  color: #fff;[m
+[32m+[m[32m.status-badge.open{[m
+[32m+[m[32m  background:#10b981;[m
+[32m+[m[32m  color:#fff;[m
+ }[m
+ [m
+[31m-.moderate {[m
+[31m-  border: 1px solid #f59e0b;[m
+[31m-  color: #d97706;[m
+[31m-  background: transparent;[m
+[32m+[m[32m.status-badge.moderate{[m
+[32m+[m[32m  background:#fff;[m
+[32m+[m[32m  color:#d97706;[m
+[32m+[m[32m  border:1px solid #f59e0b;[m
+ }[m
+ [m
+ /* SECTION ROW */[m
+[36m@@ -326,6 +317,23 @@[m
+   gap: 16px;[m
+ }[m
+ [m
+[32m+[m[32m.logout-btn {[m
+[32m+[m[32m  margin-left: auto;[m
+[32m+[m[32m  background: #dc2626;[m
+[32m+[m[32m  color: #fff;[m
+[32m+[m[32m  border: none;[m
+[32m+[m[32m  padding: 10px 18px;[m
+[32m+[m[32m  border-radius: 8px;[m
+[32m+[m[32m  cursor: pointer;[m
+[32m+[m[32m  font-weight: 600;[m
+[32m+[m[32m  transition: 0.3s;[m
+[32m+[m[32m  margin-bottom: 70px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.logout-btn:hover {[m
+[32m+[m[32m  background: #b91c1c;[m
+[32m+[m[32m}[m
+[32m+[m
+ .booking-icon {[m
+   width: 48px;[m
+   height: 48px;[m
+[36m@@ -772,7 +780,7 @@[m
+     padding: 24px;[m
+   }[m
+   .pilgrim-content {[m
+[31m-    padding: 24px;[m
+[32m+[m[32m    padding: 44px;[m
+   }[m
+   .services-grid {[m
+     grid-template-columns: repeat(4, 1fr);[m
+[36m@@ -864,6 +872,26 @@[m
+     line-height: 1.45;[m
+   }[m
+ [m
+[32m+[m
+[32m+[m[32m    .temple-card{[m
+[32m+[m[32m    flex-direction:column;[m
+[32m+[m[32m    align-items:flex-start;[m
+[32m+[m[32m    gap:15px;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  .temple-right{[m
+[32m+[m[32m    width:100%;[m
+[32m+[m[32m    justify-content:flex-start;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  .temple-title{[m
+[32m+[m[32m    font-size:22px;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  .temple-info{[m
+[32m+[m[32m    font-size:14px;[m
+[32m+[m[32m  }[m
+[32m+[m
+   .status-badge {[m
+     font-size: 11px;[m
+     padding: 6px 12px;[m
+[1mdiff --git a/src/pages/styles/donationpage.css b/src/pages/styles/donationpage.css[m
+[1mnew file mode 100644[m
+[1mindex 0000000..23fcfc9[m
+[1m--- /dev/null[m
+[1m+++ b/src/pages/styles/donationpage.css[m
+[36m@@ -0,0 +1,241 @@[m
+[32m+[m[32m/* =====================================[m
+[32m+[m[32m   PAGE[m
+[32m+[m[32m===================================== */[m
+[32m+[m
+[32m+[m[32m.pilgrim-page {[m
+[32m+[m[32m  min-height: 100vh;[m
+[32m+[m[32m  background: #f8f5ef;[m
+[32m+[m[32m  padding: 15px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m/* =====================================[m
+[32m+[m[32m   HERO SECTION[m
+[32m+[m[32m===================================== */[m
+[32m+[m
+[32m+[m[32m.hero-section {[m
+[32m+[m[32m  max-width: 1150px;[m
+[32m+[m[32m  margin: 0 auto 30px;[m
+[32m+[m
+[32m+[m[32m  background: linear-gradient([m
+[32m+[m[32m    135deg,[m
+[32m+[m[32m    #ff8a00,[m
+[32m+[m[32m    #ff6b00[m
+[32m+[m[32m  );[m
+[32m+[m
+[32m+[m[32m  border-radius: 24px;[m
+[32m+[m
+[32m+[m[32m  padding: 22px 35px;[m
+[32m+[m
+[32m+[m[32m  min-height: auto !important;[m
+[32m+[m[32m  height: auto !important;[m
+[32m+[m
+[32m+[m[32m  position: relative;[m
+[32m+[m
+[32m+[m[32m  overflow: hidden;[m
+[32m+[m
+[32m+[m[32m  text-align: left;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.hero-section::before {[m
+[32m+[m[32m  content: "ॐ";[m
+[32m+[m
+[32m+[m[32m  position: absolute;[m
+[32m+[m
+[32m+[m[32m  right: 30px;[m
+[32m+[m[32m  top: 5px;[m
+[32m+[m
+[32m+[m[32m  font-size: 90px;[m
+[32m+[m
+[32m+[m[32m  opacity: .08;[m
+[32m+[m
+[32m+[m[32m  color: white;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.hero-top {[m
+[32m+[m[32m  display: flex;[m
+[32m+[m[32m  align-items: center;[m
+[32m+[m[32m  gap: 18px;[m
+[32m+[m[32m  margin-bottom: 10px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.view-all-btn {[m
+[32m+[m[32m  border: none;[m
+[32m+[m
+[32m+[m[32m  background: rgba(255,255,255,.18);[m
+[32m+[m
+[32m+[m[32m  color: white;[m
+[32m+[m
+[32m+[m[32m  padding: 8px 14px;[m
+[32m+[m
+[32m+[m[32m  border-radius: 10px;[m
+[32m+[m
+[32m+[m[32m  cursor: pointer;[m
+[32m+[m
+[32m+[m[32m  font-size: 14px;[m
+[32m+[m
+[32m+[m[32m  font-weight: 600;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.hero-content-row{[m
+[32m+[m[32m  display:flex;[m
+[32m+[m[32m  align-items:flex-start;[m
+[32m+[m[32m  gap:20px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.hero-text{[m
+[32m+[m[32m  flex:1;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.hero-text h1{[m
+[32m+[m[32m  margin:0 0 10px;[m
+[32m+[m[32m  color:white;[m
+[32m+[m[32m  font-size:3rem;[m
+[32m+[m[32m  font-weight:800;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.hero-text p{[m
+[32m+[m[32m  margin:0;[m
+[32m+[m[32m  color:white;[m
+[32m+[m[32m  font-size:16px;[m
+[32m+[m[32m  line-height:1.7;[m
+[32m+[m[32m  max-width:800px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.view-all-btn{[m
+[32m+[m[32m  min-width:60px;[m
+[32m+[m[32m  height:56px;[m
+[32m+[m
+[32m+[m[32m  border:none;[m
+[32m+[m
+[32m+[m[32m  border-radius:14px;[m
+[32m+[m
+[32m+[m[32m  background:rgba(255,255,255,.15);[m
+[32m+[m
+[32m+[m[32m  color:white;[m
+[32m+[m
+[32m+[m[32m  cursor:pointer;[m
+[32m+[m
+[32m+[m[32m  font-size:22px;[m
+[32m+[m
+[32m+[m[32m  flex-shrink:0;[m
+[32m+[m[32m}[m
+[32m+[m[32m.hero-section h1 {[m
+[32m+[m[32m  margin: 0;[m
+[32m+[m
+[32m+[m[32m  color: white;[m
+[32m+[m
+[32m+[m[32m  font-size: 2.5rem;[m
+[32m+[m
+[32m+[m[32m  line-height: 1.1;[m
+[32m+[m
+[32m+[m[32m  font-weight: 800;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.hero-section p {[m
+[32m+[m[32m  margin: 0;[m
+[32m+[m
+[32m+[m[32m  max-width: 700px;[m
+[32m+[m
+[32m+[m[32m  color: rgba(255,255,255,.95);[m
+[32m+[m
+[32m+[m[32m  font-size: 15px;[m
+[32m+[m
+[32m+[m[32m  line-height: 1.7;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m/* =====================================[m
+[32m+[m[32m   CARDS[m
+[32m+[m[32m===================================== */[m
+[32m+[m
+[32m+[m[32m.donation-grid {[m
+[32m+[m[32m  max-width: 1200px;[m
+[32m+[m[32m  margin: auto;[m
+[32m+[m
+[32m+[m[32m  display: grid;[m
+[32m+[m
+[32m+[m[32m  grid-template-columns:[m
+[32m+[m[32m    repeat(auto-fit, minmax(300px, 1fr));[m
+[32m+[m
+[32m+[m[32m  gap: 20px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.donation-card {[m
+[32m+[m[32m  background: white;[m
+[32m+[m
+[32m+[m[32m  border-radius: 20px;[m
+[32m+[m
+[32m+[m[32m  padding: 22px;[m
+[32m+[m
+[32m+[m[32m  box-shadow:[m
+[32m+[m[32m    0 8px 20px rgba(0,0,0,.08);[m
+[32m+[m
+[32m+[m[32m  transition: .3s;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.donation-card:hover {[m
+[32m+[m[32m  transform: translateY(-5px);[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.donation-icon {[m
+[32m+[m[32m  font-size: 48px;[m
+[32m+[m[32m  margin-bottom: 10px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.donation-card h3 {[m
+[32m+[m[32m  font-size: 24px;[m
+[32m+[m[32m  margin-bottom: 10px;[m
+[32m+[m[32m  color: #d35400;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.donation-card p {[m
+[32m+[m[32m  font-size: 15px;[m
+[32m+[m[32m  line-height: 1.6;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m/* =====================================[m
+[32m+[m[32m   MOBILE[m
+[32m+[m[32m===================================== */[m
+[32m+[m
+[32m+[m[32m@media (max-width: 768px){[m
+[32m+[m
+[32m+[m[32m  .hero-section{[m
+[32m+[m[32m    padding:18px;[m
+[32m+[m[32m    border-radius:20px;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  .hero-content-row{[m
+[32m+[m[32m    display:flex;[m
+[32m+[m[32m    flex-direction:column;[m
+[32m+[m[32m    align-items:flex-start;[m
+[32m+[m[32m    gap:12px;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  .view-all-btn{[m
+[32m+[m[32m    width:45px;[m
+[32m+[m[32m    height:45px;[m
+[32m+[m[32m    min-width:45px;[m
+[32m+[m[32m    font-size:18px;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  .hero-text{[m
+[32m+[m[32m    width:100%;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  .hero-text h1{[m
+[32m+[m[32m    font-size:1.7rem;[m
+[32m+[m[32m    line-height:1.3;[m
+[32m+[m[32m    margin-bottom:8px;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  .hero-text p{[m
+[32m+[m[32m    font-size:13px;[m
+[32m+[m[32m    line-height:1.6;[m
+[32m+[m[32m    max-width:100%;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  .hero-section::before,[m
+[32m+[m[32m  .hero-om{[m
+[32m+[m[32m    display:none;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m}[m
+\ No newline at end of file[m

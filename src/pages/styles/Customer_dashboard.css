@@ -193,77 +193,68 @@
 .gold i { color: #eab308; }
 .gray.service-icon { background: #f9fafb; border: none; }
 .gray i { color: #6b7280; }
+.temple-card{
+  background:#fdf0df;
+  border:1px solid #f0c58b;
+  border-radius:18px;
 
-/* TEMPLE CARD */
-.temple-card {
-  background: var(--temple-bg);
-  border-radius: 16px;
-  padding: 12px;
-  border: 1px solid #f5dbb8;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  align-items: flex-start;
+  padding:15px 20px;
+
+  display:flex;
+  justify-content:flex-start;   /* LEFT */
+  align-items:flex-start;
+  flex-wrap:wrap;
+
+  margin-bottom:15px;
+
+  height:auto !important;
+  min-height:auto !important;
 }
 
-.temple-left {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.temple-left{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
 
-.temple-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-dark);
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.temple-right{
+  display:flex;
+  flex-direction:row;
+  gap:15px;
+  align-items:center;
 }
 
-.temple-title i {
-  color: #f57c00;
-  font-size: 20px;
+.temple-title{
+  font-size:22px;
+  font-weight:700;
+  margin-bottom:6px;
 }
 
-.temple-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  color: var(--text-dark);
+.temple-info{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
 }
 
-.temple-info i {
-  color: #f57c00;
-  font-size: 16px;
-  width: 20px;
-  text-align: center;
+.status-badge{
+  margin-top:6px;
+  padding:8px 16px;
+  border-radius:22px;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
 }
 
-.temple-right {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: flex-end;
+.status-badge.open{
+  background:#10b981;
+  color:#fff;
 }
 
-.status-badge {
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-weight: 600;
-  font-size: 12px;
-}
-
-.open {
-  background: #10b981;
-  color: #fff;
-}
-
-.moderate {
-  border: 1px solid #f59e0b;
-  color: #d97706;
-  background: transparent;
+.status-badge.moderate{
+  background:#fff;
+  color:#d97706;
+  border:1px solid #f59e0b;
 }
 
 /* SECTION ROW */
@@ -324,6 +315,23 @@
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+.logout-btn {
+  margin-left: auto;
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+  margin-bottom: 70px;
+}
+
+.logout-btn:hover {
+  background: #b91c1c;
 }
 
 .booking-icon {
@@ -772,7 +780,7 @@
     padding: 24px;
   }
   .pilgrim-content {
-    padding: 24px;
+    padding: 44px;
   }
   .services-grid {
     grid-template-columns: repeat(4, 1fr);
@@ -862,6 +870,26 @@
   .booking-card p {
     font-size: 13px;
     line-height: 1.45;
+  }
+
+
+    .temple-card{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:15px;
+  }
+
+  .temple-right{
+    width:100%;
+    justify-content:flex-start;
+  }
+
+  .temple-title{
+    font-size:22px;
+  }
+
+  .temple-info{
+    font-size:14px;
   }
 
   .status-badge {
