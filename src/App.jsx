@@ -86,8 +86,11 @@ const TITLES = {
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
 export default function App() {
-  // "landing" | "login" | "register" | "app"
-  const [screen, setScreen] = useState("landing");
+const [screen, setScreen] = useState("landing");
+
+useEffect(() => {
+  localStorage.setItem("screen", screen);
+}, [screen]);
 
 useEffect(() => {
 
@@ -98,8 +101,13 @@ useEffect(() => {
   }
 
 }, []);
+const [active, setActive] = useState(
+  localStorage.getItem("activeMenu") || "dashboard"
+);
+useEffect(() => {
+  localStorage.setItem("activeMenu", active);
+}, [active]);
 
-  const [active, setActive] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 const [activePage] = useState("home");
 
@@ -399,8 +407,9 @@ if (screen === "customerRegister") {
           {/* Logout */}
           <button
             title="Logout"
-            // onClick={() => { setScreen("login"); setActive("dashboard"); }}
-            onClick={() => {
+          onClick={() => {
+  localStorage.removeItem("screen");
+  localStorage.removeItem("activeMenu");
   setScreen("customerLogin");
   setActive("dashboard");
 }}
