@@ -81,33 +81,52 @@ export default function GuideBooking({ onBack }) {
       : guides.filter((guide) =>
           guide.languages.includes(selectedLang)
         );
+const handleBooking = async () => {
+  if (
+    !bookingData.name ||
+    !bookingData.phone ||
+    !bookingData.date ||
+    !bookingData.people
+  ) {
+    alert("Please fill all details");
+    return;
+  }
 
-  const handleBooking = () => {
+  const options = {
+    key: "rzp_test_SzZpFgmKbp4uK3", // Test Key
 
-    if (
-      !bookingData.name ||
-      !bookingData.phone ||
-      !bookingData.date ||
-      !bookingData.people
-    ) {
-      alert("Please fill all details");
-      return;
-    }
+    amount: 50000, // ₹500 = 500 * 100
 
-    alert(
-      `${selectedGuide.name} booked successfully`
-    );
+    currency: "INR",
 
-    setSelectedGuide(null);
+    name: "Ram Janmabhoomi Temple",
 
-    setBookingData({
-      name: "",
-      phone: "",
-      date: "",
-      people: "",
-    });
+    description: `Guide Booking - ${selectedGuide.name}`,
+
+    handler: function (response) {
+
+      alert(
+        "Payment Successful\nPayment ID: " +
+          response.razorpay_payment_id
+      );
+
+      setSelectedGuide(null);
+    },
+
+    prefill: {
+      name: bookingData.name,
+      contact: bookingData.phone,
+    },
+
+    theme: {
+      color: "#ff9933",
+    },
   };
 
+  const paymentObject = new window.Razorpay(options);
+
+  paymentObject.open();
+};
   return (
     <div className="guide-page">
 

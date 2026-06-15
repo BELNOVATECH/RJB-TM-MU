@@ -7,6 +7,12 @@
   font-family:'Poppins',sans-serif;
 }
 
+.razorpay-container,
+.razorpay-backdrop,
+.razorpay-checkout-frame {
+  z-index: 999999 !important;
+}
+
 body{
   background:#fffaf7;
   overflow-x:hidden;
@@ -875,7 +881,7 @@ body{
 
   padding:30px 14px;
 
-  z-index:99999;
+  z-index:1000;
 }
 
 /* =========================
@@ -885,7 +891,7 @@ body{
 .booking-modal{
   width:100%;
   max-width:520px;
-
+  z-index:1001;
   background:rgba(255,255,255,.96);
 
   backdrop-filter:blur(20px);
