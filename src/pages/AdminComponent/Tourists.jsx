@@ -6,6 +6,31 @@ import "../styles/Tourists.css";
 
 const INITIAL_TOURISTS = [
   {
+    initials: "AS", name: "Aman Singh", phone: "+91 99887 76655",
+    from: "Lucknow, UP", checkin: "15 Jun 2026", group: "Family Â· 4",
+    services: ["Pooja", "Vehicle"], status: "Active", statusCls: "badge-green",
+  },
+  {
+    initials: "NG", name: "Neha Gupta", phone: "+91 99887 76656",
+    from: "Kanpur, UP", checkin: "16 Jun 2026", group: "Couple Â· 2",
+    services: ["Cottage"], status: "Checked In", statusCls: "badge-blue",
+  },
+  {
+    initials: "IR", name: "Imran Raza", phone: "+91 99887 76657",
+    from: "Delhi, DL", checkin: "18 Jun 2026", group: "Group Â· 8",
+    services: ["Guide", "Bus"], status: "Upcoming", statusCls: "badge-amber",
+  },
+  {
+    initials: "PV", name: "Pooja Verma", phone: "+91 99887 76658",
+    from: "Jaipur, RJ", checkin: "23 Jun 2026", group: "Family Â· 5",
+    services: ["Pooja", "Vehicle"], status: "Active", statusCls: "badge-green",
+  },
+  {
+    initials: "KS", name: "Kartik Sinha", phone: "+91 99887 76659",
+    from: "Patna, BR", checkin: "28 Jun 2026", group: "Solo Â· 1",
+    services: ["Cottage"], status: "Checked In", statusCls: "badge-blue",
+  },
+  {
     initials: "RM", name: "Ramesh Mishra", phone: "+91 98765 43210",
     from: "Varanasi, UP", checkin: "14 May 2026", group: "Family · 4",
     services: ["Pooja", "Vehicle"], status: "Active", statusCls: "badge-green",
@@ -107,45 +132,7 @@ const INITIAL_TOURISTS = [
 //   },
 // ];
 
-const GROUP_BOOKINGS_DATA = [
-  {
-    group: "Family Group",
-    members: 12,
-    vehicle: "Mini Bus",
-    guide: "Arjun Das",
-    status: "Confirmed",
-  },
-  {
-  group: "Corporate Tour",
-  members: 15,
-  vehicle: "Traveller",
-  guide: "Kiran Joshi",
-  status: "Confirmed",
-},
 
-{
-  group: "Devotional Trip",
-  members: 25,
-  vehicle: "Luxury Bus",
-  guide: "Mahesh Rao",
-  status: "Pending",
-},
-
-{
-  group: "Family Vacation",
-  members: 10,
-  vehicle: "SUV",
-  guide: "Sneha Iyer",
-  status: "Confirmed",
-},
-  {
-    group: "Temple Tour",
-    members: 20,
-    vehicle: "Luxury Bus",
-    guide: "Ravi Kumar",
-    status: "Pending",
-  },
-];
 
 const SERVICE_COLORS = {
   Pooja: { bg: "#fef9c3", color: "#b5860d" },
@@ -155,8 +142,29 @@ const SERVICE_COLORS = {
   Bus: { bg: "#fee2e2", color: "#b91c1c" },
 };
 
-const TABS = ["All Tourists", "Tour Guides", "Group Bookings"];
+const TABS = ["All Tourists"];
 const STATUS_OPTIONS = ["Active", "Checked In", "Upcoming"];
+const PERIOD_OPTIONS = [
+  { value: "daily", label: "Today" },
+  { value: "weekly", label: "This Week" },
+  { value: "monthly", label: "This Month" },
+  { value: "yearly", label: "This Year" },
+];
+
+const MONTH_LOOKUP = {
+  january: 0,
+  february: 1,
+  march: 2,
+  april: 3,
+  may: 4,
+  june: 5,
+  july: 6,
+  august: 7,
+  september: 8,
+  october: 9,
+  november: 10,
+  december: 11,
+};
 
 const STATUS_CLS_MAP = {
   Active: "badge-green",
@@ -173,6 +181,72 @@ const EMPTY_FORM = {
   services: "",
   status: "Active",
 };
+
+function parseCheckinDate(value) {
+  if (!value) return null;
+
+  const normalized = String(value).replace(/\s+/g, " ").trim();
+  const match = normalized.match(/^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})$/);
+
+  if (match) {
+    const day = Number(match[1]);
+    const month = MONTH_LOOKUP[match[2].toLowerCase()];
+    const year = Number(match[3]);
+
+    if (month !== undefined && Number.isFinite(day) && Number.isFinite(year)) {
+      const date = new Date(year, month, day);
+      date.setHours(0, 0, 0, 0);
+      return date;
+    }
+  }
+
+  const fallback = new Date(normalized);
+  if (Number.isNaN(fallback.getTime())) return null;
+  fallback.setHours(0, 0, 0, 0);
+  return fallback;
+}
+
+function getPeriodBounds(period, now = new Date()) {
+  const current = new Date(now);
+  current.setHours(0, 0, 0, 0);
+
+  if (period === "daily") {
+    const end = new Date(current);
+    end.setDate(end.getDate() + 1);
+    return { start: current, end };
+  }
+
+  if (period === "weekly") {
+    const start = new Date(current);
+    const dayIndex = (start.getDay() + 6) % 7;
+    start.setDate(start.getDate() - dayIndex);
+    const end = new Date(start);
+    end.setDate(end.getDate() + 7);
+    return { start, end };
+  }
+
+  if (period === "monthly") {
+    const start = new Date(current.getFullYear(), current.getMonth(), 1);
+    const end = new Date(current.getFullYear(), current.getMonth() + 1, 1);
+    return { start, end };
+  }
+
+  const start = new Date(current.getFullYear(), 0, 1);
+  const end = new Date(current.getFullYear() + 1, 0, 1);
+  return { start, end };
+}
+
+function getPeriodLabel(period) {
+  return PERIOD_OPTIONS.find((item) => item.value === period)?.label || "Today";
+}
+
+function isTouristInPeriod(checkinValue, period, now = new Date()) {
+  const checkinDate = parseCheckinDate(checkinValue);
+  if (!checkinDate) return false;
+
+  const { start, end } = getPeriodBounds(period, now);
+  return checkinDate >= start && checkinDate < end;
+}
 function AddTouristModal({ onClose, onSave }) {
   const [form, setForm] = useState(EMPTY_FORM);
   const [, setErrors] = useState({});
@@ -442,50 +516,58 @@ const modal = (
 function TouristEditModal({
   onClose,
   editData,
+  onUpdate,
 }) {
-
-const [form, setForm] = useState({
+  const [form, setForm] = useState({
     name: editData?.name || "",
     phone: editData?.phone || "",
     from: editData?.from || "",
     checkin: editData?.checkin || "",
     group: editData?.group || "",
+    services: editData?.services?.join(", ") || "",
     status: editData?.status || "",
   });
 
+  const handleUpdate = () => {
+    const initials = form.name
+      .split(" ")
+      .map((w) => w[0])
+      .join("")
+      .toUpperCase();
+
+    onUpdate({
+      initials,
+      name: form.name,
+      phone: form.phone,
+      from: form.from,
+      checkin: form.checkin,
+      group: form.group,
+      services: form.services
+        ? form.services.split(",").map((s) => s.trim())
+        : [],
+      status: form.status,
+      statusCls: STATUS_CLS_MAP[form.status],
+    });
+  };
+
   return createPortal(
-
-    <div
-      className="common-modal-overlay"
-      onMouseDown={onClose}
-    >
-
-      <div
-        className="common-modal"
-        onMouseDown={(e) => e.stopPropagation()}
-      >
-
+    <div className="common-modal-overlay" onMouseDown={onClose}>
+      <div className="common-modal" onMouseDown={(e) => e.stopPropagation()}>
         <div className="common-modal-header">
-
           <div>
             <h2>Edit Tourist</h2>
             <p>Update tourist details</p>
           </div>
 
-          <button
-            className="common-close-btn"
-            onClick={onClose}
-          >
+          <button className="common-close-btn" onClick={onClose}>
             ×
           </button>
-
         </div>
 
         <div className="common-divider" />
 
         <div className="common-grid">
-
-          <div>
+          <div style={{ gridColumn: "1 / -1" }}>
             <label>Name</label>
 
             <input
@@ -555,10 +637,25 @@ const [form, setForm] = useState({
             />
           </div>
 
+          <div style={{ gridColumn: "1 / -1" }}>
+            <label>Services</label>
+
+            <input
+              value={form.services}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  services: e.target.value,
+                })
+              }
+              placeholder="e.g. Pooja, Vehicle, Cottage"
+            />
+          </div>
+
           <div>
             <label>Status</label>
 
-            <input
+            <select
               value={form.status}
               onChange={(e) =>
                 setForm({
@@ -566,309 +663,41 @@ const [form, setForm] = useState({
                   status: e.target.value,
                 })
               }
-            />
+            >
+              {STATUS_OPTIONS.map((s) => (
+                <option key={s}>{s}</option>
+              ))}
+            </select>
           </div>
-
         </div>
 
         <div className="common-divider common-divider-footer" />
 
         <div className="common-footer">
-
-          <button
-            className="common-cancel-btn"
-            onClick={onClose}
-          >
+          <button className="common-cancel-btn" onClick={onClose}>
             Cancel
           </button>
 
-          <button className="common-save-btn">
+          <button className="common-save-btn" onClick={handleUpdate}>
             Update Tourist
           </button>
-
         </div>
-
       </div>
-
     </div>,
-
-    document.body
-  );
-}
-function GuideEditModal({
-  onClose,
-  editData,
-}) {
-
-  const [form] = useState({
-    name: editData?.name || "",
-    phone: editData?.phone || "",
-    language: editData?.language || "",
-    experience: editData?.experience || "",
-    status: editData?.status || "",
-  });
-
-  return createPortal(
-
-    <div
-      className="common-modal-overlay"
-      onMouseDown={onClose}
-    >
-
-      <div
-        className="common-modal"
-        onMouseDown={(e) => e.stopPropagation()}
-      >
-
-        <div className="common-modal-header">
-
-          <div>
-            <h2>Edit Guide</h2>
-            <p>Update guide details</p>
-          </div>
-
-          <button
-            className="common-close-btn"
-            onClick={onClose}
-          >
-            ×
-          </button>
-
-        </div>
-
-        <div className="common-divider" />
-
-        <div className="common-grid">
-
-          <div>
-            <label>Name</label>
-            <input value={form.name} />
-          </div>
-
-          <div>
-            <label>Phone</label>
-            <input value={form.phone} />
-          </div>
-
-          <div>
-            <label>Languages</label>
-            <input value={form.language} />
-          </div>
-
-          <div>
-            <label>Experience</label>
-            <input value={form.experience} />
-          </div>
-
-          <div>
-            <label>Status</label>
-            <input value={form.status} />
-          </div>
-
-        </div>
-
-        <div className="common-divider common-divider-footer" />
-
-        <div className="common-footer">
-
-          <button
-            className="common-cancel-btn"
-            onClick={onClose}
-          >
-            Cancel
-          </button>
-
-          <button className="common-save-btn">
-            Update Guide
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>,
-
-    document.body
-  );
-}
-function GroupBookingEditModal({
-  onClose,
-  editData,
-}) {
-
-  const [form] = useState({
-    group: editData?.group || "",
-    members: editData?.members || "",
-    vehicle: editData?.vehicle || "",
-    guide: editData?.guide || "",
-    status: editData?.status || "",
-  });
-
-  return createPortal(
-
-    <div
-      className="common-modal-overlay"
-      onMouseDown={onClose}
-    >
-
-      <div
-        className="common-modal"
-        onMouseDown={(e) => e.stopPropagation()}
-      >
-
-        <div className="common-modal-header">
-
-          <div>
-            <h2>Edit Booking</h2>
-            <p>Update booking details</p>
-          </div>
-
-          <button
-            className="common-close-btn"
-            onClick={onClose}
-          >
-            ×
-          </button>
-
-        </div>
-
-        <div className="common-divider" />
-
-        <div className="common-grid">
-
-          <div>
-            <label>Group</label>
-            <input value={form.group} />
-          </div>
-
-          <div>
-            <label>Members</label>
-            <input value={form.members} />
-          </div>
-
-          <div>
-            <label>Vehicle</label>
-            <input value={form.vehicle} />
-          </div>
-
-          <div>
-            <label>Guide</label>
-            <input value={form.guide} />
-          </div>
-
-          <div>
-            <label>Status</label>
-            <input value={form.status} />
-          </div>
-
-        </div>
-
-        <div className="common-divider common-divider-footer" />
-
-        <div className="common-footer">
-
-          <button
-            className="common-cancel-btn"
-            onClick={onClose}
-          >
-            Cancel
-          </button>
-
-          <button className="common-save-btn">
-            Update Booking
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>,
-
     document.body
   );
 }
 export default function Tourists() {
-  useEffect(() => {
-
-  const registeredGuides =
-    JSON.parse(
-      
-      localStorage.getItem(
-        "tourGuideRegistrations"
-      )
-    ) || [];
-
-  const defaultGuides = [
-
-    {
-      name: "Arjun Das",
-      phone: "+91 9000011111",
-      language: "Hindi, English",
-      experience: "5 Years",
-      status: "Active",
-    },
-
-    {
-      name: "Kiran Joshi",
-      phone: "+91 9000033333",
-      language: "Hindi, Telugu",
-      experience: "4 Years",
-      status: "Active",
-    },
-
-  ];
-
-  const finalGuides = [
-
-    ...defaultGuides,
-
-    ...registeredGuides.map(
-      (guide) => ({
-
-        name:
-          guide.fullName ||
-          guide.name ||
-          "Guide",
-
-        phone:
-          guide.phone ||
-          "+91",
-
-        language:
-          guide.languages ||
-          "Hindi",
-
-        experience:
-          guide.experience ||
-          "1 Year",
-
-        status: "Active",
-
-      })
-    ),
-
-  ];
-
-  setTourGuides(finalGuides);
-
-}, []);
-
-  const [activeTab, setActiveTab] = useState(0);
   
+
   const [tourists, setTourists] = useState(INITIAL_TOURISTS);
-  const [tourGuides, setTourGuides] =useState([]);
-  // const [tourGuides, setTourGuides] = useState(TOUR_GUIDES_DATA);
   const [editData, setEditData] = useState(null);
-
-const [editType, setEditType] = useState("");
-
-const [groupBookings, setGroupBookings] =
-  useState(GROUP_BOOKINGS_DATA);
   
-const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-const [searchTerm, setSearchTerm] = useState("");
-const [filterActive, setFilterActive] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [periodFilter, setPeriodFilter] = useState("daily");
+  const [showPeriodMenu, setShowPeriodMenu] = useState(false);
 
 const handleSave = (newTourist) => {
   setTourists((prev) => [newTourist, ...prev]);
@@ -881,22 +710,20 @@ const handleDelete = (phone) => {
     prev.filter((t) => t.phone !== phone)
   );
 };
-const handleDeleteGuide = (phone) => {
-  setTourGuides((prev) =>
-    prev.filter((g) => g.phone !== phone)
-  );
-};
 
-const handleDeleteBooking = (group) => {
-  setGroupBookings((prev) =>
-    prev.filter((g) => g.group !== group)
-  );
-};
-
-const handleEdit = (data, type) => {
+const handleEdit = (data) => {
   setEditData(data);
-  setEditType(type);
   setShowModal(true);
+};
+
+const handleUpdate = (updatedTourist) => {
+  setTourists((prev) =>
+    prev.map((t) =>
+      t.phone === editData.phone ? { ...updatedTourist, phone: t.phone } : t
+    )
+  );
+  setShowModal(false);
+  setEditData(null);
 };
 
 const filteredTourists = tourists.filter((t) => {
@@ -905,37 +732,14 @@ const filteredTourists = tourists.filter((t) => {
     t.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
     t.from.toLowerCase().includes(searchTerm.toLowerCase());
 
-  const matchesFilter =
-    !filterActive || t.status === "Active";
+  const matchesFilter = isTouristInPeriod(t.checkin, periodFilter);
 
   return matchesSearch && matchesFilter;
 });
 
-const filteredGuides = tourGuides.filter((g) => {
-  const matchesSearch =
-    g.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    g.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    g.language.toLowerCase().includes(searchTerm.toLowerCase());
+const touristsInPeriod = tourists.filter((t) => isTouristInPeriod(t.checkin, periodFilter)).length;
 
-  const matchesFilter =
-    !filterActive || g.status === "Active";
-
-  return matchesSearch && matchesFilter;
-});
-
-const filteredBookings = groupBookings.filter((g) => {
-  const matchesSearch =
-    g.group.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    g.vehicle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    g.guide.toLowerCase().includes(searchTerm.toLowerCase());
-
-  const matchesFilter =
-    !filterActive || g.status === "Confirmed";
-
-  return matchesSearch && matchesFilter;
-});
-
-const handleExport = () => {
+  const handleExport = () => {
   const data = JSON.stringify(tourists, null, 2);
 
   const blob = new Blob([data], {
@@ -952,9 +756,16 @@ const handleExport = () => {
   URL.revokeObjectURL(url);
 };
 
-const handleFilter = () => {
-  setFilterActive((prev) => !prev);
-};
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (!event.target.closest(".tourist-filter-wrap")) {
+      setShowPeriodMenu(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => document.removeEventListener("mousedown", handleClickOutside);
+}, []);
   return (
     <div className="tourist-page">
       {/* KPI Row */}
@@ -972,16 +783,9 @@ const handleFilter = () => {
           <div className="kpi-icon" style={{ background: "#dbeafe" }}>
             <i className="ti ti-map-pin" style={{ color: "#1d4ed8" }} />
           </div>
-          <div className="kpi-label">Currently Visiting</div>
-          <div className="kpi-value">
-  {
-    tourists.filter(
-      (t) =>
-        t.status === "Active" ||
-        t.status === "Checked In"
-    ).length
-  }
-</div>
+          <div className="kpi-label">{getPeriodLabel(periodFilter)}</div>
+          <div className="kpi-value">{touristsInPeriod}</div>
+          <div className="kpi-sub">Check-ins in selected period</div>
         </div>
         <div className="kpi-card">
           <div className="kpi-accent" style={{ background: "#16a34a" }} />
@@ -1017,14 +821,7 @@ const handleFilter = () => {
       {/* Table Card */}
       <div className="card">
         <div className="card-head">
-          {/* Tabs */}
-          <div className="tab-bar" style={{ marginBottom: 0 }}>
-            {TABS.map((t, i) => (
-              <button key={t} className={`tab-pill ${activeTab === i ? "active" : ""}`} onClick={() => setActiveTab(i)}>
-                {t}
-              </button>
-            ))}
-          </div>
+
           <div className="tourist-action-row">
 
   {/* Search */}
@@ -1068,26 +865,47 @@ const handleFilter = () => {
     Export
   </button>
 
-  <button
-    className="btn-outline"
-    onClick={handleFilter}
-  >
-    Filter
-  </button>
+  <div className="tourist-filter-wrap">
+    <button
+      className="btn-outline tourist-filter-btn"
+      type="button"
+      onClick={() => setShowPeriodMenu((prev) => !prev)}
+    >
+      <i className="ti ti-filter" />
+      {getPeriodLabel(periodFilter)}
+    </button>
+
+    {showPeriodMenu && (
+      <div className="tourist-filter-menu">
+        {PERIOD_OPTIONS.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            className={`tourist-filter-item ${periodFilter === option.value ? "active" : ""}`}
+            onClick={() => {
+              setPeriodFilter(option.value);
+              setShowPeriodMenu(false);
+            }}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+    )}
+  </div>
             <button
-  className="btn-primary"
-  onClick={() => {
-  setEditType("");
-  setShowModal(true);
-}}
->
-  <i className="ti ti-plus" /> Add Tourist
-</button>
+              className="btn-primary"
+              onClick={() => {
+                setEditData(null);
+                setShowModal(true);
+              }}
+            >
+              <i className="ti ti-plus" /> Add Tourist
+            </button>
           </div>
         </div>
 
         {/* ALL TOURISTS */}
-{activeTab === 0 && (
   <table className="data-table">
     <thead>
       <tr>
@@ -1156,7 +974,7 @@ const handleFilter = () => {
             <div className="table-action-btns">
               <button
                 className="table-icon-btn"
-               onClick={() => handleEdit(t, "tourist")}
+                onClick={() => handleEdit(t)}
               >
                 <i className="ti ti-edit" />
               </button>
@@ -1172,112 +990,14 @@ const handleFilter = () => {
         </tr>
       ))}
     </tbody>
-  </table>
-)}
+        </table>
 
-{/* TOUR GUIDES */}
-{activeTab === 1 && (
-  <table className="data-table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Languages</th>
-        <th>Experience</th>
-        <th>Status</th>
-<th>Actions</th>
-      </tr>
-    </thead>
-
-    <tbody>
-     {filteredGuides.map((g, i) => (
-        <tr key={i}>
-          <td>{g.name}</td>
-          <td>{g.phone}</td>
-          <td>{g.language}</td>
-          <td>{g.experience}</td>
-          <td>
-  <span className="badge badge-green">
-    {g.status}
-  </span>
-</td>
-
-<td>
-  <div className="table-action-btns">
-    <button
-  className="table-icon-btn"
-  onClick={() => handleEdit(g, "guide")}
->
-  <i className="ti ti-edit" />
-</button>
-
-    <button
-      className="table-icon-btn delete"
-      onClick={() => handleDeleteGuide(g.phone)}
-    >
-      <i className="ti ti-trash" />
-    </button>
-
-  </div>
-</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-)}
-
-{/* GROUP BOOKINGS */}
-{activeTab === 2 && (
-  <table className="data-table">
-    <thead>
-      <tr>
-        <th>Group</th>
-        <th>Members</th>
-        <th>Vehicle</th>
-        <th>Guide</th>
-        <th>Status</th>
-<th>Actions</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {filteredBookings.map((g, i) => (
-        <tr key={i}>
-          <td>{g.group}</td>
-          <td>{g.members}</td>
-          <td>{g.vehicle}</td>
-          <td>{g.guide}</td>
-          <td>
-            <span className="badge badge-blue">
-              {g.status}
-            </span>
-          </td>
-          <td>
-            <div className="table-action-btns">
-
-              <button
-  className="table-icon-btn"
-  onClick={() => handleEdit(g, "booking")}
->
-  <i className="ti ti-edit" />
-</button>
-              <button
-                className="table-icon-btn delete"
-                onClick={() => handleDeleteBooking(g.group)}
-              >
-                <i className="ti ti-trash" />
-              </button>
-            </div>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-)}
 
         {/* Pagination */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 16, paddingTop: 14, borderTop: "1px solid rgba(0,0,0,0.06)" }}>
-          <div style={{ fontSize: 11, color: "#999" }}>Showing 5 of 12,480 tourists</div>
+          <div style={{ fontSize: 11, color: "#999" }}>
+            Showing {filteredTourists.length} of {tourists.length} tourists
+          </div>
           <div style={{ display: "flex", gap: 4 }}>
             {[1, 2, 3].map((p) => (
               <button key={p} style={{
@@ -1292,37 +1012,25 @@ const handleFilter = () => {
         </div>
       </div>
 
-   {/* ADD TOURIST */}
-{showModal && !editType && (
-  <AddTouristModal
-    onClose={() => setShowModal(false)}
-    onSave={handleSave}
-  />
-)}
+   {/* ADD TOURIST MODAL */}
+      {showModal && !editData && (
+        <AddTouristModal
+          onClose={() => setShowModal(false)}
+          onSave={handleSave}
+        />
+      )}
 
-{/* TOURIST EDIT */}
-{showModal && editType === "tourist" && (
-  <TouristEditModal
-    onClose={() => setShowModal(false)}
-    editData={editData}
-  />
-)}
-
-{/* GUIDE EDIT */}
-{showModal && editType === "guide" && (
-  <GuideEditModal
-    onClose={() => setShowModal(false)}
-    editData={editData}
-  />
-)}
-
-{/* GROUP BOOKING EDIT */}
-{showModal && editType === "booking" && (
-  <GroupBookingEditModal
-    onClose={() => setShowModal(false)}
-    editData={editData}
-  />
-)}
+      {/* TOURIST EDIT MODAL */}
+      {showModal && editData && (
+        <TouristEditModal
+          onClose={() => {
+            setShowModal(false);
+            setEditData(null);
+          }}
+          editData={editData}
+          onUpdate={handleUpdate}
+        />
+      )}
     </div>
   );
 }

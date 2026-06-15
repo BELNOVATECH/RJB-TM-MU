@@ -67,13 +67,76 @@ const FLEET_BY_TYPE = [
   { label: "Luxury", count: 4, color: "#6d28d9", pct: 18 },
 ];
  
+const VENDORS_DATA = [
+  {
+    initials: "RP",
+    name: "Raj Patel",
+    phone: "+91 9876543200",
+    city: "Ayodhya, UP",
+    status: "Active",
+    statusCls: "badge-green",
+    drivers: [
+      { name: "Ram Prasad", phone: "+91 9876543210" },
+      { name: "Suresh Yadav", phone: "+91 9876543211" },
+      { name: "Ganesh Tiwari", phone: "+91 9876543212" },
+      { name: "Mohan Singh", phone: "+91 9876543213" },
+      { name: "Vikram Patel", phone: "+91 9876543214" },
+    ],
+    vehicles: {
+      total: 10,
+      working: 7,
+      inactive: 2,
+      repair: 1,
+    },
+  },
+  {
+    initials: "SK",
+    name: "Suresh Kumar",
+    phone: "+91 9876543201",
+    city: "Lucknow, UP",
+    status: "Active",
+    statusCls: "badge-green",
+    drivers: [
+      { name: "Rajesh Sharma", phone: "+91 9876543215" },
+      { name: "Ashok Kumar", phone: "+91 9876543216" },
+      { name: "Pradeep Singh", phone: "+91 9876543217" },
+      { name: "Deepak Verma", phone: "+91 9876543218" },
+    ],
+    vehicles: {
+      total: 8,
+      working: 6,
+      inactive: 1,
+      repair: 1,
+    },
+  },
+  {
+    initials: "MB",
+    name: "Maya Bhatt",
+    phone: "+91 9876543202",
+    city: "Varanasi, UP",
+    status: "Inactive",
+    statusCls: "badge-red",
+    drivers: [
+      { name: "Ravi Kumar", phone: "+91 9876543219" },
+      { name: "Anirudh Nair", phone: "+91 9876543220" },
+      { name: "Sameer Patel", phone: "+91 9876543221" },
+    ],
+    vehicles: {
+      total: 6,
+      working: 3,
+      inactive: 2,
+      repair: 1,
+    },
+  },
+];
+
 const ALERTS = [
   { dot: "#c0392b", text: "UP-32 IJ 7890 — permit expires 17 May", sub: "3 days left" },
   { dot: "#f5c842", text: "UP-32 KL 1122 — insurance due 28 May", sub: "14 days left" },
   { dot: "#f5c842", text: "UP-32 MN 3344 — PUC due 31 May", sub: "17 days left" },
 ];
  
-const TABS = ["All Vehicles", "Drivers", "Bookings", "Tracking", "Payment Details"];
+const TABS = ["All Vehicles", "Drivers Details", "Bookings", "Tracking", "Payment Details", "Vendors"];
 const TYPE_OPTIONS = ["SUV", "Sedan", "Mini Bus", "Auto", "EV", "Luxury"];
 const STATUS_OPTIONS = ["Available", "On Trip", "Maintenance", "Permit Due"];
  
@@ -828,7 +891,12 @@ export default function Vehicles() {
   const [editVehicle, setEditVehicle] = useState(null);
 const [editIndex, setEditIndex] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [filterValue, setFilterValue] = useState("All");
+  const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [ridePayments, setRidePayments] = useState(() => loadRidePayments());
+  const [vendors, setVendors] = useState(VENDORS_DATA);
+  const [selectedVendorDrivers, setSelectedVendorDrivers] = useState(null);
+  const [showDriversModal, setShowDriversModal] = useState(false);
 
   useEffect(() => {
     const syncPayments = () => setRidePayments(loadRidePayments());
@@ -847,6 +915,11 @@ const [editIndex, setEditIndex] = useState(null);
       window.removeEventListener("focus", syncPayments);
     };
   }, []);
+
+  useEffect(() => {
+    setFilterValue("All");
+    setShowFilterMenu(false);
+  }, [activeTab]);
  
 const handleSave = (vehicleData) => {
 
@@ -897,29 +970,54 @@ const handleEdit = (data, index, type) => {
   setEditType(type);
   setShowModal(true);
 };
+const filterOptionsByTab = {
+  0: ["All", "Available", "On Trip", "Maintenance", "Permit Due"],
+  1: ["All", "On Duty", "Available", "On Trip", "On Break"],
+  2: ["All", "Confirmed", "Pending"],
+  3: ["All", "Moving", "Stopped"],
+  4: ["All", "Settled", "Pending"],
+  5: ["All", "Active", "Inactive"],
+};
+
+const matchesCurrentFilter = (status) =>
+  filterValue === "All" || status === filterValue;
+
  const filteredFleet = fleet.filter((v) =>
-  v.reg.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  (v.reg.toLowerCase().includes(searchTerm.toLowerCase()) ||
   v.driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
   v.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  v.model.toLowerCase().includes(searchTerm.toLowerCase())
+  v.model.toLowerCase().includes(searchTerm.toLowerCase())) &&
+  matchesCurrentFilter(v.status)
 );
 
 const filteredDrivers = driversData.filter((d) =>
-  d.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  (d.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
   d.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  d.vehicle.toLowerCase().includes(searchTerm.toLowerCase())
+  d.vehicle.toLowerCase().includes(searchTerm.toLowerCase())) &&
+  matchesCurrentFilter(d.status)
 );
 
 const filteredBookings = bookingsData.filter((b) =>
-  b.bookingId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  (b.bookingId.toLowerCase().includes(searchTerm.toLowerCase()) ||
   b.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  b.vehicle.toLowerCase().includes(searchTerm.toLowerCase())
+  b.vehicle.toLowerCase().includes(searchTerm.toLowerCase())) &&
+  matchesCurrentFilter(b.status)
 );
 
 const filteredTracking = trackingData.filter((t) =>
-  t.vehicle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  (t.vehicle.toLowerCase().includes(searchTerm.toLowerCase()) ||
   t.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  t.status.toLowerCase().includes(searchTerm.toLowerCase())
+  t.status.toLowerCase().includes(searchTerm.toLowerCase())) &&
+  matchesCurrentFilter(t.status)
+);
+
+const filteredVendors = vendors.filter((v) =>
+  (searchTerm === ""
+    ? true
+    : v.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      v.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      v.city.toLowerCase().includes(searchTerm.toLowerCase())) &&
+  matchesCurrentFilter(v.status)
 );
  
   return (
@@ -984,7 +1082,6 @@ const filteredTracking = trackingData.filter((t) =>
  
      {/* Tab bar */}
 <div className="top-nav vehicle-top-nav">
-
   <div className="tab-bar" style={{ marginBottom: 0 }}>
     {TABS.map((t, i) => (
       <button
@@ -997,44 +1094,97 @@ const filteredTracking = trackingData.filter((t) =>
     ))}
   </div>
 
-
-{/* Search + Add BELOW tabs */}
-<div className="search-upload-wrap vehicle-action-row">
-         <div className="search-box vehicle-search-wrap">
-  <i className="ti ti-search" style={{ fontSize: 13, color: "#888" }} />
-
-  <input
-    type="text"
-    placeholder="Search vehicle / driver..."
-    value={searchTerm}
-    onChange={(e) => setSearchTerm(e.target.value)}
-    style={{
-      border: "none",
-      outline: "none",
-      fontSize: 12,
-      background: "transparent",
-      width: "100%",
-      minWidth: 0,
-      flex: 1,
-    }}
-  />
-</div>
- 
-          {/* ✅ Add Vehicle button */}
-          <button
-            className="btn-primary"
-            type="button"
-            onClick={() => {
-              setEditVehicle(null);
-              setEditIndex(null);
-              setEditType("vehicle");
-              setShowModal(true);
-            }}
-          >
-            <i className="ti ti-plus" /> Add Vehicle
-          </button>
-        </div>
+  {/* Search + Filter + Dynamic Add Button */}
+  {activeTab !== 3 && activeTab !== 4 && (
+    <div className="search-upload-wrap vehicle-action-row">
+      <div className="search-box vehicle-search-wrap">
+        <i className="ti ti-search" style={{ fontSize: 13, color: "#888" }} />
+        <input
+          type="text"
+          placeholder={
+            activeTab === 0
+              ? "Search vehicle..."
+              : activeTab === 1
+              ? "Search driver..."
+              : activeTab === 2
+              ? "Search booking..."
+              : "Search vendor..."
+          }
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            border: "none",
+            outline: "none",
+            fontSize: 12,
+            background: "transparent",
+            width: "100%",
+            minWidth: 0,
+            flex: 1,
+          }}
+        />
       </div>
+
+      <div className="vehicle-filter-wrap">
+        <button
+          className="vehicle-toolbar-btn vehicle-filter-btn"
+          type="button"
+          onClick={() => setShowFilterMenu((prev) => !prev)}
+        >
+          <i className="ti ti-filter" />
+          Filter
+          {filterValue !== "All" && <span className="vehicle-filter-pill">{filterValue}</span>}
+        </button>
+
+        {showFilterMenu && (
+          <div className="vehicle-filter-menu">
+            {(filterOptionsByTab[activeTab] || ["All"]).map((option) => (
+              <button
+                key={option}
+                type="button"
+                className={`vehicle-filter-item ${filterValue === option ? "active" : ""}`}
+                onClick={() => {
+                  setFilterValue(option);
+                  setShowFilterMenu(false);
+                }}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Dynamic Add Button */}
+      <button
+        className="btn-primary vehicle-add-btn"
+        type="button"
+        onClick={() => {
+          setEditVehicle(null);
+          setEditIndex(null);
+          setEditType(
+            activeTab === 0
+              ? "vehicle"
+              : activeTab === 1
+              ? "driver"
+              : activeTab === 2
+              ? "booking"
+              : "vendor"
+          );
+          setShowModal(true);
+        }}
+      >
+        <i className="ti ti-plus" />
+        {activeTab === 0
+          ? "Add Vehicle"
+          : activeTab === 1
+          ? "Add Driver"
+          : activeTab === 2
+          ? "Add Booking"
+          : "Add Vendor"}
+      </button>
+    </div>
+  )}
+</div>
  
       {/* Main content grid */}
       <div style={{ marginBottom: 14 }}>
@@ -1049,6 +1199,7 @@ const filteredTracking = trackingData.filter((t) =>
       {activeTab === 2 && "Bookings List"}
       {activeTab === 3 && "Vehicle Tracking"}
       {activeTab === 4 && "Payment Details"}
+      {activeTab === 5 && "Vendors Management"}
 
     </div>
 
@@ -1335,6 +1486,141 @@ const filteredTracking = trackingData.filter((t) =>
     </div>
   )}
 
+  {activeTab === 5 && (
+    <table className="data-table">
+      <thead>
+        <tr>
+          <th>Vendor Name</th>
+          <th>Phone</th>
+          <th>City</th>
+          <th>Drivers</th>
+          <th>Vehicles</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {filteredVendors.map((v, idx) => (
+          <tr key={idx}>
+            {/* Vendor Name */}
+            <td>
+              <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+                <div
+                  className="avatar-circle"
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: "50%",
+                    background: "#f5c842",
+                    color: "#1a1a1a",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 11,
+                    fontWeight: 600,
+                  }}
+                >
+                  {v.initials}
+                </div>
+                <div>
+                  <div style={{ fontWeight: 500, fontSize: 12 }}>
+                    {v.name}
+                  </div>
+                </div>
+              </div>
+            </td>
+            
+            {/* Phone */}
+            <td style={{ fontSize: 12 }}>{v.phone}</td>
+            
+            {/* City */}
+            <td style={{ fontSize: 12 }}>{v.city}</td>
+            
+            {/* Drivers Count - Clickable */}
+            <td>
+              <button
+                onClick={() => {
+                  setSelectedVendorDrivers({
+                    vendorName: v.name,
+                    drivers: v.drivers || [],
+                  });
+                  setShowDriversModal(true);
+                }}
+                style={{
+                  background: "#dbeafe",
+                  color: "#1d4ed8",
+                  border: "1px solid #93c5fd",
+                  padding: "6px 12px",
+                  borderRadius: 6,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = "#93c5fd";
+                  e.target.style.transform = "scale(1.05)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = "#dbeafe";
+                  e.target.style.transform = "scale(1)";
+                }}
+              >
+                👥 {v.drivers?.length || 0} Drivers
+              </button>
+            </td>
+            
+            {/* Vehicle Status Breakdown */}
+            <td>
+              <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                <div style={{ fontSize: 12, fontWeight: 600 }}>Total: {v.vehicles?.total || 0}</div>
+                <div style={{ display: "flex", gap: 8, fontSize: 11 }}>
+                  <div style={{ padding: "2px 6px", background: "#dcfce7", color: "#15803d", borderRadius: 4, fontWeight: 500 }}>
+                    🟢 {v.vehicles?.working || 0}
+                  </div>
+                  <div style={{ padding: "2px 6px", background: "#fee2e2", color: "#b91c1c", borderRadius: 4, fontWeight: 500 }}>
+                    🔴 {v.vehicles?.inactive || 0}
+                  </div>
+                  <div style={{ padding: "2px 6px", background: "#fef9c3", color: "#b5860d", borderRadius: 4, fontWeight: 500 }}>
+                    🟡 {v.vehicles?.repair || 0}
+                  </div>
+                </div>
+              </div>
+            </td>
+            
+            {/* Status */}
+            <td>
+              <span className={`badge ${v.statusCls}`}>{v.status}</span>
+            </td>
+            
+            {/* Actions */}
+            <td>
+              <div className="table-action-btns">
+                <button
+                  className="table-icon-btn"
+                  onClick={() => console.log("Edit vendor:", v.name)}
+                >
+                  <i className="ti ti-edit" />
+                </button>
+                <button
+                  className="table-icon-btn delete"
+                  onClick={() =>
+                    setVendors((prev) =>
+                      prev.filter((_, i) => i !== idx)
+                    )
+                  }
+                >
+                  <i className="ti ti-trash" />
+                </button>
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+
 </div>
  {/* Bottom Cards */}
 <div className="vehicle-bottom-cards">
@@ -1419,6 +1705,99 @@ const filteredTracking = trackingData.filter((t) =>
   </div>
  
     {/* ✅ Modal via Portal — bypasses all parent z-index/overflow traps */}
+      {/* DRIVERS MODAL */}
+{showDriversModal && selectedVendorDrivers && createPortal(
+  <div
+    className="common-modal-overlay"
+    onMouseDown={() => setShowDriversModal(false)}
+  >
+    <div
+      className="common-modal"
+      onMouseDown={(e) => e.stopPropagation()}
+      style={{ width: "600px" }}
+    >
+      <div className="common-modal-header">
+        <div>
+          <h2>Drivers of {selectedVendorDrivers.vendorName}</h2>
+          <p>Manage and view driver details</p>
+        </div>
+
+        <button
+          className="common-close-btn"
+          onClick={() => setShowDriversModal(false)}
+        >
+          ×
+        </button>
+      </div>
+
+      <div className="common-divider" />
+
+      <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+        {selectedVendorDrivers.drivers && selectedVendorDrivers.drivers.length > 0 ? (
+          <table className="data-table" style={{ marginBottom: 0 }}>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Experience</th>
+                <th>Rating</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedVendorDrivers.drivers.map((driver, idx) => (
+                <tr key={idx}>
+                  <td>
+                    <div style={{ fontWeight: 500, fontSize: 12 }}>
+                      {driver.name}
+                    </div>
+                  </td>
+                  <td style={{ fontSize: 12 }}>{driver.phone}</td>
+                  <td style={{ fontSize: 12 }}>
+                    {driver.experience || "3 Years"}
+                  </td>
+                  <td>
+                    <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                      <span>⭐</span>
+                      <span style={{ fontWeight: 500 }}>
+                        {driver.rating || "4.5"}
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <span
+                      className="badge badge-green"
+                      style={{ fontSize: 11 }}
+                    >
+                      {driver.status || "Active"}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div style={{ padding: "20px", textAlign: "center", color: "#999" }}>
+            No drivers available
+          </div>
+        )}
+      </div>
+
+      <div className="common-divider common-divider-footer" />
+
+      <div className="common-footer">
+        <button
+          className="common-cancel-btn"
+          onClick={() => setShowDriversModal(false)}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>,
+  document.body,
+)}
+
       {/* VEHICLE MODAL */}
 {showModal && editType === "vehicle" && (
   <AddVehicleModal
