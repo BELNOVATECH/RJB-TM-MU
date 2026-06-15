@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { openRazorpay } from "../../services/razorpay";
 
 export default function DonationPage({ onBack }) {
   const [showDonateSuccess, setShowDonateSuccess] = useState(false);
@@ -54,14 +55,30 @@ export default function DonationPage({ onBack }) {
     },
   ];
 
-  const handleDonate = () => {
-    setShowDonateSuccess(true);
+const handleDonate = (item) => {
+  openRazorpay({
+    amount: Number(item.amount.replace("₹", "")),
 
-    setTimeout(() => {
-      setShowDonateSuccess(false);
-    }, 2500);
-  };
+    bookingData: {
+      name: "Donation User",
+      phone: "9999999999",
+    },
 
+    selectedGuide: {
+      name: item.title,
+    },
+
+    selectedPlaces: [],
+
+    onSuccess: () => {
+      setShowDonateSuccess(true);
+
+      setTimeout(() => {
+        setShowDonateSuccess(false);
+      }, 2500);
+    },
+  });
+};
   return (
     <div className="pilgrim-page">
       <div className="hero-section">
@@ -104,7 +121,7 @@ export default function DonationPage({ onBack }) {
 
             <button
               className="donate-btn"
-              onClick={handleDonate}
+             onClick={() => handleDonate(item)}
             >
               Donate Now
             </button>
