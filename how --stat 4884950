@@ -1,0 +1,8 @@
+[33mcommit a3083442e76a0c65e5a5105f5fdd379a8fb3e8f4[m[33m ([m[1;31morigin/raj3[m[33m, [m[1;32mraj3-restored[m[33m)[m
+Author: Rajashekar157 <rajashekarmaddi562@gmail.com>
+Date:   Mon Jun 15 15:19:15 2026 +0530
+
+    added razor pay
+
+ src/pages/CustomerComponent/Customer_Dashboard.jsx | 13 [32m++++[m[31m---------[m
+ 1 file changed, 4 insertions(+), 9 deletions(-)
