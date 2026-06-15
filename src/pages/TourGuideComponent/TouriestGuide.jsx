@@ -3,6 +3,7 @@ import "../styles/TouriestGuide.css";
 
 const PROFILE_KEY = "tourist_guide_profile";
 const BOOKING_KEY = "tourist_guide_bookings";
+const NOTIFICATION_KEY = "tourist_guide_notifications";
 
 const DEFAULT_BOOKINGS = [
   {
@@ -65,23 +66,51 @@ function loadJson(key, fallback) {
 export default function TouriestGuide({ onBack }) {
   const [profile, setProfile] = useState(defaultProfile);
   const [bookings, setBookings] = useState(DEFAULT_BOOKINGS);
+  const [notice, setNotice] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    const savedProfile = loadJson(PROFILE_KEY, null);
-    if (savedProfile) {
-      setProfile({
-        ...defaultProfile,
-        ...savedProfile,
-      });
-    }
+    const syncState = () => {
+      const savedProfile = loadJson(PROFILE_KEY, null);
+      if (savedProfile) {
+        setProfile({
+          ...defaultProfile,
+          ...savedProfile,
+        });
+      }
 
-    const savedBookings = loadJson(BOOKING_KEY, null);
-    if (savedBookings && Array.isArray(savedBookings) && savedBookings.length) {
-      setBookings(savedBookings);
-    } else {
-      localStorage.setItem(BOOKING_KEY, JSON.stringify(DEFAULT_BOOKINGS));
-    }
+      const savedBookings = loadJson(BOOKING_KEY, null);
+      if (savedBookings && Array.isArray(savedBookings) && savedBookings.length) {
+        setBookings(savedBookings);
+      } else {
+        localStorage.setItem(BOOKING_KEY, JSON.stringify(DEFAULT_BOOKINGS));
+      }
+
+      const savedNotices = loadJson(NOTIFICATION_KEY, []);
+      const guideNotices = Array.isArray(savedNotices)
+        ? savedNotices.filter((item) => {
+            const targetMobile = item.mobile || item.phone || "";
+            return savedProfile && targetMobile && targetMobile === (savedProfile.mobile || savedProfile.phone || "");
+          })
+        : [];
+
+      if (guideNotices.length > 0) {
+        setNotice(guideNotices[0]);
+      } else {
+        setNotice(null);
+      }
+    };
+
+    syncState();
+
+    const handleStorage = (event) => {
+      if ([PROFILE_KEY, BOOKING_KEY, NOTIFICATION_KEY].includes(event.key)) {
+        syncState();
+      }
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
   const stats = useMemo(() => {
@@ -172,6 +201,27 @@ export default function TouriestGuide({ onBack }) {
               Manage your bookings, review tourist requests, and accept or reject trips directly
               from your guide dashboard.
             </p>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
+              <span
+                className={`badge ${
+                  profile.status === "Active"
+                    ? "badge-green"
+                    : profile.status === "Rejected"
+                    ? "badge-red"
+                    : "badge-amber"
+                }`}
+                style={{ fontSize: 11 }}
+              >
+                {profile.status || "Pending"}
+              </span>
+              <span style={{ fontSize: 12, color: "#64748b" }}>
+                {profile.status === "Active"
+                  ? "Your guide profile is approved."
+                  : profile.status === "Rejected"
+                  ? "Your guide request was rejected."
+                  : "Your guide request is waiting for approval."}
+              </span>
+            </div>
           </div>
 
           <div className="tourguide-hero-grid">
@@ -195,6 +245,23 @@ export default function TouriestGuide({ onBack }) {
         </section>
 
         <section className="tourguide-section">
+          {notice && (
+            <div
+              className="card"
+              style={{
+                marginBottom: 14,
+                border: "1px solid rgba(245, 200, 66, 0.35)",
+                background: "#fffaf0",
+              }}
+            >
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#b5860d", marginBottom: 4 }}>
+                Admin message
+              </div>
+              <div style={{ fontSize: 13, color: "#1f2937" }}>
+                {notice.message}
+              </div>
+            </div>
+          )}
           <div className="tourguide-section-head">
             <div>
               <div className="tourguide-section-title">Incoming Bookings</div>

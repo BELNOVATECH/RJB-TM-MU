@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react";
 import Dashboard from "./pages/AdminComponent/Dashboard";
 import Tourists from "./pages/AdminComponent/Tourists";
+import TourGuides from "./pages/AdminComponent/TourGuides";
 import Vehicles from "./pages/AdminComponent/Vehicles";
 import Accommodation from "./pages/AdminComponent/Accommodation";
 import AccommodationLoginDetails from "./pages/AccommodationLoginDetails";
@@ -41,6 +42,7 @@ const NAV = [
     section: "Management",
     items: [
       { key: "tourists",      label: "Tourists",       icon: "ti-users"    },
+      { key: "tourGuides",    label: "Tour Guides",    icon: "ti-license"  },
       { key: "vehicles",      label: "Vehicles",       icon: "ti-car"      },
       { key: "accommodation", label: "Accommodation",  icon: "ti-building" },
       { key: "touristSpots",  label: "Tourist Spots",  icon: "ti-map-pin"  },
@@ -65,6 +67,7 @@ const NAV = [
 const SCREEN_MAP = {
   dashboard:         <Dashboard />,
   tourists:          <Tourists />,
+  tourGuides:        <TourGuides />,
   vehicles:          <Vehicles />,
   accommodation:     <Accommodation />,
   devotionalContent: <DevotionalContent />,
@@ -75,7 +78,8 @@ const SCREEN_MAP = {
 
 const TITLES = {
   dashboard:         "Dashboard",
-  tourists:          "Tourist & Guide Management",
+  tourists:          "Tourist Management",
+  tourGuides:        "Tour Guide Management",
   vehicles:          "Vehicle & Transport Management",
   accommodation:     "Accommodation & Cottage Management",
   touristSpots:      "Tourist Spot Configuration",
@@ -86,8 +90,11 @@ const TITLES = {
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
 export default function App() {
-  // "landing" | "login" | "register" | "app"
-  const [screen, setScreen] = useState("landing");
+const [screen, setScreen] = useState("landing");
+
+useEffect(() => {
+  localStorage.setItem("screen", screen);
+}, [screen]);
 
 useEffect(() => {
 
@@ -98,8 +105,13 @@ useEffect(() => {
   }
 
 }, []);
+const [active, setActive] = useState(
+  localStorage.getItem("activeMenu") || "dashboard"
+);
+useEffect(() => {
+  localStorage.setItem("activeMenu", active);
+}, [active]);
 
-  const [active, setActive] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 const [activePage] = useState("home");
 
@@ -399,8 +411,9 @@ if (screen === "customerRegister") {
           {/* Logout */}
           <button
             title="Logout"
-            // onClick={() => { setScreen("login"); setActive("dashboard"); }}
-            onClick={() => {
+          onClick={() => {
+  localStorage.removeItem("screen");
+  localStorage.removeItem("activeMenu");
   setScreen("customerLogin");
   setActive("dashboard");
 }}

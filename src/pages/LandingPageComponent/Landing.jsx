@@ -224,8 +224,7 @@ const servicesData = [
             </div>
             
             <div className="mobile-menu-btn" onClick={toggleMobileMenu}>
-              <i className="fas fa-bars"></i>
-            </div>
+☰            </div>
           </div>
         </div>
       </div>

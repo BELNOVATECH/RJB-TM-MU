@@ -87,6 +87,10 @@ const handleRegister = () => {
 
       id: Date.now(),
 
+      status: "Pending",
+
+      statusCls: "badge-amber",
+
       name: form.guideName,
 
       role:

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../styles/BookGuide.css";
+import { openRazorpay } from "../../services/razorpay";
 
 /* =========================
    DEFAULT GUIDES
@@ -116,6 +117,7 @@ export default function GuideBooking({
 
   const [guides, setGuides] =
     useState(defaultGuides);
+    
 
   const [selectedLang, setSelectedLang] =
     useState("All");
@@ -160,7 +162,67 @@ const [ratingFilter, setRatingFilter] =
       date: "",
       people: "",
     });
+    
+// const openRazorpay = () => {
+//   const options = {
+//     key: "rzp_test_T1nKHVi3crHSPg",
 
+//     amount: Number(advancePayment) * 100,
+
+//     currency: "INR",
+
+//     name: "Rama Janma Bhoomi",
+
+//     description: `Guide Booking - ${selectedGuide?.name}`,
+
+//     image: "/assets/temple-logo.png",
+
+//     prefill: {
+//       name: bookingData?.name || "",
+//       contact: bookingData?.phone || "",
+//     },
+
+//     notes: {
+//       guide: selectedGuide?.name || "",
+//       places: selectedPlaces
+//         .map((p) => p.name)
+//         .join(", "),
+//     },
+
+//     method: {
+//       upi: true,
+//       card: true,
+//       netbanking: true,
+//       wallet: true
+//     },
+
+//     handler: function (response) {
+//       alert(
+//         `Payment Successful!
+
+// Payment ID: ${response.razorpay_payment_id}
+
+// Amount Paid: ₹${advancePayment}`
+//       );
+
+//       handlePayment();
+//     },
+
+//     modal: {
+//       ondismiss: function () {
+//         console.log("Payment popup closed");
+//       }
+//     },
+
+//     theme: {
+//       color: "#ff7b00"
+//     }
+//   };
+
+//   const razorpay = new window.Razorpay(options);
+
+//   razorpay.open();
+// };
   /* =========================
      LOAD REGISTERED GUIDES
   ========================= */
@@ -1241,40 +1303,71 @@ ${paymentMethod}`
 
                 {/* PAY */}
 
-                <button
-                  className="pay-now-btn"
-                 onClick={() => {
+<button
+  className="pay-now-btn"
+  onClick={() => {
 
-  if (!acceptPolicy) {
+    if (!acceptPolicy) {
 
-    alert(
-      "Please accept booking policy"
+      alert(
+        "Please accept booking policy"
+      );
+
+      return;
+    }
+
+    console.log(
+      "Pay Button Clicked"
     );
 
-    return;
+    console.log(
+      "Advance Amount:",
+      advancePayment
+    );
+
+    openRazorpay({
+
+      amount: advancePayment,
+
+      bookingData,
+
+      selectedGuide,
+
+      selectedPlaces,
+
+      onSuccess: (response) => {
+
+        alert(
+          `Payment Successful!
+
+Payment ID:
+${response.razorpay_payment_id}
+
+Amount Paid:
+₹${advancePayment}`
+        );
+
+        handlePayment();
+
+      },
+
+    });
+
+  }}
+>
+  Pay Advance ₹{advancePayment}
+</button>
+
+{/* BACK */}
+
+<button
+  className="back-payment-btn"
+  onClick={() =>
+    setShowPayment(false)
   }
-
-  handlePayment();
-
-}}
-                >
-                  Pay Advance ₹{
-                    advancePayment
-                  }
-                </button>
-
-                {/* BACK */}
-
-                <button
-                  className="back-payment-btn"
-                  onClick={() =>
-                    setShowPayment(
-                      false
-                    )
-                  }
-                >
-                  Back
-                </button>
+>
+  Back
+</button>
 
               </div>
 
