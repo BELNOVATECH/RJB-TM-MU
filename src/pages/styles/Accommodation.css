@@ -999,9 +999,11 @@
     min-width: 0;
   }
 
-  .hotel-overview {
-    grid-template-columns: 1fr;
-  }
+  .hotel-overview-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
 
   .workflow-stage-card,
   .selected-branch-card {
@@ -1014,12 +1016,28 @@
     grid-template-columns: 1fr;
   }
   
-  .branch-selector-grid {
-    grid-template-columns: 1fr;
+.branch-selector-grid,
+  .pricing-grid,
+  .export-grid,
+  .room-grid.room-grid-modern,
+  .room-grid-tight {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hotel-overview-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .overview-stat:last-child {
+    grid-column: 1 / -1;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 480px) {
   .accommodation-hero,
   .hotel-overview,
   .pricing-hero,
@@ -1033,11 +1051,17 @@
     font-size: 24px;
   }
 
-  .hotel-overview-stats,
+   .hotel-overview-stats,
   .export-summary,
-  .branch-metrics {
+  .branch-metrics,
+  .branch-selector-grid,
+  .pricing-grid,
+  .export-grid,
+  .room-grid.room-grid-modern,
+  .room-grid-tight {
     grid-template-columns: 1fr;
   }
+
 
   .pricing-grid,
   .export-grid {
@@ -1067,3 +1091,122 @@
 }
 
 
+.tabs-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.touristspots-tab-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.touristspots-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.touristspots-search-box {
+  width: 220px;
+}
+
+.touristspots-search-input {
+  width: 100%;
+}
+
+/* ==========================
+   MOBILE OVERLAP FIX
+========================== */
+
+@media (max-width: 768px) {
+
+  .workflow-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .workflow-sidebar,
+  .workflow-main,
+  .workflow-inspector {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .workflow-sidebar {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .hotel-overview {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow: visible;
+  }
+
+  .hotel-overview-copy {
+    max-width: 100%;
+    width: 100%;
+  }
+
+   .hotel-overview-stats {
+    width: 100%;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .overview-stat:last-child {
+    grid-column: 1 / -1;
+  }
+
+
+
+  .overview-stat {
+    width: 100%;
+  }
+
+  .branch-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .branch-hero-actions {
+    width: 100%;
+  }
+
+  .branch-hero-actions button {
+    width: 100%;
+  }
+
+  .hotel-card,
+  .branch-card,
+  .selected-branch-card,
+  .workflow-stage-card {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .card-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-head > * {
+    width: 100%;
+  }
+}
