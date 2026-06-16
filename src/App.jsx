@@ -429,8 +429,7 @@ if (screen === "customerRegister") {
 
       {/* Main */}
       <div className="main-area">
-        <header className="topbar">
-
+       <header className="topbar">
   <button
     className="menu-toggle"
     onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -438,22 +437,22 @@ if (screen === "customerRegister") {
     <i className="ti ti-menu-2"></i>
   </button>
 
-  
-          {/* <div className="tb-title">{TITLES[active]}</div> */}
-          <div className="tb-search">
-            <i className="ti ti-search" style={{ fontSize: 14 }} />
-            <span>Search pilgrims, vehicles, guides…</span>
-          </div>
-          <div style={{ fontSize: 11, color: "#888" }}>Fri, 15 May 2026</div>
-          <div className="tb-icon-btn">
-            <i className="ti ti-bell" style={{ fontSize: 15, color: "#888" }} />
-            <div className="tb-dot" />
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            {/* <div className="tb-user-avatar" /> */}
-            <div style={{ fontSize: 11, fontWeight: 500, color: "#1a0a00" }}>Super Admin</div>
-          </div>
-        </header>
+  <div className="tb-search">
+    <i className="ti ti-search" />
+    <span>Search pilgrims, vehicles, guides…</span>
+  </div>
+
+  <div className="topbar-right">
+    <div className="tb-date">Fri, 15 May 2026</div>
+
+    <div className="tb-icon-btn">
+      <i className="ti ti-bell"></i>
+      <div className="tb-dot" />
+    </div>
+
+    <div className="tb-user">Super Admin</div>
+  </div>
+</header>
 
         <div className="page-content">{content}</div>
       </div>
