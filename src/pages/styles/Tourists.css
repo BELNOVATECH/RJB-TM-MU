@@ -351,6 +351,23 @@
     width: 24px;
     height: 24px;
   }
+
+  .tourist-page .guide-request-card {
+    align-items: flex-start !important;
+  }
+
+  .tourist-page .guide-request-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .tourist-page .guide-request-actions .btn-outline,
+  .tourist-page .guide-request-actions .btn-primary {
+    width: auto;
+    flex: 1 1 120px;
+  }
 }
 
 @media (max-width: 560px) {
@@ -370,5 +387,20 @@
   .tourist-page .btn-primary {
     width: 100%;
     justify-content: center;
+  }
+
+  .tourist-page .guide-request-card {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tourist-page .guide-request-actions {
+    flex-direction: column;
+  }
+
+  .tourist-page .guide-request-actions .btn-outline,
+  .tourist-page .guide-request-actions .btn-primary {
+    width: 100%;
+    flex: 1 1 auto;
   }
 }
