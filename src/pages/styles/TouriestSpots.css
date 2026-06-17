@@ -125,30 +125,77 @@
   justify-content: flex-end;
 }
 
-.touristspots-toolbar {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
 
 .touristspots-button-row {
   display: flex;
   gap: 5px;
 }
 
+/* Ensure action buttons are right-aligned and vertically centered inside table cells */
+.data-table td {
+  vertical-align: middle;
+}
+
+.data-table td .touristspots-button-row {
+  justify-content: flex-end;
+  align-items: center;
+}
+
+
+
+/* Layout: keep tabs and toolbar on the same row for desktop */
+.touristspots-page .card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .touristspots-tab-bar {
-  margin-bottom: 0;
-  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+  flex: 1;
+}
+
+.touristspots-tab-bar .tab-pill {
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+  color: #666;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.touristspots-tab-bar .tab-pill.active {
+  background: #f5c842;
+  color: #1a0a00;
+  border: none;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+}
+
+.touristspots-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.touristspots-search-box {
+  width: 280px;
+  min-width: 280px;
 }
 
 .touristspots-search-box {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background: #fdf8f0;
   border: 1px solid rgba(0, 0, 0, 0.09);
   border-radius: 8px;
-  padding: 7px 10px;
+  padding: 6px 12px;
   font-size: 12px;
   color: #888;
 }
@@ -277,57 +324,69 @@
 
 @media screen and (max-width: 900px) {
 
-  .touristspots-page .kpi-row,
-  .touristspots-page .touristspots-form-grid,
-  .touristspots-page .touristspots-button-row {
-    grid-template-columns: 1fr;
-  }
-
   .touristspots-page .kpi-row {
     gap: 10px;
   }
 
+  /* Header Layout */
   .touristspots-page .card-head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .touristspots-page .touristspots-tab-bar {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    width: 100%;
-  }
-
-  .touristspots-page .touristspots-toolbar {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    gap: 10px;
-  }
-
-  .touristspots-page .touristspots-search-box {
-    flex: 1 1 220px;
-    width: auto;
-    max-width: none;
-  }
-
-  .touristspots-page .touristspots-search-input {
-    width: 100%;
-  }
-
-  .touristspots-page .touristspots-form-actions {
-    flex-direction: column-reverse;
-    width: 100%;
+    align-items: center;
+    justify-content: space-between;
     gap: 12px;
+    flex-wrap: nowrap;
   }
 
-  .touristspots-page .touristspots-form-actions button,
-  .touristspots-page .btn-primary,
-  .touristspots-page .btn-outline {
+  /* Tabs */
+  .touristspots-tab-bar {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .touristspots-tab-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .touristspots-tab-bar button,
+  .touristspots-tab-bar .tab-pill {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  /* Search + Button */
+  .touristspots-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .touristspots-search-box {
+    width: 220px;
+    min-width: 220px;
+    max-width: 220px;
+  }
+
+  .touristspots-search-input {
     width: 100%;
-    max-width: 100%;
+  }
+
+  /* Table */
+  .touristspots-page .data-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  .touristspots-page .card {
+    overflow-x: hidden;
   }
 
   .touristspots-page .touristspots-table-footer {
@@ -339,17 +398,141 @@
   .touristspots-page .touristspots-pagination {
     flex-wrap: wrap;
   }
-
-  .touristspots-page .data-table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-    width: 100%;
-  }
-
-  .touristspots-page .card {
-    overflow-x: visible;
-  }
 }
 
 
+.touristspots-tab-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+  flex: 1;
+}
+
+.touristspots-tab-bar button,
+.touristspots-tab-bar .tab-pill {
+  min-width: 110px;
+  height: 42px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.touristspots-search-box {
+  width: 220px;
+  min-width: 220px;
+}
+
+.touristspots-toolbar {
+  gap: 8px;
+}
+
+.touristspots-toolbar .btn-primary,
+.touristspots-toolbar button {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+.touristspots-tab-bar {
+  overflow-x: hidden !important;
+  scrollbar-width: none;
+}
+
+.touristspots-tab-bar::-webkit-scrollbar {
+  display: none !important;
+}
+
+.tabs-actions {
+  overflow: hidden !important;
+}
+
+.card-head {
+  overflow: hidden !important;
+}
+.touristspots-tab-bar button,
+.touristspots-tab-bar .tab-pill {
+  min-width: 40px;
+  font-size: 12px;
+}
+
+.touristspots-search-box {
+  width: 190px;
+  min-width: 190px;
+}
+.touristspots-toolbar button {
+  padding: 0 12px;
+  height: 42px;
+  font-size: 14px;
+}
+/* ==========================
+   TOURIST SPOTS MOBILE
+========================== */
+
+@media screen and (max-width: 768px) {
+
+  .touristspots-page .card-head{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  /* Tabs */
+  .touristspots-tab-bar{
+    display:grid !important;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+    width:100%;
+  }
+
+  .touristspots-tab-bar button,
+  .touristspots-tab-bar .tab-pill{
+    width:100%;
+    min-width:0;
+    height:42px;
+    padding:0 8px;
+    font-size:12px;
+    white-space:normal;
+  }
+
+  /* Search + Add New Spot in same row */
+
+.touristspots-toolbar{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:8px;
+  width:100%;
+}
+
+.touristspots-search-box{
+  flex:1;
+  min-width:0;
+  width:auto;
+}
+
+.touristspots-toolbar button{
+  flex-shrink:0;
+  height:32px;
+  padding:0 10px;
+  font-size:12px;
+}
+.touristspots-toolbar button{
+  width:120px;
+  min-width:120px;
+  height:32px;
+  padding:0 6px;
+  font-size:12px;
+}
+@media screen and (max-width: 768px) {
+
+  .touristspots-toolbar .btn-primary{
+    width: 110px;
+    min-width: 120px;
+    height: 36px;
+    font-size: 11px;
+    padding:  6px;
+    white-space: nowrap;
+  }
+}
+}
