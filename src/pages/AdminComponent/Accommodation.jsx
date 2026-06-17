@@ -898,29 +898,6 @@ export default function Accommodation() {
 
   return (
     <div className="accommodation-page">
-      <div className="accommodation-hero card">
-        <div className="accommodation-hero-copy">
-          <div className="eyebrow">Admin portal / Accommodation workflow</div>
-          <h1>Accommodation</h1>
-          <p>
-            Select a hotel first, then open its branches and room grid in the next step.
-            Pricing, approvals, and exports stay in their own tabs so the workflow stays clean.
-          </p>
-        </div>
-        <div className="accommodation-hero-actions">
-          <button className="btn-outline" onClick={() => setActiveTab(TABS.indexOf('Bookings'))}>
-            Bookings
-          </button>
-          <button className="btn-outline" onClick={() => setActiveTab(TABS.indexOf('Pricing'))}>
-            Pricing
-          </button>
-          <button className="btn-yellow" onClick={handleAddRoom}>
-            + Add Room
-          </button>
-        </div>
-
-      </div>
-
       <div className="kpi-row">
         <div className="kpi-card">
           <div className="kpi-accent" style={{ background: "#f5c842" }} />
@@ -961,6 +938,29 @@ export default function Accommodation() {
           <div className="kpi-value">{hotels.reduce((sum, hotel) => sum + hotel.branches.length, 0)}</div>
           <div className="kpi-sub">Hotel locations in network</div>
         </div>
+      </div>
+
+      <div className="accommodation-hero card">
+        <div className="accommodation-hero-copy">
+          <div className="eyebrow">Admin portal / Accommodation workflow</div>
+          <h1>Accommodation</h1>
+          <p>
+            Select a hotel first, then open its branches and room grid in the next step.
+            Pricing, approvals, and exports stay in their own tabs so the workflow stays clean.
+          </p>
+        </div>
+        <div className="accommodation-hero-actions">
+          <button className="btn-outline" onClick={() => setActiveTab(TABS.indexOf('Bookings'))}>
+            Bookings
+          </button>
+          <button className="btn-outline" onClick={() => setActiveTab(TABS.indexOf('Pricing'))}>
+            Pricing
+          </button>
+          <button className="btn-yellow" onClick={handleAddRoom}>
+            + Add Room
+          </button>
+        </div>
+
       </div>
 
       <div className="tabs-actions">
