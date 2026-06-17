@@ -859,6 +859,7 @@ export default function TourGuides() {
                 {pendingRequests.map((guide) => (
                   <div
                     key={guide.phone}
+                    className="guide-request-card"
                     style={{
                       display: "flex",
                       alignItems: "center",
@@ -894,7 +895,7 @@ export default function TourGuides() {
                       </div>
                     </div>
 
-                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                    <div className="guide-request-actions" style={{ display: "flex", gap: 8, alignItems: "center" }}>
                       <span className={`badge ${guide.statusCls}`}>{guide.status}</span>
                       <button
                         className="btn-outline"
